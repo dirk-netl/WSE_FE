@@ -5,7 +5,7 @@
 
 Welcome to WSE_FE's documentation!
 ==================================
-This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_
+This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_ (NETL).
 
 .. toctree::
    :maxdepth: 2
