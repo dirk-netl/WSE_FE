@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to WSE_FE’s documentation! &mdash; WSE_FE 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> WSE_FE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to WSE_FE’s documentation!</a></li>
+<li><a class="reference internal" href="#module-WSE_FE.WSE_Interface">WSE Interface Module</a></li>
+<li><a class="reference internal" href="#wse-array-module">WSE Array Module</a><ul>
+<li><a class="reference internal" href="#sigantures">Sigantures</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#wse-solver-module">WSE Solver Module</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">WSE_FE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Welcome to WSE_FE’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-wse-fe-s-documentation">
+<h1>Welcome to WSE_FE’s documentation!<a class="headerlink" href="#welcome-to-wse-fe-s-documentation" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="module-WSE_FE.WSE_Interface">
+<span id="wse-interface-module"></span><h1>WSE Interface Module<a class="headerlink" href="#module-WSE_FE.WSE_Interface" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface" title="Permalink to this definition"></a></dt>
+<dd><p>Singleton class that keeps track of program sequence for the WSE_FE package</p>
+<p>See WSE_Interface_Singleton for available methods</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface_Singleton</span></span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton" title="Permalink to this definition"></a></dt>
+<dd><p>DO NOT INSTANTIATE DIRECTLY</p>
+<p>This class is the singleton base of WSE_Interface</p>
+<p>Contains all methods available in WSE_Interface</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.for_loop_end">
+<span class="sig-name descname"><span class="pre">for_loop_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.for_loop_end" title="Permalink to this definition"></a></dt>
+<dd><p>Call to mark the end of a for loop</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str:</em>) – The name of the for loop referenced in for_loop_start</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.for_loop_start">
+<span class="sig-name descname"><span class="pre">for_loop_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.for_loop_start" title="Permalink to this definition"></a></dt>
+<dd><p>Call to mark the start of a for loop</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str:</em>) – A unique name for the loop to reference at the close of the loop</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – the number of loops to complete</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args">
+<span class="sig-name descname"><span class="pre">get_available_cmd_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args" title="Permalink to this definition"></a></dt>
+<dd><p>WSE_Interface creates a default set of command line arguments through
+the argparse library.  This function allows users to retrieve all command
+line arguments.  To add more domain specific arbuments see
+get_cmd_line_parser.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1">#use args in furhter code</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser">
+<span class="sig-name descname"><span class="pre">get_cmd_line_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser" title="Permalink to this definition"></a></dt>
+<dd><p>WSE_Interface creates a default set of command line arguments through
+the argparse library.  This function allows users to get the parser
+created in the WSE_Interface so that domain specific arguments can be
+added as command line arguments.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1">#Add CFD Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sepcify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1">#use args in furhter code</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE">
+<span class="sig-name descname"><span class="pre">make_WSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liveCells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition"></a></dt>
+<dd><p>Called at the end of the program to compile and execute the program on the WSE</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.record_timestamp">
+<span class="sig-name descname"><span class="pre">record_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.record_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>Call to record time stamp for benchmarking</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.scalar_constant_add_on_control">
+<span class="sig-name descname"><span class="pre">scalar_constant_add_on_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">si1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">si3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.scalar_constant_add_on_control" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates [si3] = constant + [si2] on the controller where si’s are integer handles
+to scalars in memory on the control tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>si1</strong> (<em>int</em>) – The integer handle to the scalar numerator.</p></li>
+<li><p><strong>si3</strong> (<em>int</em>) – The integer handle to the scalar result.</p></li>
+<li><p><strong>constant</strong> (<em>float</em>) – The constant to add to the scalar memory position.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.while_loop_end">
+<span class="sig-name descname"><span class="pre">while_loop_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.while_loop_end" title="Permalink to this definition"></a></dt>
+<dd><p>Call to mark the end of a while loop</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str:</em>) – The name of the while loop referenced in while_loop_start</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.while_loop_start">
+<span class="sig-name descname"><span class="pre">while_loop_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.while_loop_start" title="Permalink to this definition"></a></dt>
+<dd><p>Call to mark the start of a while loop</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str:</em>) – A unique name for the loop to reference at the close of the loop</p></li>
+<li><p><strong>scalar_index</strong> – the integer handle to the scalar memory position in the controller where</p></li>
+</ul>
+</dd>
+</dl>
+<p>value is stored to compare to tolerance
+:type scalar_index: int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tolerance</strong> (<em>float</em>) – the tolerance to stop iterating</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="wse-array-module">
+<h1>WSE Array Module<a class="headerlink" href="#wse-array-module" title="Permalink to this headline"></a></h1>
+<p>The WSE_Array class is designed to allow users to work with 3D arrays in a
+similar way to NumPy.  In fact, user defined WSE_Arrays are initialized from
+3D NumPy arrays through the “initData” keyword on instantiation.  The first two
+axes in the NumPy arrays map to tile coordinates and axis 2 maps to the memory
+axis on each tile.</p>
+<p>Each WSE_Array is designed to represent field data within a cell/voxel in a 3D
+structured finite element/volume simulation. Thus, the shape of each WSE_Array
+is set to the number of cells in the cardinal axes (including boundary cells).</p>
+<p>Each tile holds a column of cells in the third axis of the NumPy data.  Arithmetic
+is written from the perspective of a single tile in the array.</p>
+<p>Slicing a WSE_Array object is similar to NumPy but is in relative coordinates.
+The first axis is usually a slice range which specifies the elements of each
+local vector on each tile.  It is equivalent to the slicing in the third axis
+of a 3d NumPy array.  The second two axes specify the tile position relative
+to the local tile coordinate.  The second axis specifies the relative position
+east and west, and the third axis specifies the relative position north and
+south.</p>
+<p>Arithmetic operations are done in the worker field.  When neighbor operations
+are involved, moats send their data into the worker field.  Moats are designed
+to hold NSEW boundary conditions and are usually only updated at the tail end
+of a time step.  Boundary conditions can be updated through a copy operation
+which will move neighboring values from the worker field into the moat.</p>
+<p>WSE_Array format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">s0</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s1</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">s1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Numpy format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">s1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">dst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">s0</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">s1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="sigantures">
+<h2>Sigantures<a class="headerlink" href="#sigantures" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Array.</span></span><span class="sig-name descname"><span class="pre">WSE_Array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array" title="Permalink to this definition"></a></dt>
+<dd><p>Class to handle expressive math with array objects.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__add__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to override the ‘+’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the addition.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__getitem__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to handle slicing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>subscript</strong> (<em>touble</em>) – the slice data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>copy_self</strong> – A copy of the incoming WSE_Array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__mul__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to override the ‘*’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to multiply.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the multiplication.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__radd__">
+<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__radd__" title="Permalink to this definition"></a></dt>
+<dd><p>python reverse magic function to override the ‘+’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the addition.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__rmul__">
+<span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__rmul__" title="Permalink to this definition"></a></dt>
+<dd><p>python reverse magic function to override the ‘*’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to multiply.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the multiplication.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__rsub__">
+<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__rsub__" title="Permalink to this definition"></a></dt>
+<dd><p>python reverse magic function to override the ‘-’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The object to subtract.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the subtraction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__setitem__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to handle sclice assignment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subscript</strong> (<em>touple</em>) – The slice of the slice assignment.</p></li>
+<li><p><strong>item</strong> (<em>list</em>) – a list containing the self, other, and operation tag for the previous operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__sub__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to override the ‘-’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The object to subtract.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the subtraction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__truediv__">
+<span class="sig-name descname"><span class="pre">__truediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__truediv__" title="Permalink to this definition"></a></dt>
+<dd><p>python magic function to override the ‘/’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The denominator for the division.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the division.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moatArray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.copy" title="Permalink to this definition"></a></dt>
+<dd><p>copies other into self.  If moatArray is specified, copies self into
+moatArray memory space on the moat invoved rather than self.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The WSE_Array to copy.</p></li>
+<li><p><strong>moatArray</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a><em>, </em><em>optional</em>) – The WSE_Array to copy into on the moat if specified. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – An updated copy of self.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.max_with">
+<span class="sig-name descname"><span class="pre">max_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.max_with" title="Permalink to this definition"></a></dt>
+<dd><p>computes the element wise maximum of self with other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em>) – a value to max with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – the result of the maximum operation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.min_with">
+<span class="sig-name descname"><span class="pre">min_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.min_with" title="Permalink to this definition"></a></dt>
+<dd><p>computes the element wise minimum of self with other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em>) – a value to min with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – the result of the minimum operation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.reduce_add_2_control">
+<span class="sig-name descname"><span class="pre">reduce_add_2_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.reduce_add_2_control" title="Permalink to this definition"></a></dt>
+<dd><p>computes the reduce add on self and places the result
+in a WSE_Scalar on the control tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>result_scalar</strong> (<em>WSE_Scalar</em><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.reduce_dot_2_control">
+<span class="sig-name descname"><span class="pre">reduce_dot_2_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.reduce_dot_2_control" title="Permalink to this definition"></a></dt>
+<dd><p>computes the dot product reduction between self and other and places it
+in a WSE_Scalar on the control tile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other Array object to do the dot product with.</p></li>
+<li><p><strong>result_scalar</strong> (<em>WSE_Scalar</em><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="wse-solver-module">
+<h1>WSE Solver Module<a class="headerlink" href="#wse-solver-module" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.BiCgStab">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">BiCgStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.BiCgStab" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.BiCgStab.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.BiCgStab.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the biconjugate gradient stablized method.
+A and b terms are assumed to be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 7 non zero components correspondign to
+center, east, west, north, top, and bottom</p>
+<p>The matrix should be diagonally dominant, symmetric with a positive
+diagonal of one and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
+<li><p><strong>A_E</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_W</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_N</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_S</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_T</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – The approximate solution to the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Cg">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">Cg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Cg" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Cg.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Cg.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
+A and b terms are assumed to be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 7 non zero components correspondign to
+center, east, west, north, top, and bottom</p>
+<p>The matrix should be diagonally dominant, symmetric with a positive
+diagonal of one and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
+<li><p><strong>A_E</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_W</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_N</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_S</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_T</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – The approximate solution to the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.CgConstantOffDiag">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">CgConstantOffDiag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.CgConstantOffDiag" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.CgConstantOffDiag.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.CgConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
+A and b terms are assumed to be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 7 non zero components that all share the
+value of offdiag (typical of diffusion equations)</p>
+<p>The matrix should be diagonally dominant, symmetric with a positive
+diagonal of one and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
+<li><p><strong>offdiag</strong> (<em>float</em>) – the shared matrix coefficient for all off diagonals</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – The approximate solution to the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Jacobi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">Jacobi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Jacobi" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Jacobi.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Jacobi.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the Jacobi method.
+A and b terms are assumed to be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 7 non zero components correspondign to
+center, east, west, north, top, and bottom</p>
+<p>The matrix should be diagonally dominant with a positive
+diagonal of one and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
+<li><p><strong>A_E</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_W</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_N</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_S</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_T</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – The approximate solution to the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.JacobiConstantOffDiag">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">JacobiConstantOffDiag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.JacobiConstantOffDiag" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Solver.JacobiConstantOffDiag.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.JacobiConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the Jacobi method.
+A and b terms are assumed to be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 7 non zero components that all share the
+value of offdiag (typical of diffusion equations)</p>
+<p>The matrix should be diagonally dominant with a positive
+diagonal of one and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
+<li><p><strong>offdiag</strong> (<em>float</em>) – the shared matrix coefficient for all off diagonals</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>x</strong> – The approximate solution to the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
