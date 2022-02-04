@@ -83,3 +83,20 @@ WSE Solver Module
     
 .. autoclass:: WSE_FE.WSE_Solver.JacobiConstantOffDiag
     :members:
+
+Custom IDE With Synax Highlighting
+==================================
+NETL is maintaining a custom version of the Spyder IDE which supports syntax
+highlighing for WSE code.  Installation can be done with conda by following the
+instructions below:
+
+1. clone the repository from the `gitlab <https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support>`_ repository
+2. check out the wse_support branch
+3. navigate to the folder with the setup.py and env.yml files
+4. run `conda env create -f env.yml --name spyder`
+5. run `conda activate spyder`
+6. run `python setup.py install`
+7. run `spyder`
+
+
+

@@ -44,6 +44,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#wse-solver-module">WSE Solver Module</a></li>
+<li><a class="reference internal" href="#custom-ide-with-synax-highlighting">Custom IDE With Synax Highlighting</a></li>
 </ul>
 </div>
         </div>
@@ -693,6 +694,21 @@ diagonal of one and negative off diagonals</p>
 
 </dd></dl>
 
+</section>
+<section id="custom-ide-with-synax-highlighting">
+<h1>Custom IDE With Synax Highlighting<a class="headerlink" href="#custom-ide-with-synax-highlighting" title="Permalink to this headline"></a></h1>
+<p>NETL is maintaining a custom version of the Spyder IDE which supports syntax
+highlighing for WSE code.  Installation can be done with conda by following the
+instructions below:</p>
+<ol class="arabic simple">
+<li><p>clone the repository from the <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support">gitlab</a> repository</p></li>
+<li><p>check out the wse_support branch</p></li>
+<li><p>navigate to the folder with the setup.py and env.yml files</p></li>
+<li><p>run <cite>conda env create -f env.yml –name spyder</cite></p></li>
+<li><p>run <cite>conda activate spyder</cite></p></li>
+<li><p>run <cite>python setup.py install</cite></p></li>
+<li><p>run <cite>spyder</cite></p></li>
+</ol>
 </section>
 
 
