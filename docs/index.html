@@ -38,12 +38,13 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to WSE_FE’s documentation!</a></li>
-<li><a class="reference internal" href="#module-WSE_FE.WSE_Interface">WSE Interface Module</a></li>
+<li><a class="reference internal" href="#wse-interface-module">WSE Interface Module</a></li>
 <li><a class="reference internal" href="#wse-array-module">WSE Array Module</a><ul>
 <li><a class="reference internal" href="#sigantures">Sigantures</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#wse-solver-module">WSE Solver Module</a></li>
+<li><a class="reference internal" href="#wse-scalar-module">WSE Scalar Module</a></li>
 <li><a class="reference internal" href="#custom-ide-with-synax-highlighting">Custom IDE With Synax Highlighting</a></li>
 </ul>
 </div>
@@ -74,12 +75,12 @@
   <section id="welcome-to-wse-fe-s-documentation">
 <h1>Welcome to WSE_FE’s documentation!<a class="headerlink" href="#welcome-to-wse-fe-s-documentation" title="Permalink to this headline"></a></h1>
 <p>This package is a product of the <a class="reference external" href="http://www.netl.doe.gov">National Energy Technology Laboratory</a> (NETL).</p>
+</section>
+<section id="wse-interface-module">
+<h1>WSE Interface Module<a class="headerlink" href="#wse-interface-module" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-</section>
-<section id="module-WSE_FE.WSE_Interface">
-<span id="wse-interface-module"></span><h1>WSE Interface Module<a class="headerlink" href="#module-WSE_FE.WSE_Interface" title="Permalink to this headline"></a></h1>
-<dl class="py class">
+<span class="target" id="module-WSE_FE.WSE_Interface"></span><dl class="py class">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface" title="Permalink to this definition"></a></dt>
 <dd><p>Singleton class that keeps track of program sequence for the WSE_FE package</p>
@@ -160,7 +161,47 @@ added as command line arguments.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE">
 <span class="sig-name descname"><span class="pre">make_WSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liveCells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition"></a></dt>
-<dd><p>Called at the end of the program to compile and execute the program on the WSE</p>
+<dd><p>Compiles the code for the Wafer Scale Engine.  Several command line
+options set compilation behavior.  Any python script calls this script
+will have default command line arguments enabled. Use the <cite>-h</cite> option
+behind the python call to launch the script to get a listing of the
+available options.</p>
+<p>The following shows a complete program which ends with the make_wse call</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+<span class="kn">from</span> <span class="nn">WSE_FE.WSE_Array</span> <span class="kn">import</span> <span class="n">WSE_Array</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1">#Add CFD Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sepcify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1">#Create the initial Temperature field</span>
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1">#Instantiate the WSE Array objects needed</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_np</span><span class="p">)</span>
+
+<span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>answer</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar"><em>WSE_Scalar</em></a><em>, </em><em>optional</em>) – A WSE_array or WSE_Scalar that holds the answer for validation. The default is None.</p></li>
+<li><p><strong>liveCells</strong> (<em>np.array</em><em>, </em><em>optional</em>) – A map of live cells used to construct an image of validation data. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -301,57 +342,6 @@ which will move neighboring values from the worker field into the moat.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__radd__">
-<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__radd__" title="Permalink to this definition"></a></dt>
-<dd><p>python reverse magic function to override the ‘+’ operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to add.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the addition.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>WSE_array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__rmul__">
-<span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__rmul__" title="Permalink to this definition"></a></dt>
-<dd><p>python reverse magic function to override the ‘*’ operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other object to multiply.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the multiplication.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>WSE_array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__rsub__">
-<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__rsub__" title="Permalink to this definition"></a></dt>
-<dd><p>python reverse magic function to override the ‘-’ operator</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The object to subtract.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>result</strong> – The WSE_rray object pointing to the result of the subtraction.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>WSE_array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Array.WSE_Array.__setitem__">
 <span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Array.WSE_Array.__setitem__" title="Permalink to this definition"></a></dt>
 <dd><p>python magic function to handle sclice assignment</p>
@@ -464,7 +454,7 @@ moatArray memory space on the moat invoved rather than self.</p>
 in a WSE_Scalar on the control tile</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>result_scalar</strong> (<em>WSE_Scalar</em><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p>
+<dd class="field-odd"><p><strong>result_scalar</strong> (<a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar"><em>WSE_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>None</p>
@@ -481,7 +471,7 @@ in a WSE_Scalar on the control tile</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>other</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other Array object to do the dot product with.</p></li>
-<li><p><strong>result_scalar</strong> (<em>WSE_Scalar</em><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p></li>
+<li><p><strong>result_scalar</strong> (<a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar"><em>WSE_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Scalar objecto or scalar index to where to store the result.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -670,6 +660,115 @@ diagonal of one and negative off diagonals</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="wse-scalar-module">
+<h1>WSE Scalar Module<a class="headerlink" href="#wse-scalar-module" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Scalar.</span></span><span class="sig-name descname"><span class="pre">WSE_Scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.__add__" title="Permalink to this definition"></a></dt>
+<dd><p>Python magic function to override the ‘+’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>float</em><em>, </em><em>int</em>) – the value to add with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_Scalar object that contains the result.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar">WSE_Scalar</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.__mul__" title="Permalink to this definition"></a></dt>
+<dd><p>Python magic function to override the ‘*’ operator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar"><em>WSE_Scalar</em></a><em>, </em><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – the value to multiply with.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The WSE_Scalar  or WSE_Array object that contains the result.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar">WSE_Scalar</a>, WSE_array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.__setitem__" title="Permalink to this definition"></a></dt>
+<dd><p>Python magic to overwrite the slice assignment.  Used to trigger a
+write into an existing WSE_Scalar object and not trigger creation of
+a new WSE_Scalar object. This is necessary because there is no python
+magic to overwrite the assign operator.</p>
+<div class="highlight-pthon notranslate"><div class="highlight"><pre><span></span>from WSE_FE.WSE_Scalar import WSE_Scalar
+
+dst = WSE_Scalar(name=&#39;dst&#39;)
+scalar_1 = WSE_Scalar(name=&#39;scalar_1&#39;, value = 1.0)
+
+#puts the value 2.0 in the memory space for dst
+dst[0]  = scalar_1 + 1.0
+
+#overwrites dst with a new WSE_Scalar object (dangerous)
+dst = scalar_1 + 1.0
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subscript</strong> (<em>int</em>) – should be an int of zero, if not throws error.</p></li>
+<li><p><strong>item</strong> (<em>list</em>) – coded list that shows the previous operations coming into the slice
+assignment.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.__truediv__">
+<span class="sig-name descname"><span class="pre">__truediv__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.__truediv__" title="Permalink to this definition"></a></dt>
+<dd><p>see __div__</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copies the value in other to self</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#WSE_FE.WSE_Scalar.WSE_Scalar" title="WSE_FE.WSE_Scalar.WSE_Scalar"><em>WSE_Scalar</em></a>) – The value to copy.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WSE_FE.WSE_Scalar.WSE_Scalar.setValue">
+<span class="sig-name descname"><span class="pre">setValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Scalar.WSE_Scalar.setValue" title="Permalink to this definition"></a></dt>
+<dd><p>Sets a WSE_Scalar to a float value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em><em>, </em><em>int</em>) – The value to set the scalar to.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
