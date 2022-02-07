@@ -47,12 +47,12 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#command-line-arguments">Command Line Arguments</a><ul>
-<li><a class="reference internal" href="#running-sripts-for-development">Running Sripts for Development</a></li>
+<li><a class="reference internal" href="#running-scripts-for-development">Running Scripts for Development</a></li>
 <li><a class="reference internal" href="#debugging">Debugging</a></li>
 <li><a class="reference internal" href="#compiling-for-hardware">Compiling for Hardware</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-WSE_FE.WSE_Interface">WSE Interface Module</a></li>
+<li><a class="reference internal" href="#wse-interface-module">WSE Interface Module</a></li>
 <li><a class="reference internal" href="#wse-array-module">WSE Array Module</a><ul>
 <li><a class="reference internal" href="#classes-and-methods">Classes and Methods</a></li>
 </ul>
@@ -92,6 +92,38 @@
 <h1>Welcome to WSE_FE’s Documentation!<a class="headerlink" href="#welcome-to-wse-fe-s-documentation" title="Permalink to this headline"></a></h1>
 <p>This package is a product of the <a class="reference external" href="http://www.netl.doe.gov">National Energy Technology Laboratory</a> (NETL)
 in collaboration with <a class="reference external" href="https://cerebras.net/">Cerebras Systems Inc</a>.</p>
+<p>Field equations have two properties:</p>
+<ol class="arabic simple">
+<li><p>They have a value or set of values at every point in space time</p></li>
+<li><p>Changes to the values are only affected by the immediate surroundings (the Principle of Locality in physics)</p></li>
+</ol>
+<p>This gives rise to several sets of common differential equations that describe
+almost every physical phenomenon in nature at the finest space-time scales.
+The only known exception to this fundamental principle appears to be quantum
+entanglement which seems to have the property of instantaneous information
+transfer.  Every other phenomenon propagates through space-time with a transfer
+rate lower than or equal to the speed of light.  Field equations are even fundamental
+to our understanding of the quantum realm at Plank scales.  Field equations
+can be used to describe systems of objects which exhibit discrete behavior at
+intermediate scales. Due to the law of averages, ensembles of discrete objects can take
+on the character of a field equation at scales that are many times larger than the
+discrete objects (although even “discrete” objects are described as
+fields on the finest scales).  This allows sets of field equations to adequately
+and accurately describe the behavior of fluids, star/galaxy clusters, and granular
+solids under limited circumstances. If a physical system can be written with ODE/PDE
+expressions at the scales of interest, it is possible to approximate them on a computer
+through discretization.</p>
+<p>It should come as no surprise that an Application Specific Integrated Circuit (ASIC) can be
+many orders of magnitude faster and more efficient than general purpose computing hardware.
+To the best of our knowledge, no one has endeavored to create an ASIC for field equation modeling.
+However, recent developments in Artificial Intelligence (AI) ASICS are producing hardware that happens
+to also be very good at field equation modeling, as is the case with the Cerebras Wafer Scale
+Engine.  The architecture allows definition of discretized values, distributed evenly across the
+processor array and mirrors the physical Principle of Locality in that it allows for the nearest
+neighbors to affect a local change in a minimum of clock cycles (on average 1-2 cycles).
+While the WSE architecture was not developed as an ASIC for field equations, the same properties
+that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
+end up making it efficient for solving field equations with large numbers of voxels or cells.</p>
 </section>
 <section id="obtaining-the-code">
 <h1>Obtaining the Code<a class="headerlink" href="#obtaining-the-code" title="Permalink to this headline"></a></h1>
@@ -114,8 +146,7 @@ applications for a different copyright and license structure are adopted.</p>
 <h1>Simple Diffusion Example<a class="headerlink" href="#simple-diffusion-example" title="Permalink to this headline"></a></h1>
 <p>This package is designed to allow practitioners to easily program the Wafer Scale Engine to
 solve Field Equations at an exceptionally rapid pace with high energy efficiency.  This equation
-can be solved both explicitly and implicitly with linear discretization to second order accuracy.  The
-stability limit of the explicit solution limits the allowable timestep as voxel size decreases.  The
+can be solved both explicitly and implicitly with linear discretization to second order accuracy. The
 WSE_FE package is capable of solving both explicit and implicit formulations.</p>
 <p>The governing equation for diffusion without convection takes a simple Laplacian form and is one of the
 most common field equations that relates the time rate of change of a scalar field to its spatial distribution,
@@ -153,7 +184,7 @@ WSE_FE API.</p>
 
 <span class="c1"># Add CFD specific command line arguments</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sepcify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span><span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
@@ -234,7 +265,7 @@ WSE_FE API.</p>
 
 <span class="c1">#Add CFD Specific command line arguments</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sepcify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span><span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span><span class="s2">&quot;--solver&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the solver to use (Cg or Jacobi with constant off diagonal)&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Cg&#39;</span><span class="p">)</span>
@@ -359,12 +390,12 @@ optional arguments:
   -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG
                         displays make log from wse make
   -x X, --x X           specify x dimension
-  -y Y, --y Y           sepcify y dimension
+  -y Y, --y Y           specify y dimension
   -z Z, --z Z           specify z dimension
 </pre></div>
 </div>
-<section id="running-sripts-for-development">
-<h2>Running Sripts for Development<a class="headerlink" href="#running-sripts-for-development" title="Permalink to this headline"></a></h2>
+<section id="running-scripts-for-development">
+<h2>Running Scripts for Development<a class="headerlink" href="#running-scripts-for-development" title="Permalink to this headline"></a></h2>
 <p>Running the script without any command line options will cause the API to create the
 <a href="#id1"><span class="problematic" id="id2">*</span></a>.ag, <a href="#id3"><span class="problematic" id="id4">*</span></a>.paint, and Makefile, compile the code into a binary, run the
 hardware simulator (Simfabric) and compare the output to a NumPy based
@@ -376,14 +407,25 @@ Simfabric is very useful, but it is not very fast and can consume considerable
 memory if the problem size is set to a large size.</p>
 <p>If the code ran successfully and produced the same answer as the validation code it will produce an output
 similar to:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>tests                   :  0:00.95 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>********************* Starting Make ***********************
+********************* Writing binary input files ***********************
+    Total vectors to write:  6
+    Total Data to Write (MB):  0.024
+    Total T_bin to Write (MB):  0.01536
+**************** Done writing binary input files ***********************
+********************* Started Host Validation ***********************
+********************* Done Host Validation ***********************
+********************* Running Cerebras Tools ***********************
+examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+********************* Finished Running Cerebras Tools ***********************
+********************* Done Make ***********************
 </pre></div>
 </div>
 <p>The PASS indicates that Simfabric ran and the validation/Simfabric output provided in <cite>answer</cite> were identical.</p>
 </section>
 <section id="debugging">
 <h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline"></a></h2>
-<p>The following command line set is quite useful.  <cite>-ptv</cite> causes the validation
+<p>The following command line set is quite useful.  The <cite>-ptv T4.5</cite> option causes the validation
 code to print out the source and destination memory space for the tile at coordinates of  (4,5)
 in validation.txt for every operation.  This can then be compared to the Cerebras
 debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
@@ -392,7 +434,7 @@ the portrait sever which can be connected to in a browser at <cite>http://localh
 </pre></div>
 </div>
 <p>Setting debug_level to 2 is eqivalent to setting <cite>GOAL=debug JOB=-</cite> flags in the Cerebras make process.
-This will cause Simfabric to dump out a detailed log files and launch the Portrait server.  It will
+This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
 also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
 detected in the Simfabric run.  This is useful when debugging failing microcode.</p>
 <p>Setting debug_level to 1 or 2 will also turn on more printing to screen for the API</p>
@@ -410,9 +452,24 @@ that is still meaningful and that it then be scaled up for a hardware run and al
 <p>If the code contains any timers, they can be turned on with the <cite>-ts16</cite> or <cite>-ts32</cite> arguments</p>
 </section>
 </section>
-<section id="module-WSE_FE.WSE_Interface">
-<span id="wse-interface-module"></span><h1>WSE Interface Module<a class="headerlink" href="#module-WSE_FE.WSE_Interface" title="Permalink to this headline"></a></h1>
-<dl class="py class">
+<section id="wse-interface-module">
+<h1>WSE Interface Module<a class="headerlink" href="#wse-interface-module" title="Permalink to this headline"></a></h1>
+<p>The WSE Inference Module is a singleton class which is enstantiated in every
+other class within the WSE_Package.  It was created this way to provide flexibility
+to users and to maintain key program sequences and memory wherever it is used.
+The WSE provides several key feauteres to the API:</p>
+<ol class="arabic simple">
+<li><p>Maintains program sequences</p></li>
+<li><p>Handles memory spaces with no need for user input</p></li>
+<li><p>Handles controller specific operations as well as global operations (Looping, conditionals, global reductions, controller arithmetic)</p></li>
+<li><p>Handles code optimization</p></li>
+<li><p>Enables compiler directives</p></li>
+<li><p>Compiles into WSE images and maps</p></li>
+<li><p>Handles validation in NumPy</p></li>
+</ol>
+<p>Almost all of this functionality is handled automatically and is not a necessary
+concern for end users.</p>
+<span class="target" id="module-WSE_FE.WSE_Interface"></span><dl class="py class">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Interface.WSE_Interface">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface" title="Permalink to this definition"></a></dt>
 <dd><p>Singleton class that keeps track of program sequence for the WSE_FE package</p>
@@ -481,7 +538,7 @@ added as command line arguments.</p>
 
 <span class="c1">#Add CFD Specific command line arguments</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sepcify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
 
@@ -817,7 +874,7 @@ in a WSE_Scalar on the control tile</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">BiCgStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.BiCgStab" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Solver.BiCgStab.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.BiCgStab.solve" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.BiCgStab.solve" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the biconjugate gradient stablized method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
@@ -837,6 +894,9 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -855,7 +915,7 @@ diagonal of one and negative off diagonals</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">Cg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Cg" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Cg.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Cg.solve" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Cg.solve" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
@@ -875,6 +935,9 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -893,7 +956,7 @@ diagonal of one and negative off diagonals</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">CgConstantOffDiag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.CgConstantOffDiag" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Solver.CgConstantOffDiag.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.CgConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.CgConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
@@ -908,6 +971,9 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>offdiag</strong> (<em>float</em>) – the shared matrix coefficient for all off diagonals</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -926,7 +992,7 @@ diagonal of one and negative off diagonals</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">Jacobi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Jacobi" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Solver.Jacobi.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Jacobi.solve" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.Jacobi.solve" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the Jacobi method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
@@ -946,6 +1012,9 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>A_B</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The east component of the coefficient matrix.</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -964,7 +1033,7 @@ diagonal of one and negative off diagonals</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WSE_FE.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">JacobiConstantOffDiag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.JacobiConstantOffDiag" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="WSE_FE.WSE_Solver.JacobiConstantOffDiag.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.JacobiConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offdiag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Solver.JacobiConstantOffDiag.solve" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the Jacobi method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
@@ -979,6 +1048,9 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>offdiag</strong> (<em>float</em>) – the shared matrix coefficient for all off diagonals</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

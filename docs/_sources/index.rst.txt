@@ -12,6 +12,41 @@ Welcome to WSE_FE's Documentation!
 This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_ (NETL)
 in collaboration with `Cerebras Systems Inc <https://cerebras.net/>`_.
 
+Field equations have two properties:
+
+1. They have a value or set of values at every point in space time
+
+2. Changes to the values are only affected by the immediate surroundings (the Principle of Locality in physics)
+
+This gives rise to several sets of common differential equations that describe
+almost every physical phenomenon in nature at the finest space-time scales.
+The only known exception to this fundamental principle appears to be quantum
+entanglement which seems to have the property of instantaneous information
+transfer.  Every other phenomenon propagates through space-time with a transfer
+rate lower than or equal to the speed of light.  Field equations are even fundamental
+to our understanding of the quantum realm at Plank scales.  Field equations
+can be used to describe systems of objects which exhibit discrete behavior at 
+intermediate scales. Due to the law of averages, ensembles of discrete objects can take
+on the character of a field equation at scales that are many times larger than the 
+discrete objects (although even "discrete" objects are described as
+fields on the finest scales).  This allows sets of field equations to adequately
+and accurately describe the behavior of fluids, star/galaxy clusters, and granular
+solids under limited circumstances. If a physical system can be written with ODE/PDE 
+expressions at the scales of interest, it is possible to approximate them on a computer 
+through discretization.  
+
+It should come as no surprise that an Application Specific Integrated Circuit (ASIC) can be
+many orders of magnitude faster and more efficient than general purpose computing hardware.
+To the best of our knowledge, no one has endeavored to create an ASIC for field equation modeling. 
+However, recent developments in Artificial Intelligence (AI) ASICS are producing hardware that happens
+to also be very good at field equation modeling, as is the case with the Cerebras Wafer Scale
+Engine.  The architecture allows definition of discretized values, distributed evenly across the
+processor array and mirrors the physical Principle of Locality in that it allows for the nearest 
+neighbors to affect a local change in a minimum of clock cycles (on average 1-2 cycles).  
+While the WSE architecture was not developed as an ASIC for field equations, the same properties 
+that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
+end up making it efficient for solving field equations with large numbers of voxels or cells.
+
 
 Obtaining the Code
 ==================
@@ -37,8 +72,7 @@ Simple Diffusion Example
 ========================
 This package is designed to allow practitioners to easily program the Wafer Scale Engine to
 solve Field Equations at an exceptionally rapid pace with high energy efficiency.  This equation
-can be solved both explicitly and implicitly with linear discretization to second order accuracy.  The
-stability limit of the explicit solution limits the allowable timestep as voxel size decreases.  The
+can be solved both explicitly and implicitly with linear discretization to second order accuracy. The
 WSE_FE package is capable of solving both explicit and implicit formulations.
 
 The governing equation for diffusion without convection takes a simple Laplacian form and is one of the
@@ -94,7 +128,7 @@ file name: rectancular_diffusion_explicit.py
     
     # Add CFD specific command line arguments
     parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
-    parser.add_argument("-y","--y", help="sepcify y dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="specify y dimension", type=int, default=10)
     parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
     parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
     args = wse.get_available_cmd_args()
@@ -186,7 +220,7 @@ file name: rectancular_diffusion.py
 
     #Add CFD Specific command line arguments
     parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
-    parser.add_argument("-y","--y", help="sepcify y dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="specify y dimension", type=int, default=10)
     parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
     parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
     parser.add_argument("-s","--solver", help="the solver to use (Cg or Jacobi with constant off diagonal)", type=str, default='Cg')
@@ -321,10 +355,10 @@ The `-h` option will produce an output similar to:
       -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG
                             displays make log from wse make
       -x X, --x X           specify x dimension
-      -y Y, --y Y           sepcify y dimension
+      -y Y, --y Y           specify y dimension
       -z Z, --z Z           specify z dimension
 
-Running Sripts for Development
+Running Scripts for Development
 ------------------------------
 Running the script without any command line options will cause the API to create the 
 *.ag, *.paint, and Makefile, compile the code into a binary, run the 
@@ -342,14 +376,25 @@ similar to:
     
 .. code-block:: consol
 
-    tests                   :  0:00.95 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  6
+        Total Data to Write (MB):  0.024
+        Total T_bin to Write (MB):  0.01536
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ] 
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************
     
 The PASS indicates that Simfabric ran and the validation/Simfabric output provided in `answer` were identical.
 
 Debugging
 ---------
 
-The following command line set is quite useful.  `-ptv` causes the validation
+The following command line set is quite useful.  The `-ptv T4.5` option causes the validation
 code to print out the source and destination memory space for the tile at coordinates of  (4,5)
 in validation.txt for every operation.  This can then be compared to the Cerebras
 debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
@@ -360,7 +405,7 @@ the portrait sever which can be connected to in a browser at `http://localhost:8
     $ python test_add.py -ptv T4.5 -dl 1
     
 Setting debug_level to 2 is eqivalent to setting `GOAL=debug JOB=-` flags in the Cerebras make process.
-This will cause Simfabric to dump out a detailed log files and launch the Portrait server.  It will
+This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
 also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
 detected in the Simfabric run.  This is useful when debugging failing microcode.
 
@@ -383,6 +428,21 @@ If the code contains any timers, they can be turned on with the `-ts16` or `-ts3
 
 WSE Interface Module
 ====================
+The WSE Inference Module is a singleton class which is enstantiated in every
+other class within the WSE_Package.  It was created this way to provide flexibility
+to users and to maintain key program sequences and memory wherever it is used.
+The WSE provides several key feauteres to the API:
+
+1) Maintains program sequences
+2) Handles memory spaces with no need for user input
+3) Handles controller specific operations as well as global operations (Looping, conditionals, global reductions, controller arithmetic)
+4) Handles code optimization
+5) Enables compiler directives
+6) Compiles into WSE images and maps
+7) Handles validation in NumPy
+
+Almost all of this functionality is handled automatically and is not a necessary
+concern for end users.
 
 .. automodule:: WSE_FE.WSE_Interface
     :members:
