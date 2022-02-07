@@ -3,17 +3,386 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to WSE_FE's documentation!
-==================================
-This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_ (NETL).
-
-
-
-WSE Interface Module
-====================
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+Welcome to WSE_FE's Documentation!
+==================================
+This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_ (NETL)
+in collaboration with `Cerebras Systems Inc <https://cerebras.net/>`_.
+
+
+Obtaining the Code
+==================
+This github repository contains documentation only.  The full code repository is available `here <https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation>`_.
+To abtain access to the code, register on the `MFiX website <https://mfix.netl.doe.gov/register>`_
+contact Dirk Van Essendelft at drik.vanessendelft@netl.doe.gov to be added to the privet
+gitlab repository.  This process has been adopted until NETL makes a determination
+about the export control nature of this work.
+
+One will also need to contact Cerebras to obtain the proprietary compilers.
+A procedure for obtaining these compilers is underway.  For the time being,
+NETL will make introductions to Cerebras for interested parties.
+
+License
+=======
+
+This work is a product of the Federal Government.  As of now, it is covered
+under a `CC0 License <https://creativecommons.org/share-your-work/public-domain/cc0/>`_ until
+applications for a different copyright and license structure are adopted.
+
+
+Simple Diffusion Example
+========================
+This package is designed to allow practitioners to easily program the Wafer Scale Engine to
+solve Field Equations at an exceptionally rapid pace with high energy efficiency.  This equation
+can be solved both explicitly and implicitly with linear discretization to second order accuracy.  The
+stability limit of the explicit solution limits the allowable timestep as voxel size decreases.  The
+WSE_FE package is capable of solving both explicit and implicit formulations.
+
+The governing equation for diffusion without convection takes a simple Laplacian form and is one of the
+most common field equations that relates the time rate of change of a scalar field to its spatial distribution,
+known as Fick's second law.  Here, :math:`\alpha` is the conductivity.
+
+.. math::
+    
+    \frac{\partial T}{\partial t} =  \alpha \nabla^2 T = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2}\right)
+
+Solving Explicitly
+------------------
+
+With explicit linear discretization on a cartesian, uniform grid, the diffusion equation simplifies to:
+
+.. math::
+    
+    T_i^{n+1} = c\left(T_E^n + T_W^n + T_N^n + T_S^n + T_T^n + T_B^n \right) + \left( 1 - 6c\right) T_i^n
+    
+.. math::
+
+    c = \frac{\alpha \left(\Delta t \right)}{\left(\Delta l \right)^2}
+    
+The equations will remain stable when:
+
+.. math::
+
+    3c < 0.5
+    
+From the stability criteria, it is clear that the allowable time step is proportional
+to the square of the voxel length scale and inversely proportional to the conductivity.
+Explicit solutions are very useful for large voxel size problems and/or those with
+low conductivity.  Common applications for explicit solutions are weather and reservoir
+modeling where voxel sizes are large and conductivity is low.
+
+The following code shows how to solve a generic diffusion equation explicitly in the
+WSE_FE API.
+
+file name: rectancular_diffusion_explicit.py
+
+.. code-block:: python
+
+    from WSE_FE.WSE_Interface import WSE_Interface
+    from WSE_FE.WSE_Array import WSE_Array
+    import NumPy as np
+    
+    wse = WSE_Interface()
+    parser = wse.get_cmd_line_parser()
+    
+    # Define constansts
+    c = 0.1
+    center = 1.0 - 6.0 * c
+    
+    # Add CFD specific command line arguments
+    parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="sepcify y dimension", type=int, default=10)
+    parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
+    parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
+    args = wse.get_available_cmd_args()
+    
+        
+    # Create the initial Temperature field
+    T_init = np.ones((args.x,args.y,args.z))
+
+    #Set Boundary Conditions    
+    T_init[1:-1,0,1:-1] = 1.0
+    T_init[1:-1,-1,1:-1] = 1.0
+    T_init[0,1:-1,1:-1] = 1.0
+    T_init[-1,1:-1,1:-1] = 1.0
+    T_init[1:-1,1:-1,0] = 0.0
+    T_init[1:-1,1:-1,-1] = 0.0
+    
+    # Instantiate the WSE Array objects needed
+    T_n = WSE_Array(name='T_n', initData=T_init)
+    
+    # Start looping over time
+    wse.for_loop_start('time_loop', args.time_steps)
+    
+    # Update T from current values
+    T_n[1:-1,0,0] = center * T_n[1:-1,0,0]\
+                    + c*(T_n[2:,0,0] + T_n[:-2,0,0] \
+                       + T_n[1:-1,1,0] + T_n[1:-1,0,-1] \
+                       + T_n[1:-1,-1,0] + T_n[1:-1,0,1])
+        
+    wse.for_loop_end('time_loop')
+    
+    # Compile, run, and validate
+    wse.make_WSE(answer=T_n)
+    
+From the command line run:
+
+.. code-block:: consol
+    
+    $ python rectancular_diffusion_explicit.py
+    
+And it will produce an output similar to:
+
+.. code-block:: consol
+
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  3
+        Total Data to Write (MB):  0.012
+        Total T_bin to Write (MB):  0.00768
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ] 
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************
+
+    
+Solving Implicitly
+------------------
+Implicit methods can allow for larger time steps.  The fully implicit formulation with linear discretization
+and a uniform grid simplified to:
+
+.. math::
+
+    T_i^{n+1} - \frac{c}{1+6c} \left(T_E^{n+1} + T_W^{n+1} + T_N^{n+1} + T_S^{n+1} + T_T^{n+1} + T_B^{n+1} \right) = \frac{1.0}{\left( 1 - 6c\right)} T_i^n
+
+The convergence criteria for an implicit method is diagonal dominance.  In this case: :math:`1 \geq \frac{6c}{1+6c}`
+which is always met.  This equation will converge, even if slowly, regardless of the conductivity or cell length scale.
+
+The following code shows how to solve a generic diffusion equation implicitly in the
+WSE_FE API.
+
+file name: rectancular_diffusion.py
+
+.. code-block:: python
+
+    from WSE_FE.WSE_Interface import WSE_Interface
+    from WSE_FE.WSE_Array import WSE_Array
+
+    from WSE_FE.WSE_Solver import CgConstantOffDiag, JacobiConstantOffDiag
+    import NumPy as np
+
+    wse = WSE_Interface()
+    parser = wse.get_cmd_line_parser()
+
+    c = 0.1
+    off_diag_coeff = -c/(1.0+6.0*c)
+    source_center_coeff = 1.0/(1.0+6.0*c)
+
+    #Add CFD Specific command line arguments
+    parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="sepcify y dimension", type=int, default=10)
+    parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
+    parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
+    parser.add_argument("-s","--solver", help="the solver to use (Cg or Jacobi with constant off diagonal)", type=str, default='Cg')
+    args = wse.get_available_cmd_args()
+
+    if args.solver == 'Cg':
+        solver = CgConstantOffDiag(args.x, args.y, args.z)
+    elif args.solver == 'Jacobi':
+        solver = JacobiConstantOffDiag(args.x, args.y, args.z)
+
+    #Create the initial Temperature field
+    T_init = np.ones((args.x,args.y,args.z))
+
+    T_init[1:-1,0,1:-1] = 1.0
+    T_init[1:-1,-1,1:-1] = 1.0
+    T_init[0,1:-1,1:-1] = 1.0
+    T_init[-1,1:-1,1:-1] = 1.0
+    T_init[1:-1,1:-1,0] = 0.0
+    T_init[1:-1,1:-1,-1] = 0.0
+
+    #Instantiate the WSE Array objects needed
+    T_n = WSE_Array(name='T_n', initData=T_init)
+
+    if args.solver == 'Cg':
+        b = wse.get_named_array('program_scratch_2')
+    else:
+        b = WSE_Array(name='b', initData=np.zeros((args.x,args.y,args.z)))
+
+    wse.for_loop_start('time_loop', args.time_steps)
+    
+    # calculate the source terms
+    b[1:-1,0,0] = source_center_coeff*T_n[1:-1,0,0] 
+
+    # run the generalized CG solver
+    T_n = solver.solve(T_n, off_diag_coeff, b, 0.001)
+        
+    wse.for_loop_end('time_loop')
+        
+    wse.make_WSE(answer=T_n)
+
+
+From the command line run:
+
+.. code-block:: consol
+    
+    $ python rectancular_diffusion.py
+    
+And it will produce an ouput similar to:
+
+.. code-block:: consol
+
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  6
+        Total Data to Write (MB):  0.024
+        Total T_bin to Write (MB):  0.01536
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ] 
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************
+
+
+Command Line Arguments
+======================
+
+The WSE_FE API uses the argparse library to automatically add compiler options
+to any script that calls the WSE_FE.WSE_Interface.WSE_Interface.make_WSE method.
+This feature enables rapid development, supports debugging, and compiling larges
+scale executables for hardware runs with just a few keystrokes.
+
+Just add `-h` behind any python script with the make_WSE method called in it to
+get a help menu.  It is possible to add domain specific command line arguments
+to a program with the `get_cmd_line_parser` and `get_available_cmd_args` methods
+as seen in the above examples.  Use the WSE_Interface.str_to_bool method in as the input to 
+the type keyword argument in the parser.add_argument method for boolean inputs.
+
+The `-h` option will produce an output similar to:
+
+
+.. code-block:: consol
+
+    usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]
+                  [-mg MAKE_GOAL] [-vr VERIFY_RESULT]
+                  [-ptv PRINT_TILE_VERIFICATION]
+                  [-hin HARDWARE_IMAGE_NAME]
+                  [-ast ANALYZE_SIMULATOR_TIMESTAMPS]
+                  [-hon HARDWARE_OUTPUT_NAME] [-to TIMEOUT]
+                  [-att ADD_TASK_TAGS] [-ts32 TIME_STAMPS_32BIT]
+                  [-ts16 TIME_STAMPS_16BIT] [-tsm TIME_STAMP_MODULO]
+                  [-ppc POWER_PERFORMANCE_COUNTER]
+                  [-dml DISPLAY_MAKE_LOG] [-x X] [-y Y] [-z Z]
+
+    Command Line Parser for WSE Interface
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -dl DEBUG_LEVEL, --debug_level DEBUG_LEVEL
+                            Sets the level of debug. 0:off 1:create portrait files
+                            2:JOB=-
+      -lp LAUNCH_PORTRAIT, --launch_portrait LAUNCH_PORTRAIT
+                            launches portrait
+      -mg MAKE_GOAL, --make_goal MAKE_GOAL
+                            specify make goal
+      -vr VERIFY_RESULT, --verify_result VERIFY_RESULT
+                            toggle verification of results through NumPy
+      -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION
+                            enables printing the memory space from the host durint
+                            validation. Specify Tx.y where x and y are the tile
+                            coordinates from paing
+      -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME
+                            specifying a name creates files for a hardware run
+      -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS
+                            turns on analysis of time stamps from Simfabric
+      -hon HARDWARE_OUTPUT_NAME, --hardware_output_name HARDWARE_OUTPUT_NAME
+                            specifying on output image name turns on hardware
+                            analysis
+      -to TIMEOUT, --timeout TIMEOUT
+                            specifies the allowable time for a Simfabric run
+      -att ADD_TASK_TAGS, --add_task_tags ADD_TASK_TAGS
+                            compiles task tags into ag files for debugging
+      -ts32 TIME_STAMPS_32BIT, --time_stamps_32bit TIME_STAMPS_32BIT
+                            set time stamps to 32 bit recording
+      -ts16 TIME_STAMPS_16BIT, --time_stamps_16bit TIME_STAMPS_16BIT
+                            set time stamps to 16 bit recording
+      -tsm TIME_STAMP_MODULO, --time_stamp_modulo TIME_STAMP_MODULO
+                            specify the frequency of recording time stamps
+      -ppc POWER_PERFORMANCE_COUNTER, --power_performance_counter POWER_PERFORMANCE_COUNTER
+                            turns on power performance counter recording
+      -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG
+                            displays make log from wse make
+      -x X, --x X           specify x dimension
+      -y Y, --y Y           sepcify y dimension
+      -z Z, --z Z           specify z dimension
+
+Running Sripts for Development
+------------------------------
+Running the script without any command line options will cause the API to create the 
+*.ag, *.paint, and Makefile, compile the code into a binary, run the 
+hardware simulator (Simfabric) and compare the output to a NumPy based
+validation code within the API.  The correct result is specified in
+make_wse through the `answer` keyword argument. 
+
+This configuration is a great way to debug the code during development.
+It is not recommended that the problem size be very large if run in this mode.
+Simfabric is very useful, but it is not very fast and can consume considerable
+memory if the problem size is set to a large size.
+
+If the code ran successfully and produced the same answer as the validation code it will produce an output
+similar to:
+    
+.. code-block:: consol
+
+    tests                   :  0:00.95 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+    
+The PASS indicates that Simfabric ran and the validation/Simfabric output provided in `answer` were identical.
+
+Debugging
+---------
+
+The following command line set is quite useful.  `-ptv` causes the validation
+code to print out the source and destination memory space for the tile at coordinates of  (4,5)
+in validation.txt for every operation.  This can then be compared to the Cerebras
+debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
+the portrait sever which can be connected to in a browser at `http://localhost:8080/paint.html`
+
+.. code-block:: consol
+
+    $ python test_add.py -ptv T4.5 -dl 1
+    
+Setting debug_level to 2 is eqivalent to setting `GOAL=debug JOB=-` flags in the Cerebras make process.
+This will cause Simfabric to dump out a detailed log files and launch the Portrait server.  It will
+also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
+detected in the Simfabric run.  This is useful when debugging failing microcode.
+
+Setting debug_level to 1 or 2 will also turn on more printing to screen for the API
+
+Compiling for Hardware
+----------------------
+It is not recommended to run the validation or Simfabric for large scale runs.  Running either the NumPy
+validation and/or Simfabric at the maximum scales that the WSE can run can take many days to
+complete on a single node.  It is thus recommended that development be done on the smallest size problem
+that is still meaningful and that it then be scaled up for a hardware run and all validation be turned off.
+
+This can be easily done through the command line as follows
+
+.. code-block:: consol
+
+    $ python rectangular_diffusion.py -x 800 -y 1000 -z 2000 -vr 0 -mg bench.img -hin full_scale_implicit_diffusion
+    
+If the code contains any timers, they can be turned on with the `-ts16` or `-ts32` arguments 
+
+WSE Interface Module
+====================
 
 .. automodule:: WSE_FE.WSE_Interface
     :members:
@@ -22,7 +391,7 @@ WSE Array Module
 ================
 The WSE_Array class is designed to allow users to work with 3D arrays in a
 similar way to NumPy.  In fact, user defined WSE_Arrays are initialized from
-3D NumPy arrays through the "initData" keyword on instantiation.  The first two
+3D NumPy arrays through the `initData` keyword on instantiation.  The first two
 axes in the NumPy arrays map to tile coordinates and axis 2 maps to the memory
 axis on each tile.
 
@@ -55,7 +424,7 @@ WSE_Array format:
     dst[1:-1, 0, 0] = s0[2:,0,0] + s1[:-2,0,0]
     dst[1:-1, 0, 0] = s0[1:-1,1,0] + s1[1:-1,0,0]
 
-Numpy format:
+NumPy format:
 
 .. code-block:: python
 
@@ -63,7 +432,7 @@ Numpy format:
     dst[1:-1,1:-1,1:-1] = s0[1:-1,2:,1:-1] + s1[1:-1,1:-1,1:-1]
 
 
-Sigantures
+Classes and Methods
 ----------
 .. autoclass:: WSE_FE.WSE_Array.WSE_Array
     :members:
@@ -106,6 +475,7 @@ instructions below:
 5. run `conda activate spyder`
 6. run `python setup.py install`
 7. run `spyder`
+
 
 
 
