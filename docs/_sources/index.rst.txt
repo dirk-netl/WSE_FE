@@ -444,6 +444,9 @@ The WSE provides several key feauteres to the API:
 Almost all of this functionality is handled automatically and is not a necessary
 concern for end users.
 
+Classes and Methods
+-------------------
+
 .. automodule:: WSE_FE.WSE_Interface
     :members:
 
@@ -493,14 +496,49 @@ NumPy format:
 
 
 Classes and Methods
-----------
+-------------------
+
 .. autoclass:: WSE_FE.WSE_Array.WSE_Array
     :members:
     :special-members: __add__, __sub__, __mul__, __truediv__, __getitem__, __setitem__
     
-    
+WSE Scalar Module
+=================
+The WSE Scalar Module is designed to handle global, mutable scalars in the
+WSE_FE API.  Global scalars live in the memory space of the controller and
+are broadcast with the arguments when an operation is evoked.  This approach
+conserves memory on the system and incurs minimal latencies.  It is most
+commonly used in calculating dot products in linear solvers.  The Module
+supports a limited but growing number of scalar-scalar operations.  These 
+operations are conducted on the controller tile.
+
+Classes and Methods
+-------------------
+
+.. autoclass:: WSE_FE.WSE_Scalar.WSE_Scalar
+    :members:
+    :special-members: __add__, __sub__, __mul__, __truediv__, __getitem__, __setitem__    
+
 WSE Solver Module
 =================
+This is a convenience class that packages common linear solvers to solve systems
+of linear equations to a defined tolerance.  The Solvers use the same Modules
+in this package to program the WSE once the coefficient matrix and source vector
+are formed.  The implicit solution example for the diffusion equation
+uses one of the `CgConstantOffDiag` variant below.  Be sure to instantiate
+the class at the start of a program to initialize the necessary memory spaces.
+
+The solvers will create `program_scratch` space for arrays and scalars.  These
+memory spaces are available to users outside of the solver, but will be overwritten
+when the solver is called.  This is usually ok as implicitly solving equations
+involves repeated processes of forming and solving and the memory spaces during
+each process is partially isolated (they share A/b and field values).  Reusing
+program scratch is suitable for several intermediate calculations in the formation
+steps.
+
+Classes and Methods
+-------------------
+
 .. autoclass:: WSE_FE.WSE_Solver.BiCgStab
     :members:
 
@@ -515,12 +553,7 @@ WSE Solver Module
     
 .. autoclass:: WSE_FE.WSE_Solver.JacobiConstantOffDiag
     :members:
-    
-WSE Scalar Module
-=================
-.. autoclass:: WSE_FE.WSE_Scalar.WSE_Scalar
-    :members:
-    :special-members: __add__, __sub__, __mul__, __truediv__, __getitem__, __setitem__
+
     
 Custom IDE With Synax Highlighting
 ==================================
