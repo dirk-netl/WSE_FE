@@ -663,21 +663,52 @@ See WSE_Interface_Singleton for available methods</p>
 This class is the singleton base of WSE_Interface
 Contains all methods available in WSE_Interface</p>
 <dl class="py method">
-<dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.check_hardware_answer">
-<code class="sig-name descname">check_hardware_answer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">answer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.check_hardware_answer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compare the hardware results with the known answer</p>
+<dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.debug_message">
+<code class="sig-name descname">debug_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em>, <em class="sig-param"><span class="n">active</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.debug_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables debug message when compliled with the -dl 3 option.  Very useful for determining position in a large
+program. To use, add into the graph construction wherever needed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_calc_shear_and_P</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">ASM</span><span class="p">()</span> <span class="k">as</span> <span class="n">cs_asm</span><span class="p">:</span>
+        <span class="n">eta_two</span> <span class="o">=</span> <span class="n">cs_asm</span><span class="o">.</span><span class="n">get_free_array_scratch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: calc eta_two&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
+        <span class="n">eta_two</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta0</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">deta_dT</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deltaT</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The message will show up in the validation.txt file</p>
+<div class="highlight-file notranslate"><div class="highlight"><pre><span></span>----------------------------------
+Debug Message: FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P
+Debug Message ID: 0x0
+Debug Task ID: 0xf
+----------------------------------
+</pre></div>
+</div>
+<p>Each time debug_message gets called, it increments the Debug Message ID, ensuring that each message has a uniue
+ID number.  The Debug Task ID shows which task to search for in the source window in portrait:</p>
+<div class="highlight-file notranslate"><div class="highlight"><pre><span></span>     task debug_task entry(0xf) {
+009c     BLOCK ctrl_color;
+009d     gpr_R6 = gpr_R2;
+009e     arguments_recv.length = gpr_c_6;
+00a0     UNBLOCK ctrl_color;}
+</pre></div>
+</div>
+<p>The move instruction <code class="code docutils literal notranslate"><span class="pre">gpr_R6</span> <span class="pre">=</span> <span class="pre">gpr_R2</span></code> gets tagged with an address of 009d by the compiler. The 009d
+address is searchable in the pipeline window if the ADDR option is enabled at the top.  Clicking on the line
+with that address will display the details of the instruction in the Instruction window.  The value loaded by
+the move will be displayed in the s1 and dst values in the Instruction window.  When the s1 or dst value matches
+Debug Message ID, the point in the graph where the <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> was inserted has been found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fileName</strong> (<em>str</em>) – The image file name</p></li>
-<li><p><strong>answer</strong> (<a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The WSE Array object that points to the correct answer</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – descriptive string.</p></li>
+<li><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Enable debug mesage. The default is True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -806,27 +837,6 @@ added as command line arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_hardware_worker_time_stamps">
-<code class="sig-name descname">get_hardware_worker_time_stamps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">last_n</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_hardware_worker_time_stamps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print out hardware inforamtion for the final N time stamps</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fileName</strong> (<em>str</em>) – The image file name</p></li>
-<li><p><strong>last_n</strong> (<em>int</em>) – The final n number of steps
-(Default value = 100)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array">
 <code class="sig-name descname">get_named_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves a named array</p>
@@ -839,24 +849,6 @@ added as command line arguments.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The array of the specified name</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_simulator_worker_time_stamps">
-<code class="sig-name descname">get_simulator_worker_time_stamps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">last_n</span><span class="o">=</span><span class="default_value">100</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_simulator_worker_time_stamps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print out simulator inforamtion for the final N time stamps</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>last_n</strong> (<em>int</em>) – The final n number of steps
-(Default value = 100)</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
