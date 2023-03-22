@@ -85,6 +85,7 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to WFA’s Documentation!</a></li>
+<li><a class="reference internal" href="#recent-achievement">Recent Achievement</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
 <li><a class="reference internal" href="#setup-instructions">Setup Instructions</a><ul>
 <li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
@@ -131,7 +132,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#custom-ide-with-synax-highlighting">Custom IDE With Synax Highlighting</a></li>
-<li><a class="reference internal" href="#coding-style-guidlines">Coding Style Guidlines</a><ul>
+<li><a class="reference internal" href="#coding-style-guidelines">Coding Style Guidelines</a><ul>
 <li><a class="reference internal" href="#python">Python</a></li>
 <li><a class="reference internal" href="#wse-files">WSE files</a></li>
 <li><a class="reference internal" href="#python-docstrings">Python Docstrings</a></li>
@@ -242,6 +243,11 @@ While the WSE architecture was not developed as an ASIC for field equations, the
 that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
 end up making it efficient for solving field equations with large numbers of voxels or cells.</p>
 </section>
+<section id="recent-achievement">
+<h1>Recent Achievement<a class="headerlink" href="#recent-achievement" title="Permalink to this headline">¶</a></h1>
+<p>this is a test of youtube</p>
+<p>this is the end of the test</p>
+</section>
 <section id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
 <p>This work is a product of the Federal Government.  As of now, it is covered
@@ -253,14 +259,15 @@ applications for a different copyright and license structure are adopted.</p>
 <p>There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
 Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
 “Obtaining the Code” section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
-The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA have been integrated into version 1.8.0 and above in the SDK container.  Custom containers may also support</p>
+The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
+have been integrated into version 1.8.0 and above in the SDK container.</p>
 <section id="obtaining-the-code">
 <h2>Obtaining the Code<a class="headerlink" href="#obtaining-the-code" title="Permalink to this headline">¶</a></h2>
 <p>This github repository contains documentation only.  The full code repository is available <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation">here</a>.
 To obtain access to the code, register on the <a class="reference external" href="https://mfix.netl.doe.gov/register">MFiX website</a>
 contact Terry Jordan at <a class="reference external" href="mailto:terry&#46;jordan&#37;&#52;&#48;netl&#46;doe&#46;gov">terry<span>&#46;</span>jordan<span>&#64;</span>netl<span>&#46;</span>doe<span>&#46;</span>gov</a> to be added to the privet
-gitlab repository.  This process has been adopted until NETL makes a determination
-about the export control nature of this work.</p>
+gitlab repository.  This process has been adopted until NETL makes a determination about the export control nature of
+this work.</p>
 <p>After being added to the repository, checkout the latest repo:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git</span>
 </pre></div>
@@ -276,7 +283,8 @@ Neocortex system.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir &lt;path_to&gt;/Cerebras-extra-python-packages</span>
 </pre></div>
 </div>
-<p>Generate the hardware run using singularity:</p>
+<p>Generate the hardware run using singularity (Note: PSC has not yet updated their system to 1.8.0, so a custom container
+is needed.  Contact Leighton Wilson on the Neocortex slack channel to get access):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;sif_location&gt;/cbcore-31399de2fa.sif</span>
 </pre></div>
 </div>
@@ -387,22 +395,22 @@ WFA.</p>
 </pre></div>
 </div>
 <p>From the command line run:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>$ python rectancular_diffusion_explicit.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python rectangular_diffusion_explicit.py
 </pre></div>
 </div>
 <p>And it will produce an output similar to:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>********************* Starting Make ***********************
-********************* Writing binary input files ***********************
-    Total vectors to write:  3
-    Total Data to Write (MB):  0.012
-    Total T_bin to Write (MB):  0.00768
-**************** Done writing binary input files ***********************
-********************* Started Host Validation ***********************
-********************* Done Host Validation ***********************
-********************* Running Cerebras Tools ***********************
-examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
-********************* Finished Running Cerebras Tools ***********************
-********************* Done Make ***********************
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  3</span>
+<span class="go">    Total Data to Write (MB):  0.012</span>
+<span class="go">    Total T_bin to Write (MB):  0.00768</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
 </pre></div>
 </div>
 </section>
@@ -416,7 +424,7 @@ and a uniform grid simplified to:</p>
 which is always met.  This equation will converge, even if slowly, regardless of the conductivity or cell length scale.</p>
 <p>The following code shows how to solve a generic diffusion equation implicitly in the
 WFA.</p>
-<p>file name: rectancular_diffusion.py</p>
+<p>file name: rectangular_diffusion.py</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
 <span class="kn">from</span> <span class="nn">WSE_FE.WSE_Array</span> <span class="kn">import</span> <span class="n">WSE_Array</span>
 <span class="kn">from</span> <span class="nn">WSE_FE.WSE_Loops</span> <span class="kn">import</span> <span class="n">WSE_For_loop</span>
@@ -474,22 +482,22 @@ WFA.</p>
 </pre></div>
 </div>
 <p>From the command line run:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>$ python rectancular_diffusion.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python rectangular_diffusion.py
 </pre></div>
 </div>
-<p>And it will produce an ouput similar to:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>********************* Starting Make ***********************
-********************* Writing binary input files ***********************
-    Total vectors to write:  6
-    Total Data to Write (MB):  0.024
-    Total T_bin to Write (MB):  0.01536
-**************** Done writing binary input files ***********************
-********************* Started Host Validation ***********************
-********************* Done Host Validation ***********************
-********************* Running Cerebras Tools ***********************
-examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
-********************* Finished Running Cerebras Tools ***********************
-********************* Done Make ***********************
+<p>And it will produce an output similar to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  6</span>
+<span class="go">    Total Data to Write (MB):  0.024</span>
+<span class="go">    Total T_bin to Write (MB):  0.01536</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
 </pre></div>
 </div>
 </section>
@@ -506,58 +514,58 @@ to a program with the <cite>get_cmd_line_parser</cite> and <cite>get_available_c
 as seen in the above examples.  Use the WSE_Interface.str_to_bool method in as the input to
 the type keyword argument in the parser.add_argument method for boolean inputs.</p>
 <p>The <cite>-h</cite> option will produce an output similar to:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]
-              [-mg MAKE_GOAL] [-vr VERIFY_RESULT]
-              [-ptv PRINT_TILE_VERIFICATION]
-              [-hin HARDWARE_IMAGE_NAME]
-              [-ast ANALYZE_SIMULATOR_TIMESTAMPS]
-              [-hon HARDWARE_OUTPUT_NAME] [-to TIMEOUT]
-              [-att ADD_TASK_TAGS] [-ts32 TIME_STAMPS_32BIT]
-              [-ts16 TIME_STAMPS_16BIT] [-tsm TIME_STAMP_MODULO]
-              [-ppc POWER_PERFORMANCE_COUNTER]
-              [-dml DISPLAY_MAKE_LOG] [-x X] [-y Y] [-z Z]
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]</span>
+<span class="go">              [-mg MAKE_GOAL] [-vr VERIFY_RESULT]</span>
+<span class="go">              [-ptv PRINT_TILE_VERIFICATION]</span>
+<span class="go">              [-hin HARDWARE_IMAGE_NAME]</span>
+<span class="go">              [-ast ANALYZE_SIMULATOR_TIMESTAMPS]</span>
+<span class="go">              [-hon HARDWARE_OUTPUT_NAME] [-to TIMEOUT]</span>
+<span class="go">              [-att ADD_TASK_TAGS] [-ts32 TIME_STAMPS_32BIT]</span>
+<span class="go">              [-ts16 TIME_STAMPS_16BIT] [-tsm TIME_STAMP_MODULO]</span>
+<span class="go">              [-ppc POWER_PERFORMANCE_COUNTER]</span>
+<span class="go">              [-dml DISPLAY_MAKE_LOG] [-x X] [-y Y] [-z Z]</span>
 
-Command Line Parser for WSE Interface
+<span class="go">Command Line Parser for WSE Interface</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -dl DEBUG_LEVEL, --debug_level DEBUG_LEVEL
-                        Sets the level of debug. 0:off 1:create portrait files
-                        2:JOB=-
-  -lp LAUNCH_PORTRAIT, --launch_portrait LAUNCH_PORTRAIT
-                        launches portrait
-  -mg MAKE_GOAL, --make_goal MAKE_GOAL
-                        specify make goal
-  -vr VERIFY_RESULT, --verify_result VERIFY_RESULT
-                        toggle verification of results through NumPy
-  -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION
-                        enables printing the memory space from the host durint
-                        validation. Specify Tx.y where x and y are the tile
-                        coordinates from paing
-  -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME
-                        specifying a name creates files for a hardware run
-  -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS
-                        turns on analysis of time stamps from Simfabric
-  -hon HARDWARE_OUTPUT_NAME, --hardware_output_name HARDWARE_OUTPUT_NAME
-                        specifying on output image name turns on hardware
-                        analysis
-  -to TIMEOUT, --timeout TIMEOUT
-                        specifies the allowable time for a Simfabric run
-  -att ADD_TASK_TAGS, --add_task_tags ADD_TASK_TAGS
-                        compiles task tags into ag files for debugging
-  -ts32 TIME_STAMPS_32BIT, --time_stamps_32bit TIME_STAMPS_32BIT
-                        set time stamps to 32 bit recording
-  -ts16 TIME_STAMPS_16BIT, --time_stamps_16bit TIME_STAMPS_16BIT
-                        set time stamps to 16 bit recording
-  -tsm TIME_STAMP_MODULO, --time_stamp_modulo TIME_STAMP_MODULO
-                        specify the frequency of recording time stamps
-  -ppc POWER_PERFORMANCE_COUNTER, --power_performance_counter POWER_PERFORMANCE_COUNTER
-                        turns on power performance counter recording
-  -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG
-                        displays make log from wse make
-  -x X, --x X           specify x dimension
-  -y Y, --y Y           specify y dimension
-  -z Z, --z Z           specify z dimension
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -dl DEBUG_LEVEL, --debug_level DEBUG_LEVEL</span>
+<span class="go">                        Sets the level of debug. 0:off 1:create portrait files</span>
+<span class="go">                        2:JOB=-</span>
+<span class="go">  -lp LAUNCH_PORTRAIT, --launch_portrait LAUNCH_PORTRAIT</span>
+<span class="go">                        launches portrait</span>
+<span class="go">  -mg MAKE_GOAL, --make_goal MAKE_GOAL</span>
+<span class="go">                        specify make goal</span>
+<span class="go">  -vr VERIFY_RESULT, --verify_result VERIFY_RESULT</span>
+<span class="go">                        toggle verification of results through NumPy</span>
+<span class="go">  -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION</span>
+<span class="go">                        enables printing the memory space from the host during</span>
+<span class="go">                        validation. Specify Tx.y where x and y are the tile</span>
+<span class="go">                        coordinates from passing</span>
+<span class="go">  -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME</span>
+<span class="go">                        specifying a name creates files for a hardware run</span>
+<span class="go">  -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS</span>
+<span class="go">                        turns on analysis of time stamps from Simfabric</span>
+<span class="go">  -hon HARDWARE_OUTPUT_NAME, --hardware_output_name HARDWARE_OUTPUT_NAME</span>
+<span class="go">                        specifying on output image name turns on hardware</span>
+<span class="go">                        analysis</span>
+<span class="go">  -to TIMEOUT, --timeout TIMEOUT</span>
+<span class="go">                        specifies the allowable time for a Simfabric run</span>
+<span class="go">  -att ADD_TASK_TAGS, --add_task_tags ADD_TASK_TAGS</span>
+<span class="go">                        compiles task tags into ag files for debugging</span>
+<span class="go">  -ts32 TIME_STAMPS_32BIT, --time_stamps_32bit TIME_STAMPS_32BIT</span>
+<span class="go">                        set time stamps to 32 bit recording</span>
+<span class="go">  -ts16 TIME_STAMPS_16BIT, --time_stamps_16bit TIME_STAMPS_16BIT</span>
+<span class="go">                        set time stamps to 16 bit recording</span>
+<span class="go">  -tsm TIME_STAMP_MODULO, --time_stamp_modulo TIME_STAMP_MODULO</span>
+<span class="go">                        specify the frequency of recording time stamps</span>
+<span class="go">  -ppc POWER_PERFORMANCE_COUNTER, --power_performance_counter POWER_PERFORMANCE_COUNTER</span>
+<span class="go">                        turns on power performance counter recording</span>
+<span class="go">  -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG</span>
+<span class="go">                        displays make log from wse make</span>
+<span class="go">  -x X, --x X           specify x dimension</span>
+<span class="go">  -y Y, --y Y           specify y dimension</span>
+<span class="go">  -z Z, --z Z           specify z dimension</span>
 </pre></div>
 </div>
 <section id="running-scripts-for-development">
@@ -573,18 +581,18 @@ Simfabric is very useful, but it is not very fast and can consume considerable
 memory if the problem size is set to a large size.</p>
 <p>If the code ran successfully and produced the same answer as the validation code it will produce an output
 similar to:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>********************* Starting Make ***********************
-********************* Writing binary input files ***********************
-    Total vectors to write:  6
-    Total Data to Write (MB):  0.024
-    Total T_bin to Write (MB):  0.01536
-**************** Done writing binary input files ***********************
-********************* Started Host Validation ***********************
-********************* Done Host Validation ***********************
-********************* Running Cerebras Tools ***********************
-examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
-********************* Finished Running Cerebras Tools ***********************
-********************* Done Make ***********************
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  6</span>
+<span class="go">    Total Data to Write (MB):  0.024</span>
+<span class="go">    Total T_bin to Write (MB):  0.01536</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
 </pre></div>
 </div>
 <p>The PASS indicates that Simfabric ran and the validation/Simfabric output provided in <cite>answer</cite> were identical.</p>
@@ -596,10 +604,10 @@ code to print out the source and destination memory space for the tile at coordi
 in validation.txt for every operation.  This can then be compared to the Cerebras
 debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
 the portrait sever which can be connected to in a browser at <cite>http://localhost:8080/paint.html</cite></p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>$ python test_add.py -ptv T4.5 -dl 1
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python test_add.py -ptv T4.5 -dl <span class="m">1</span>
 </pre></div>
 </div>
-<p>Setting debug_level to 2 is eqivalent to setting <cite>GOAL=debug JOB=-</cite> flags in the Cerebras make process.
+<p>Setting debug_level to 2 is equivalent to setting <cite>GOAL=debug JOB=-</cite> flags in the Cerebras make process.
 This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
 also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
 detected in the Simfabric run.  This is useful when debugging failing microcode.</p>
@@ -612,7 +620,7 @@ validation and/or Simfabric at the maximum scales that the WSE can run can take 
 complete on a single node.  It is thus recommended that development be done on the smallest size problem
 that is still meaningful and that it then be scaled up for a hardware run and all validation be turned off.</p>
 <p>This can be easily done through the command line as follows</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>$ python rectangular_diffusion.py -x 800 -y 1000 -z 2000 -vr 0 -mg bench.img -hin full_scale_implicit_diffusion
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python rectangular_diffusion.py -x <span class="m">800</span> -y <span class="m">1000</span> -z <span class="m">2000</span> -vr <span class="m">0</span> -mg bench.img -hin full_scale_implicit_diffusion
 </pre></div>
 </div>
 <p>If the code contains any timers, they can be turned on with the <cite>-ts16</cite> or <cite>-ts32</cite> arguments</p>
@@ -620,10 +628,10 @@ that is still meaningful and that it then be scaled up for a hardware run and al
 </section>
 <section id="wse-interface-module">
 <h1>WSE Interface Module<a class="headerlink" href="#wse-interface-module" title="Permalink to this headline">¶</a></h1>
-<p>The WSE Inference Module is a singleton class which is enstantiated in every
+<p>The WSE Inference Module is a singleton class which is instantiated in every
 other class within the WSE_Package.  It was created this way to provide flexibility
 to users and to maintain key program sequences and memory wherever it is used.
-The WSE provides several key feauteres to the API:</p>
+The WSE provides several key features to the API:</p>
 <ol class="arabic simple">
 <li><p>Maintains program sequences</p></li>
 <li><p>Handles memory spaces with no need for user input</p></li>
@@ -2122,8 +2130,8 @@ instructions below:</p>
 <li><p>run <cite>spyder</cite></p></li>
 </ol>
 </section>
-<section id="coding-style-guidlines">
-<h1>Coding Style Guidlines<a class="headerlink" href="#coding-style-guidlines" title="Permalink to this headline">¶</a></h1>
+<section id="coding-style-guidelines">
+<h1>Coding Style Guidelines<a class="headerlink" href="#coding-style-guidelines" title="Permalink to this headline">¶</a></h1>
 <section id="python">
 <h2>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
 <p>NETL strictly adheres to the PEP8 coding standard with a modified maximum line length of 120 characters.  Code will not

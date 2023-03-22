@@ -49,6 +49,14 @@ While the WSE architecture was not developed as an ASIC for field equations, the
 that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
 end up making it efficient for solving field equations with large numbers of voxels or cells.
 
+Recent Achievement
+==================
+this is a test of youtube
+
+.. raw:: html
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/7NWe0kwaqrE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+this is the end of the test
 
 License
 =======
@@ -63,15 +71,16 @@ Setup Instructions
 There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
 Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
 "Obtaining the Code" section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
-The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA have been integrated into version 1.8.0 and above in the SDK container.  Custom containers may also support
+The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
+have been integrated into version 1.8.0 and above in the SDK container.
 
 Obtaining the Code
 ------------------
 This github repository contains documentation only.  The full code repository is available `here <https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation>`_.
 To obtain access to the code, register on the `MFiX website <https://mfix.netl.doe.gov/register>`_
 contact Terry Jordan at terry.jordan@netl.doe.gov to be added to the privet
-gitlab repository.  This process has been adopted until NETL makes a determination
-about the export control nature of this work.
+gitlab repository.  This process has been adopted until NETL makes a determination about the export control nature of
+this work.
 
 After being added to the repository, checkout the latest repo:
 
@@ -92,7 +101,8 @@ After obtaining access to the WFA and cloning on the Neocortex. Create a directo
 
     mkdir <path_to>/Cerebras-extra-python-packages
 
-Generate the hardware run using singularity:
+Generate the hardware run using singularity (Note: PSC has not yet updated their system to 1.8.0, so a custom container
+is needed.  Contact Leighton Wilson on the Neocortex slack channel to get access):
 
 .. code-block:: console
 
@@ -236,13 +246,13 @@ file name: rectangular_diffusion_explicit.py
     
 From the command line run:
 
-.. code-block:: consol
+.. code-block:: console
     
-    $ python rectancular_diffusion_explicit.py
+    $ python rectangular_diffusion_explicit.py
     
 And it will produce an output similar to:
 
-.. code-block:: consol
+.. code-block:: console
 
     ********************* Starting Make ***********************
     ********************* Writing binary input files ***********************
@@ -273,7 +283,7 @@ which is always met.  This equation will converge, even if slowly, regardless of
 The following code shows how to solve a generic diffusion equation implicitly in the
 WFA.
 
-file name: rectancular_diffusion.py
+file name: rectangular_diffusion.py
 
 .. code-block:: python
 
@@ -335,13 +345,13 @@ file name: rectancular_diffusion.py
 
 From the command line run:
 
-.. code-block:: consol
+.. code-block:: console
     
-    $ python rectancular_diffusion.py
+    $ python rectangular_diffusion.py
     
-And it will produce an ouput similar to:
+And it will produce an output similar to:
 
-.. code-block:: consol
+.. code-block:: console
 
     ********************* Starting Make ***********************
     ********************* Writing binary input files ***********************
@@ -374,7 +384,7 @@ the type keyword argument in the parser.add_argument method for boolean inputs.
 The `-h` option will produce an output similar to:
 
 
-.. code-block:: consol
+.. code-block:: console
 
     usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]
                   [-mg MAKE_GOAL] [-vr VERIFY_RESULT]
@@ -401,9 +411,9 @@ The `-h` option will produce an output similar to:
       -vr VERIFY_RESULT, --verify_result VERIFY_RESULT
                             toggle verification of results through NumPy
       -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION
-                            enables printing the memory space from the host durint
+                            enables printing the memory space from the host during
                             validation. Specify Tx.y where x and y are the tile
-                            coordinates from paing
+                            coordinates from passing
       -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME
                             specifying a name creates files for a hardware run
       -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS
@@ -445,7 +455,7 @@ memory if the problem size is set to a large size.
 If the code ran successfully and produced the same answer as the validation code it will produce an output
 similar to:
     
-.. code-block:: consol
+.. code-block:: console
 
     ********************* Starting Make ***********************
     ********************* Writing binary input files ***********************
@@ -471,11 +481,11 @@ in validation.txt for every operation.  This can then be compared to the Cerebra
 debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
 the portrait sever which can be connected to in a browser at `http://localhost:8080/paint.html`
 
-.. code-block:: consol
+.. code-block:: console
 
     $ python test_add.py -ptv T4.5 -dl 1
     
-Setting debug_level to 2 is eqivalent to setting `GOAL=debug JOB=-` flags in the Cerebras make process.
+Setting debug_level to 2 is equivalent to setting `GOAL=debug JOB=-` flags in the Cerebras make process.
 This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
 also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
 detected in the Simfabric run.  This is useful when debugging failing microcode.
@@ -491,7 +501,7 @@ that is still meaningful and that it then be scaled up for a hardware run and al
 
 This can be easily done through the command line as follows
 
-.. code-block:: consol
+.. code-block:: console
 
     $ python rectangular_diffusion.py -x 800 -y 1000 -z 2000 -vr 0 -mg bench.img -hin full_scale_implicit_diffusion
     
@@ -499,10 +509,10 @@ If the code contains any timers, they can be turned on with the `-ts16` or `-ts3
 
 WSE Interface Module
 ====================
-The WSE Inference Module is a singleton class which is enstantiated in every
+The WSE Inference Module is a singleton class which is instantiated in every
 other class within the WSE_Package.  It was created this way to provide flexibility
 to users and to maintain key program sequences and memory wherever it is used.
-The WSE provides several key feauteres to the API:
+The WSE provides several key features to the API:
 
 1) Maintains program sequences
 2) Handles memory spaces with no need for user input
@@ -564,7 +574,6 @@ NumPy format:
 
     dst[1:-1,1:-1,1:-1] = s0[1:-1,1:-1,2:] + s1[1:-1,1:-1,:-2]
     dst[1:-1,1:-1,1:-1] = s0[1:-1,2:,1:-1] + s1[1:-1,1:-1,1:-1]
-
 
 Classes and Methods
 -------------------
@@ -698,8 +707,8 @@ instructions below:
 6. run `python setup.py install`
 7. run `spyder`
 
-Coding Style Guidlines
-======================
+Coding Style Guidelines
+=======================
 
 Python
 ------
