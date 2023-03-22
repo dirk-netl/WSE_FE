@@ -50,18 +50,6 @@ that make it so efficient for training large AI models (ie: data flow based matr
 end up making it efficient for solving field equations with large numbers of voxels or cells.
 
 
-Obtaining the Code
-==================
-This github repository contains documentation only.  The full code repository is available `here <https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation>`_.
-To abtain access to the code, register on the `MFiX website <https://mfix.netl.doe.gov/register>`_
-contact Dirk Van Essendelft at drik.vanessendelft@netl.doe.gov to be added to the privet
-gitlab repository.  This process has been adopted until NETL makes a determination
-about the export control nature of this work.
-
-One will also need to contact Cerebras to obtain the proprietary compilers.
-A procedure for obtaining these compilers is underway.  For the time being,
-NETL will make introductions to Cerebras for interested parties.
-
 License
 =======
 
@@ -71,20 +59,87 @@ applications for a different copyright and license structure are adopted.
 
 Setup Instructions
 ==================
-The WFA uses Cerebras' proprietery compiler which is contained within a special docker container that
-can be obtained from Cerebras.  We are working towards a more integrated solution that will allow users
-to use the standard Cerebras singularity containers.  Until that process is set up and working, the following
-is the process used to run in simulator or in hardware:
 
-Checkout the latest repo:
+There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
+Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
+"Obtaining the Code" section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
+The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA have been integrated into version 1.8.0 and above in the SDK container.  Custom containers may also support
 
->git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git
+Obtaining the Code
+------------------
+This github repository contains documentation only.  The full code repository is available `here <https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation>`_.
+To obtain access to the code, register on the `MFiX website <https://mfix.netl.doe.gov/register>`_
+contact Terry Jordan at terry.jordan@netl.doe.gov to be added to the privet
+gitlab repository.  This process has been adopted until NETL makes a determination
+about the export control nature of this work.
 
+After being added to the repository, checkout the latest repo:
 
+.. code-block:: console
 
-Load docker image:
+   git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git
 
->sudo docker load -i cbcore-technology-202205302007-167-1a6940e2.tar.gz
+Neocortex Instructions
+----------------------
+`Necortex <http://https://www.cmu.edu/psc/aibd/neocortex/>`_ is an NSF funded computer run by the Pittsburgh Supercomputing Center (PSC) and consists of a
+Superdome Flex and two CS-2's (the system that contains a WSE). PSC runs regular user solicitations
+for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
+Neocortex system.
+
+After obtaining access to the WFA and cloning on the Neocortex. Create a directory to store the python site packages:
+
+.. code-block:: console
+
+    mkdir <path_to>/Cerebras-extra-python-packages
+
+Generate the hardware run using singularity:
+
+.. code-block:: console
+
+    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <sif_location>/cbcore-31399de2fa.sif
+
+Deactivate python (this will be needed if you are using conda to manage python):
+
+.. code-block:: console
+
+    conda deactivate
+
+Add portrait to path:
+
+.. code-block:: console
+
+    export PATH=/cbcore/technology/sysroot-x86/bin/portrait:$PATH
+
+Generate the hardware run:
+
+.. code-block:: console
+
+    cd <run_folder_name>
+    python <path_to_repo>/build_and_test.py -st 1 && python <run_name>.py -hin <hardware_run_name> -mg bench.img <additional_args>
+
+Copy hardware run to util directory:
+
+.. code-block:: console
+
+    cp <hardware_run_name>.tar.gz <path_to_repo>/WSE_Field_Equation/util
+
+Submit job to hardware:
+
+.. code-block:: console
+
+    sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable>
+
+Check out SDF node:
+
+.. code-block:: console
+
+    srun --nodelist=sdf-<1 or 2> --pty bash
+
+The results are currently stored on the drives local the specified sdf node:
+
+.. code-block:: console
+
+    cd /local1/<project_name>/<hardware_run_name>
 
 
 Simple Diffusion Example
@@ -130,7 +185,7 @@ modeling where voxel sizes are large and conductivity is low.
 The following code shows how to solve a generic diffusion equation explicitly in the
 WFA.
 
-file name: rectancular_diffusion_explicit.py
+file name: rectangular_diffusion_explicit.py
 
 .. code-block:: python
 
@@ -440,71 +495,7 @@ This can be easily done through the command line as follows
 
     $ python rectangular_diffusion.py -x 800 -y 1000 -z 2000 -vr 0 -mg bench.img -hin full_scale_implicit_diffusion
     
-If the code contains any timers, they can be turned on with the `-ts16` or `-ts32` arguments 
-
-Neocortex Instructions
-======================
-
-Clone the WFA repo:
-
-.. code-block:: consol
-
-    git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git
-
-Create a directory to store the python site packages:
-
-.. code-block:: consol
-
-    mkdir <path_to>/Cerebras-extra-python-packages
-
-Generate the hardware run using singularity:
-
-.. code-block:: consol
-
-    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <sif_location>/cbcore-31399de2fa.sif
-
-Deactivate python (this will be needed if you are using conda to manage python):
-
-.. code-block:: consol
-
-    conda deactivate
-
-Add portrait to path:
-
-.. code-block:: consol
-
-    export PATH=/cbcore/technology/sysroot-x86/bin/portrait:$PATH
-
-Generate the hardware run:
-
-.. code-block:: consol
-
-    cd <run_folder_name>
-    python <path_to_repo>/build_and_test.py -st 1 && python <run_name>.py -hin <hardware_run_name> -mg bench.img <additional_args>
-
-Copy hardware run to util directory:
-
-.. code-block:: consol
-
-    cp <hardware_run_name>.tar.gz <path_to_repo>/WSE_Field_Equation/util
-  
-Submit job to hardware:
-
-.. code-block:: consol
-
-    sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable>
-
-Check out SDF node:
-
-.. code-block:: consol
-
-    srun --nodelist=sdf-<1 or 2> --pty bash
-    
-The results are currently stored on the drives local the specified sdf node:
-
-.. code-block:: consol
-
-    cd /local1/<project_name>/<hardware_run_name>
+If the code contains any timers, they can be turned on with the `-ts16` or `-ts32` arguments
 
 WSE Interface Module
 ====================
@@ -643,12 +634,15 @@ Classes and Methods
     
 .. autoclass:: WSE_FE.WSE_Loops.WSE_For_Loop
     :members:
+    :special-members: __init__
     
 .. autoclass:: WSE_FE.WSE_Loops.WSE_While_Loop
     :members:
+    :special-members: __init__
     
 .. autoclass:: WSE_FE.WSE_Loops.WSE_Solver_While_Loop
     :members:
+    :special-members: __init__
     
 CFD Formation Module
 =================
@@ -658,22 +652,26 @@ Classes and Methods
 -------------------
 
 .. autoclass:: WSE_FE.CFD_Formation._Formation_Base
-    :members:     
+    :members:
     
 .. autoclass:: WSE_FE.CFD_Formation._Sliceable_Constant
     :members:
+    :special-members: __init__
     
 .. autoclass:: WSE_FE.CFD_Formation._FD_Nonlinear_Diffusion
-    :members:     
+    :members: 
+    :special-members: __init__    
     
 .. autoclass:: WSE_FE.CFD_Formation.Scalar_Transport
-    :members:     
+    :members:  
     
 .. autoclass:: WSE_FE.CFD_Formation.Momentum_Colocated
-    :members:     
+    :members:  
+    :special-members: __init__   
     
 .. autoclass:: WSE_FE.CFD_Formation.Press_Colocated
-    :members:     
+    :members:  
+    :special-members: __init__   
     
 FD Navier Stokes Module
 =================
@@ -684,6 +682,7 @@ Classes and Methods
 
 .. autoclass:: WSE_FE.FD_Navier_Stokes.FD_Stokes
     :members:
+    :special-members: __init__  
 
 Custom IDE With Synax Highlighting
 ==================================

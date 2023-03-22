@@ -85,9 +85,12 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to WFA’s Documentation!</a></li>
-<li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
-<li><a class="reference internal" href="#setup-instructions">Setup Instructions</a></li>
+<li><a class="reference internal" href="#setup-instructions">Setup Instructions</a><ul>
+<li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
+<li><a class="reference internal" href="#neocortex-instructions">Neocortex Instructions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#simple-diffusion-example">Simple Diffusion Example</a><ul>
 <li><a class="reference internal" href="#solving-explicitly">Solving Explicitly</a></li>
 <li><a class="reference internal" href="#solving-implicitly">Solving Implicitly</a></li>
@@ -99,7 +102,6 @@
 <li><a class="reference internal" href="#compiling-for-hardware">Compiling for Hardware</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#neocortex-instructions">Neocortex Instructions</a></li>
 <li><a class="reference internal" href="#wse-interface-module">WSE Interface Module</a><ul>
 <li><a class="reference internal" href="#module-WSE_FE.WSE_Interface">Classes and Methods</a></li>
 </ul>
@@ -240,17 +242,6 @@ While the WSE architecture was not developed as an ASIC for field equations, the
 that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
 end up making it efficient for solving field equations with large numbers of voxels or cells.</p>
 </section>
-<section id="obtaining-the-code">
-<h1>Obtaining the Code<a class="headerlink" href="#obtaining-the-code" title="Permalink to this headline">¶</a></h1>
-<p>This github repository contains documentation only.  The full code repository is available <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation">here</a>.
-To abtain access to the code, register on the <a class="reference external" href="https://mfix.netl.doe.gov/register">MFiX website</a>
-contact Dirk Van Essendelft at <a class="reference external" href="mailto:drik&#46;vanessendelft&#37;&#52;&#48;netl&#46;doe&#46;gov">drik<span>&#46;</span>vanessendelft<span>&#64;</span>netl<span>&#46;</span>doe<span>&#46;</span>gov</a> to be added to the privet
-gitlab repository.  This process has been adopted until NETL makes a determination
-about the export control nature of this work.</p>
-<p>One will also need to contact Cerebras to obtain the proprietary compilers.
-A procedure for obtaining these compilers is underway.  For the time being,
-NETL will make introductions to Cerebras for interested parties.</p>
-</section>
 <section id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
 <p>This work is a product of the Federal Government.  As of now, it is covered
@@ -259,14 +250,66 @@ applications for a different copyright and license structure are adopted.</p>
 </section>
 <section id="setup-instructions">
 <h1>Setup Instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this headline">¶</a></h1>
-<p>The WFA uses Cerebras’ proprietery compiler which is contained within a special docker container that
-can be obtained from Cerebras.  We are working towards a more integrated solution that will allow users
-to use the standard Cerebras singularity containers.  Until that process is set up and working, the following
-is the process used to run in simulator or in hardware:</p>
-<p>Checkout the latest repo:</p>
-<p>&gt;git clone <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git">https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git</a></p>
-<p>Load docker image:</p>
-<p>&gt;sudo docker load -i cbcore-technology-202205302007-167-1a6940e2.tar.gz</p>
+<p>There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
+Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
+“Obtaining the Code” section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
+The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA have been integrated into version 1.8.0 and above in the SDK container.  Custom containers may also support</p>
+<section id="obtaining-the-code">
+<h2>Obtaining the Code<a class="headerlink" href="#obtaining-the-code" title="Permalink to this headline">¶</a></h2>
+<p>This github repository contains documentation only.  The full code repository is available <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation">here</a>.
+To obtain access to the code, register on the <a class="reference external" href="https://mfix.netl.doe.gov/register">MFiX website</a>
+contact Terry Jordan at <a class="reference external" href="mailto:terry&#46;jordan&#37;&#52;&#48;netl&#46;doe&#46;gov">terry<span>&#46;</span>jordan<span>&#64;</span>netl<span>&#46;</span>doe<span>&#46;</span>gov</a> to be added to the privet
+gitlab repository.  This process has been adopted until NETL makes a determination
+about the export control nature of this work.</p>
+<p>After being added to the repository, checkout the latest repo:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git</span>
+</pre></div>
+</div>
+</section>
+<section id="neocortex-instructions">
+<h2>Neocortex Instructions<a class="headerlink" href="#neocortex-instructions" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://https://www.cmu.edu/psc/aibd/neocortex/">Necortex</a> is an NSF funded computer run by the Pittsburgh Supercomputing Center (PSC) and consists of a
+Superdome Flex and two CS-2’s (the system that contains a WSE). PSC runs regular user solicitations
+for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
+Neocortex system.</p>
+<p>After obtaining access to the WFA and cloning on the Neocortex. Create a directory to store the python site packages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir &lt;path_to&gt;/Cerebras-extra-python-packages</span>
+</pre></div>
+</div>
+<p>Generate the hardware run using singularity:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;sif_location&gt;/cbcore-31399de2fa.sif</span>
+</pre></div>
+</div>
+<p>Deactivate python (this will be needed if you are using conda to manage python):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda deactivate</span>
+</pre></div>
+</div>
+<p>Add portrait to path:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PATH=/cbcore/technology/sysroot-x86/bin/portrait:$PATH</span>
+</pre></div>
+</div>
+<p>Generate the hardware run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd &lt;run_folder_name&gt;</span>
+<span class="go">python &lt;path_to_repo&gt;/build_and_test.py -st 1 &amp;&amp; python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;</span>
+</pre></div>
+</div>
+<p>Copy hardware run to util directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cp &lt;hardware_run_name&gt;.tar.gz &lt;path_to_repo&gt;/WSE_Field_Equation/util</span>
+</pre></div>
+</div>
+<p>Submit job to hardware:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;</span>
+</pre></div>
+</div>
+<p>Check out SDF node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun --nodelist=sdf-&lt;1 or 2&gt; --pty bash</span>
+</pre></div>
+</div>
+<p>The results are currently stored on the drives local the specified sdf node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="simple-diffusion-example">
 <h1>Simple Diffusion Example<a class="headerlink" href="#simple-diffusion-example" title="Permalink to this headline">¶</a></h1>
@@ -296,7 +339,7 @@ low conductivity.  Common applications for explicit solutions are weather and re
 modeling where voxel sizes are large and conductivity is low.</p>
 <p>The following code shows how to solve a generic diffusion equation explicitly in the
 WFA.</p>
-<p>file name: rectancular_diffusion_explicit.py</p>
+<p>file name: rectangular_diffusion_explicit.py</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
 <span class="kn">from</span> <span class="nn">WSE_FE.WSE_Array</span> <span class="kn">import</span> <span class="n">WSE_Array</span>
 <span class="kn">from</span> <span class="nn">WSE_FE.WSE_Loops</span> <span class="kn">import</span> <span class="n">WSE_For_loop</span>
@@ -574,50 +617,6 @@ that is still meaningful and that it then be scaled up for a hardware run and al
 </div>
 <p>If the code contains any timers, they can be turned on with the <cite>-ts16</cite> or <cite>-ts32</cite> arguments</p>
 </section>
-</section>
-<section id="neocortex-instructions">
-<h1>Neocortex Instructions<a class="headerlink" href="#neocortex-instructions" title="Permalink to this headline">¶</a></h1>
-<p>Clone the WFA repo:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git
-</pre></div>
-</div>
-<p>Create a directory to store the python site packages:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>mkdir &lt;path_to&gt;/Cerebras-extra-python-packages
-</pre></div>
-</div>
-<p>Generate the hardware run using singularity:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;sif_location&gt;/cbcore-31399de2fa.sif
-</pre></div>
-</div>
-<p>Deactivate python (this will be needed if you are using conda to manage python):</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>conda deactivate
-</pre></div>
-</div>
-<p>Add portrait to path:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>export PATH=/cbcore/technology/sysroot-x86/bin/portrait:$PATH
-</pre></div>
-</div>
-<p>Generate the hardware run:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>cd &lt;run_folder_name&gt;
-python &lt;path_to_repo&gt;/build_and_test.py -st 1 &amp;&amp; python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;
-</pre></div>
-</div>
-<p>Copy hardware run to util directory:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>cp &lt;hardware_run_name&gt;.tar.gz &lt;path_to_repo&gt;/WSE_Field_Equation/util
-</pre></div>
-</div>
-<p>Submit job to hardware:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;
-</pre></div>
-</div>
-<p>Check out SDF node:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>srun --nodelist=sdf-&lt;1 or 2&gt; --pty bash
-</pre></div>
-</div>
-<p>The results are currently stored on the drives local the specified sdf node:</p>
-<div class="highlight-consol notranslate"><div class="highlight"><pre><span></span>cd /local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;
-</pre></div>
-</div>
 </section>
 <section id="wse-interface-module">
 <h1>WSE Interface Module<a class="headerlink" href="#wse-interface-module" title="Permalink to this headline">¶</a></h1>
@@ -1795,6 +1794,27 @@ method call. The default is None.</p></li>
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.WSE_Loops.</code><code class="sig-name descname">WSE_For_Loop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">iterations</span></em>, <em class="sig-param"><span class="n">conditional</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_For_Loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>WSE For Loop</p>
 <dl class="py method">
+<dt id="WSE_FE.WSE_Loops.WSE_For_Loop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">iterations</span></em>, <em class="sig-param"><span class="n">conditional</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_For_Loop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str:</em>) – A unique name for the loop to reference at the close of
+the loop</p></li>
+<li><p><strong>iterations</strong> (<em>int</em>) – The number of iterations to execute</p></li>
+<li><p><strong>conditional</strong> (<em>boolean</em>) – Enable the loop</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="WSE_FE.WSE_Loops.WSE_For_Loop.conditional_exit">
 <code class="sig-name descname">conditional_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tolerance</span></em>, <em class="sig-param"><span class="n">scalar</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_For_Loop.conditional_exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Conditionally exiting runtime context</p>
@@ -1815,18 +1835,70 @@ where value is stored to compare to tolerance</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="WSE_FE.WSE_Loops.WSE_For_Loop.conditional_pause">
+<code class="sig-name descname">conditional_pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_For_Loop.conditional_pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conditionally pause runtime context</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="WSE_FE.WSE_Loops.WSE_While_Loop">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.WSE_Loops.</code><code class="sig-name descname">WSE_While_Loop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">tolerance</span></em>, <em class="sig-param"><span class="n">scalar</span></em>, <em class="sig-param"><span class="n">conditional</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_While_Loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>WSE While Loop</p>
+<dl class="py method">
+<dt id="WSE_FE.WSE_Loops.WSE_While_Loop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">tolerance</span></em>, <em class="sig-param"><span class="n">scalar</span></em>, <em class="sig-param"><span class="n">conditional</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_While_Loop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str:</em>) – A unique name for the loop to reference at the close of
+the loop</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to stop iterating</p></li>
+<li><p><strong>scalar</strong> (<em>int</em>) – The integer handle to the scalar memory position in the controller
+where value is stored to compare to tolerance</p></li>
+<li><p><strong>conditional</strong> (<em>boolean</em>) – Enable the loop</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="WSE_FE.WSE_Loops.WSE_Solver_While_Loop">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.WSE_Loops.</code><code class="sig-name descname">WSE_Solver_While_Loop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">tolerance</span></em>, <em class="sig-param"><span class="n">scalar</span></em>, <em class="sig-param"><span class="n">benchmark_iterations</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_Solver_While_Loop" title="Permalink to this definition">¶</a></dt>
 <dd><p>WSE Solver While Loop</p>
+<dl class="py method">
+<dt id="WSE_FE.WSE_Loops.WSE_Solver_While_Loop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">tolerance</span></em>, <em class="sig-param"><span class="n">scalar</span></em>, <em class="sig-param"><span class="n">benchmark_iterations</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Loops.WSE_Solver_While_Loop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str:</em>) – A unique name for the loop to reference at the close of
+the loop</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to stop iterating</p></li>
+<li><p><strong>scalar</strong> (<em>int</em>) – The integer handle to the scalar memory position in the controller
+where value is stored to compare to tolerance</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em>) – The number of iterations to run for benchmarking</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1844,7 +1916,13 @@ where value is stored to compare to tolerance</p></li>
 <dl class="py class">
 <dt id="WSE_FE.CFD_Formation._Sliceable_Constant">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.CFD_Formation.</code><code class="sig-name descname">_Sliceable_Constant</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation._Sliceable_Constant" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="py method">
+<dt id="WSE_FE.CFD_Formation._Sliceable_Constant.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation._Sliceable_Constant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt id="WSE_FE.CFD_Formation.Scalar_Transport">
@@ -1855,36 +1933,36 @@ where value is stored to compare to tolerance</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u</strong> – </p></li>
-<li><p><strong>v</strong> – </p></li>
-<li><p><strong>w</strong> – </p></li>
-<li><p><strong>scalar</strong> – </p></li>
-<li><p><strong>odx</strong> – </p></li>
-<li><p><strong>ody</strong> – </p></li>
-<li><p><strong>odz</strong> – </p></li>
-<li><p><strong>odt</strong> – </p></li>
-<li><p><strong>conductivity</strong> – </p></li>
-<li><p><strong>A_C</strong> – </p></li>
-<li><p><strong>A_E</strong> – </p></li>
-<li><p><strong>A_W</strong> – </p></li>
-<li><p><strong>A_S</strong> – </p></li>
-<li><p><strong>A_N</strong> – </p></li>
-<li><p><strong>A_T</strong> – </p></li>
-<li><p><strong>A_B</strong> – </p></li>
-<li><p><strong>b</strong> – </p></li>
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
 <li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>A_C</em></p></li>
-<li><p><em>A_E</em></p></li>
-<li><p><em>A_W</em></p></li>
-<li><p><em>A_S</em></p></li>
-<li><p><em>A_N</em></p></li>
-<li><p><em>A_T</em></p></li>
-<li><p><em>A_B</em></p></li>
-<li><p><em>b</em></p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
 </ul>
 </p>
 </dd>
@@ -1897,35 +1975,35 @@ where value is stored to compare to tolerance</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u</strong> – </p></li>
-<li><p><strong>v</strong> – </p></li>
-<li><p><strong>w</strong> – </p></li>
-<li><p><strong>scalar</strong> – </p></li>
-<li><p><strong>odx</strong> – </p></li>
-<li><p><strong>ody</strong> – </p></li>
-<li><p><strong>odz</strong> – </p></li>
-<li><p><strong>odt</strong> – </p></li>
-<li><p><strong>conductivity</strong> – </p></li>
-<li><p><strong>A_C</strong> – </p></li>
-<li><p><strong>A_E</strong> – </p></li>
-<li><p><strong>A_W</strong> – </p></li>
-<li><p><strong>A_S</strong> – </p></li>
-<li><p><strong>A_N</strong> – </p></li>
-<li><p><strong>A_T</strong> – </p></li>
-<li><p><strong>A_B</strong> – </p></li>
-<li><p><strong>b</strong> – </p></li>
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
 <li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>A_C</em></p></li>
-<li><p><em>A_E</em></p></li>
-<li><p><em>A_W</em></p></li>
-<li><p><em>A_S</em></p></li>
-<li><p><em>A_N</em></p></li>
-<li><p><em>A_T</em></p></li>
-<li><p><em>A_B</em></p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
 </ul>
 </p>
 </dd>
@@ -1938,31 +2016,31 @@ where value is stored to compare to tolerance</p></li>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u</strong> – </p></li>
-<li><p><strong>v</strong> – </p></li>
-<li><p><strong>w</strong> – </p></li>
-<li><p><strong>scalar</strong> – </p></li>
-<li><p><strong>odx</strong> – </p></li>
-<li><p><strong>ody</strong> – </p></li>
-<li><p><strong>odz</strong> – </p></li>
-<li><p><strong>odt</strong> – </p></li>
-<li><p><strong>conductivity</strong> – </p></li>
-<li><p><strong>A_C</strong> – </p></li>
-<li><p><strong>A_E</strong> – </p></li>
-<li><p><strong>A_W</strong> – </p></li>
-<li><p><strong>A_S</strong> – </p></li>
-<li><p><strong>A_N</strong> – </p></li>
-<li><p><strong>A_T</strong> – </p></li>
-<li><p><strong>A_B</strong> – </p></li>
-<li><p><strong>b</strong> – </p></li>
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
 <li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p><strong>b</strong> – comment</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>b</p>
+<dd class="field-odd"><p>type</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1973,6 +2051,12 @@ where value is stored to compare to tolerance</p></li>
 <dt id="WSE_FE.CFD_Formation.Momentum_Colocated">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.CFD_Formation.</code><code class="sig-name descname">Momentum_Colocated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u_center</span></em>, <em class="sig-param"><span class="n">v_center</span></em>, <em class="sig-param"><span class="n">w_center</span></em>, <em class="sig-param"><span class="n">press</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dx</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dz</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.Momentum_Colocated" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
+<dt id="WSE_FE.CFD_Formation.Momentum_Colocated.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u_center</span></em>, <em class="sig-param"><span class="n">v_center</span></em>, <em class="sig-param"><span class="n">w_center</span></em>, <em class="sig-param"><span class="n">press</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dx</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dz</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.Momentum_Colocated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="WSE_FE.CFD_Formation.Momentum_Colocated.form_Ab">
 <code class="sig-name descname">form_Ab</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cell_type</span></em>, <em class="sig-param"><span class="n">dt</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scheme</span><span class="o">=</span><span class="default_value">'UDS'</span></em>, <em class="sig-param"><span class="n">invert_A_C</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">diagonal_precondition</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">debug_active</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.Momentum_Colocated.form_Ab" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
@@ -1994,7 +2078,13 @@ Bottom is in z-1 (index 0, memory slicing)</p>
 <dl class="py class">
 <dt id="WSE_FE.CFD_Formation.Press_Colocated">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.CFD_Formation.</code><code class="sig-name descname">Press_Colocated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u_center</span></em>, <em class="sig-param"><span class="n">v_center</span></em>, <em class="sig-param"><span class="n">w_center</span></em>, <em class="sig-param"><span class="n">press</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dx</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dz</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.Press_Colocated" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="py method">
+<dt id="WSE_FE.CFD_Formation.Press_Colocated.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u_center</span></em>, <em class="sig-param"><span class="n">v_center</span></em>, <em class="sig-param"><span class="n">w_center</span></em>, <em class="sig-param"><span class="n">press</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">rho</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dx</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dy</span><span class="o">=</span><span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">dz</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.Press_Colocated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 </section>
@@ -2006,7 +2096,14 @@ Bottom is in z-1 (index 0, memory slicing)</p>
 <dl class="py class">
 <dt id="WSE_FE.FD_Navier_Stokes.FD_Stokes">
 <em class="property">class </em><code class="sig-prename descclassname">WSE_FE.FD_Navier_Stokes.</code><code class="sig-name descname">FD_Stokes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">dz</span></em>, <em class="sig-param"><span class="n">eta0</span></em>, <em class="sig-param"><span class="n">DcT</span></em>, <em class="sig-param"><span class="n">deta_dT</span></em>, <em class="sig-param"><span class="n">alpha0</span></em>, <em class="sig-param"><span class="n">rho</span></em>, <em class="sig-param"><span class="n">deltaT</span></em>, <em class="sig-param"><span class="n">dt_diff</span></em>, <em class="sig-param"><span class="n">dtau_iter</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">dampX</span></em>, <em class="sig-param"><span class="n">dampY</span></em>, <em class="sig-param"><span class="n">dampZ</span></em>, <em class="sig-param"><span class="n">ccode</span></em>, <em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">T_old</span></em>, <em class="sig-param"><span class="n">Vx</span></em>, <em class="sig-param"><span class="n">Vy</span></em>, <em class="sig-param"><span class="n">Vz</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">dVxdtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dVydtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dVzdtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">check_R</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_dQ</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_dT_dt</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_abs_V</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">benchmark_fluid_solver</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.FD_Navier_Stokes.FD_Stokes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Navier Stokes</p>
+<dl class="py method">
+<dt id="WSE_FE.FD_Navier_Stokes.FD_Stokes.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">dz</span></em>, <em class="sig-param"><span class="n">eta0</span></em>, <em class="sig-param"><span class="n">DcT</span></em>, <em class="sig-param"><span class="n">deta_dT</span></em>, <em class="sig-param"><span class="n">alpha0</span></em>, <em class="sig-param"><span class="n">rho</span></em>, <em class="sig-param"><span class="n">deltaT</span></em>, <em class="sig-param"><span class="n">dt_diff</span></em>, <em class="sig-param"><span class="n">dtau_iter</span></em>, <em class="sig-param"><span class="n">beta</span></em>, <em class="sig-param"><span class="n">dampX</span></em>, <em class="sig-param"><span class="n">dampY</span></em>, <em class="sig-param"><span class="n">dampZ</span></em>, <em class="sig-param"><span class="n">ccode</span></em>, <em class="sig-param"><span class="n">T</span></em>, <em class="sig-param"><span class="n">T_old</span></em>, <em class="sig-param"><span class="n">Vx</span></em>, <em class="sig-param"><span class="n">Vy</span></em>, <em class="sig-param"><span class="n">Vz</span></em>, <em class="sig-param"><span class="n">P</span></em>, <em class="sig-param"><span class="n">dVxdtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dVydtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dVzdtau_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">check_R</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_dQ</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_dT_dt</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_abs_V</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">benchmark_fluid_solver</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.FD_Navier_Stokes.FD_Stokes.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 </section>
