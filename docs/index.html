@@ -89,7 +89,7 @@
 <li><a class="reference internal" href="#license">License</a></li>
 <li><a class="reference internal" href="#setup-instructions">Setup Instructions</a><ul>
 <li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
-<li><a class="reference internal" href="#neocortex-instructions">Neocortex Instructions</a></li>
+<li><a class="reference internal" href="#running-on-neocortex">Running on Neocortex</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#simple-diffusion-example">Simple Diffusion Example</a><ul>
@@ -245,9 +245,13 @@ end up making it efficient for solving field equations with large numbers of vox
 </section>
 <section id="recent-achievement">
 <h1>Recent Achievement<a class="headerlink" href="#recent-achievement" title="Permalink to this headline">¶</a></h1>
-<p>this is a test of youtube</p>
-<p>this is the end of the test</p>
-</section>
+<p>NETL, Cerebras, and the Pittsburgh Supercomputing Center recently completed the first ever CFD simulation on a WSE at the
+Neocortex facility.  The simulation is of Rayleigh-Benard convection using a new solution method called
+<a class="reference external" href="https://gmd.copernicus.org/articles/15/5757/2022/">The Accellerated Pseudo Transient Method</a>.  The CFD solver uses the
+WFA to compile and run.  Work is currently under way to characterize the exact speed gains and energy consumption relative
+to the fastest conventional hardware available.  Our early benchmarks and results are available in an arXiv
+<a class="reference external" href="https://arxiv.org/abs/2209.13768/">paper</a>. and will be updated as new data comes in.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7NWe0kwaqrE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></section>
 <section id="license">
 <h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
 <p>This work is a product of the Federal Government.  As of now, it is covered
@@ -273,8 +277,8 @@ this work.</p>
 </pre></div>
 </div>
 </section>
-<section id="neocortex-instructions">
-<h2>Neocortex Instructions<a class="headerlink" href="#neocortex-instructions" title="Permalink to this headline">¶</a></h2>
+<section id="running-on-neocortex">
+<h2>Running on Neocortex<a class="headerlink" href="#running-on-neocortex" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://https://www.cmu.edu/psc/aibd/neocortex/">Necortex</a> is an NSF funded computer run by the Pittsburgh Supercomputing Center (PSC) and consists of a
 Superdome Flex and two CS-2’s (the system that contains a WSE). PSC runs regular user solicitations
 for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
