@@ -4,11 +4,11 @@
    contain the root `toctree` directive.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 8
    :caption: Contents:
 
 Welcome to WFA's Documentation!
-==================================
+===============================
 This page contains the documentation for the Wafer scale engine Field equation Application programming interfas or WFA.
 
 This package is a product of the `National Energy Technology Laboratory <http://www.netl.doe.gov>`_ (NETL)
@@ -27,25 +27,25 @@ entanglement which seems to have the property of instantaneous information
 transfer.  Every other phenomenon propagates through space-time with a transfer
 rate lower than or equal to the speed of light.  Field equations are even fundamental
 to our understanding of the quantum realm at Plank scales.  Field equations
-can be used to describe systems of objects which exhibit discrete behavior at 
+can be used to describe systems of objects which exhibit discrete behavior at
 intermediate scales. Due to the law of averages, ensembles of discrete objects can take
-on the character of a field equation at scales that are many times larger than the 
+on the character of a field equation at scales that are many times larger than the
 discrete objects (although even "discrete" objects are described as
 fields on the finest scales).  This allows sets of field equations to adequately
 and accurately describe the behavior of fluids, star/galaxy clusters, and granular
-solids under limited circumstances. If a physical system can be written with ODE/PDE 
-expressions at the scales of interest, it is possible to approximate them on a computer 
-through discretization.  
+solids under limited circumstances. If a physical system can be written with ODE/PDE
+expressions at the scales of interest, it is possible to approximate them on a computer
+through discretization.
 
 It should come as no surprise that an Application Specific Integrated Circuit (ASIC) can be
 many orders of magnitude faster and more efficient than general purpose computing hardware.
-To the best of our knowledge, no one has endeavored to create an ASIC for field equation modeling. 
+To the best of our knowledge, no one has endeavored to create an ASIC for field equation modeling.
 However, recent developments in Artificial Intelligence (AI) ASICS are producing hardware that happens
 to also be very good at field equation modeling, as is the case with the Cerebras Wafer Scale
 Engine.  The architecture allows definition of discretized values, distributed evenly across the
-processor array and mirrors the physical Principle of Locality in that it allows for the nearest 
-neighbors to affect a local change in a minimum of clock cycles (on average 1-2 cycles).  
-While the WSE architecture was not developed as an ASIC for field equations, the same properties 
+processor array and mirrors the physical Principle of Locality in that it allows for the nearest
+neighbors to affect a local change in a minimum of clock cycles (on average 1-2 cycles).
+While the WSE architecture was not developed as an ASIC for field equations, the same properties
 that make it so efficient for training large AI models (ie: data flow based matrix multiplications)
 end up making it efficient for solving field equations with large numbers of voxels or cells.
 
@@ -123,7 +123,7 @@ Add portrait to path:
 
 .. code-block:: console
 
-    export PATH=/cbcore/technology/sysroot-x86/bin/portrait:$PATH
+    export PATH=/cbcore/technology/sysroot-x86/bin:$PATH
 
 Generate the hardware run:
 
@@ -156,6 +156,127 @@ The results are currently stored on the drives local the specified sdf node:
 
     cd /local1/<project_name>/<hardware_run_name>
 
+Useful Tools and Methods
+------------------------
+Several runtime environments are headless which makes doing development work difficult.  Here are a few useful tools
+to make this easier.
+
+Custom Spyder IDE
+^^^^^^^^^^^^^^^^^
+NETL is maintaining a custom version of the Spyder IDE which supports syntax
+highlighting for WSE kernel code.  Installation can be done with conda by following the
+instructions below:
+
+1. Follow the instructions in the "Obtaining the Code" section
+2. clone the repository from the `gitlab <https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support>`_ repository
+3. check out the v.5.4.2_wse branch
+4. navigate to the folder with the setup.py and env.yml files
+5. run :code:`conda env create -f env.yml --name spyder` on linux or :code:`conda env create -f env_win.yml --name spyder` on windows
+6. run :code:`conda activate spyder`
+7. run :code:`python setup.py install`
+8. run :code:`spyder` on linux or :code:`spyder.bat` in the :code:`path/to/spyder/repository/scripts` directory in windows
+
+sshfs
+^^^^^
+sshfs is very handy for doing remote development as it allows one to mount a remote directory over standard ssh interfaces.
+Follow the instructions `here <https://phoenixnap.com/kb/sshfs>`_ to get it set up.  It has been tested and works with
+Neocortex.  This will allow you to edit files remotely in whatever editor you choose. Once installed do the following:
+
+Neocortex from Linux
+""""""""""""""""""""
+First, make a directory to mount
+
+.. code-block:: console
+
+   sudo mkdir /mnt/<mount_name>
+
+Next mount whatever directory you wish
+
+.. code-block:: console
+
+   sudo sshfs <user_name>@neocortex.psc.edu:<path/to/directory> /mnt/<mount_name>
+
+Neocortex from Windows
+""""""""""""""""""""""
+1. Open the file browser
+2. Right click on `This PC`
+3. Select `Map Network Drive...`
+4. Select a drive letter
+5. Paste the following (with correct substitutions) in the `Folder:` text box
+
+.. code-block:: console
+
+   \\sshfs <user_name>@neocortex.psc.edu[\<path\to\directory>]
+
+Launching Portrait from Neocortex
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool Portrait.
+To do this, login to Neocortex and open an interactive singularity session:
+
+.. code-block:: console
+
+    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <sif_location>/cbcore-31399de2fa.sif
+
+Deactivate python (this will be needed if you are using conda to manage python):
+
+.. code-block:: console
+
+    conda deactivate
+
+Add portrait to path:
+
+.. code-block:: console
+
+    export PATH=/cbcore/technology/sysroot-x86/bin:$PATH
+
+Navigate to the WFA repository and install the WFA by running:
+
+.. code-block:: console
+
+    python build_and_test.py -st 1
+
+Navigate to the input file directory and run the input file with one of the debug level options `-dl <1,2,3>`, all of them
+will launch Portrait for you:
+
+.. code-block:: console
+
+    python <input_file>.py -dl <1,2,3>
+
+The last line in the console after running the debug option will look something like this:
+
+.. code-block:: console
+
+   http://br023.ib.bridges2.psc.edu:8080/paint.html
+
+This is the server to connect to in the format of:
+
+.. code-block:: console
+
+   http://<server>:<port>/paint.html
+
+From your local machine ssh into Neocortex:
+
+.. code-block:: console
+
+   ssh -L <port>:<sever>:<port> <username>@bridges2.psc.edu
+
+launch web browser (firefox and chrome work the best) and navigate to:
+
+.. code-block:: console
+
+   localhost:<port>/paint.html
+
+Pycharm
+^^^^^^^
+Pycharm is another IDE similar to Spyder.  It has a useful feature in that it will render :code:`.rst` files and has
+some minimal word processing capabilities.  This makes it very good for editing Sphinx documentation files.
+
+To install:
+
+1. get the latest community edition `here <https://www.jetbrains.com/pycharm/download/#section=linux>`_.
+2. untar the file
+3. run with :code:`sh <path_to_pycharm>\bin\pycharm.sh`
+
 
 Simple Diffusion Example
 ========================
@@ -169,7 +290,7 @@ most common field equations that relates the time rate of change of a scalar fie
 known as Fick's second law.  Here, :math:`\alpha` is the conductivity.
 
 .. math::
-    
+
     \frac{\partial T}{\partial t} =  \alpha \nabla^2 T = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2}\right)
 
 Solving Explicitly
@@ -178,19 +299,19 @@ Solving Explicitly
 With explicit linear discretization on a cartesian, uniform grid, the diffusion equation simplifies to:
 
 .. math::
-    
+
     T_i^{n+1} = c\left(T_E^n + T_W^n + T_N^n + T_S^n + T_T^n + T_B^n \right) + \left( 1 - 6c\right) T_i^n
-    
+
 .. math::
 
     c = \frac{\alpha \left(\Delta t \right)}{\left(\Delta l \right)^2}
-    
+
 The equations will remain stable when:
 
 .. math::
 
     3c < 0.5
-    
+
 From the stability criteria, it is clear that the allowable time step is proportional
 to the square of the voxel length scale and inversely proportional to the conductivity.
 Explicit solutions are very useful for large voxel size problems and/or those with
@@ -208,36 +329,36 @@ file name: rectangular_diffusion_explicit.py
     from WSE_FE.WSE_Array import WSE_Array
     from WSE_FE.WSE_Loops import WSE_For_loop
     import NumPy as np
-    
+
     wse = WSE_Interface()
     parser = wse.get_cmd_line_parser()
-    
+
     # Define constansts
     c = 0.1
     center = 1.0 - 6.0 * c
-    
+
     # Add CFD specific command line arguments
     parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
     parser.add_argument("-y","--y", help="specify y dimension", type=int, default=10)
     parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
     parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
     args = wse.get_available_cmd_args()
-    
-        
+
+
     # Create the initial Temperature field
     T_init = np.ones((args.x,args.y,args.z))
 
-    #Set Boundary Conditions    
+    #Set Boundary Conditions
     T_init[1:-1,0,1:-1] = 1.0
     T_init[1:-1,-1,1:-1] = 1.0
     T_init[0,1:-1,1:-1] = 1.0
     T_init[-1,1:-1,1:-1] = 1.0
     T_init[1:-1,1:-1,0] = 0.0
     T_init[1:-1,1:-1,-1] = 0.0
-    
+
     # Instantiate the WSE Array objects needed
     T_n = WSE_Array(name='T_n', initData=T_init)
-    
+
     # Start looping over time
     with WSE_For_loop('time_loop', args.time_steps):
         # Update T from current values
@@ -245,16 +366,16 @@ file name: rectangular_diffusion_explicit.py
                         + c*(T_n[2:,0,0] + T_n[:-2,0,0] \
                            + T_n[1:-1,1,0] + T_n[1:-1,0,-1] \
                            + T_n[1:-1,-1,0] + T_n[1:-1,0,1])
-        
+
     # Compile, run, and validate
     wse.make_WSE(answer=T_n)
-    
+
 From the command line run:
 
 .. code-block:: console
-    
+
     $ python rectangular_diffusion_explicit.py
-    
+
 And it will produce an output similar to:
 
 .. code-block:: console
@@ -268,11 +389,11 @@ And it will produce an output similar to:
     ********************* Started Host Validation ***********************
     ********************* Done Host Validation ***********************
     ********************* Running Cerebras Tools ***********************
-    examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ] 
+    examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
     ********************* Finished Running Cerebras Tools ***********************
     ********************* Done Make ***********************
 
-    
+
 Solving Implicitly
 ------------------
 Implicit methods can allow for larger time steps.  The fully implicit formulation with linear discretization
@@ -337,23 +458,23 @@ file name: rectangular_diffusion.py
     else:
         b = WSE_Array(name='b', initData=np.zeros((args.x,args.y,args.z)))
 
-    
+
     with WSE_For_loop('time_loop', args.time_steps):
         # calculate the source terms
-        b[1:-1,0,0] = source_center_coeff*T_n[1:-1,0,0] 
-    
+        b[1:-1,0,0] = source_center_coeff*T_n[1:-1,0,0]
+
         # run the generalized CG solver
         T_n = solver.solve(T_n, off_diag_coeff, b, 0.001)
-        
+
     wse.make_WSE(answer=T_n)
 
 
 From the command line run:
 
 .. code-block:: console
-    
+
     $ python rectangular_diffusion.py
-    
+
 And it will produce an output similar to:
 
 .. code-block:: console
@@ -367,7 +488,7 @@ And it will produce an output similar to:
     ********************* Started Host Validation ***********************
     ********************* Done Host Validation ***********************
     ********************* Running Cerebras Tools ***********************
-    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ] 
+    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
     ********************* Finished Running Cerebras Tools ***********************
     ********************* Done Make ***********************
 
@@ -697,20 +818,6 @@ Classes and Methods
 .. autoclass:: WSE_FE.FD_Navier_Stokes.FD_Stokes
     :members:
     :special-members: __init__  
-
-Custom IDE With Synax Highlighting
-==================================
-NETL is maintaining a custom version of the Spyder IDE which supports syntax
-highlighing for WSE code.  Installation can be done with conda by following the
-instructions below:
-
-1. clone the repository from the `gitlab <https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support>`_ repository
-2. check out the wse_support branch
-3. navigate to the folder with the setup.py and env.yml files
-4. run `conda env create -f env.yml --name spyder`
-5. run `conda activate spyder`
-6. run `python setup.py install`
-7. run `spyder`
 
 Coding Style Guidelines
 =======================
