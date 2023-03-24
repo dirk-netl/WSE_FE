@@ -75,7 +75,7 @@ Setup Instructions
 
 There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
 Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
-"Obtaining the Code" section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
+`Obtaining the WFA Code`_ section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
 The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
 have been integrated into version 1.8.0 and above in the SDK container.
 
@@ -100,7 +100,7 @@ Superdome Flex and two CS-2's (the system that contains a WSE). PSC runs regular
 for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
 Neocortex system.
 
-The first thing to do is follow the instruction in the `Obtaining the WFA Code` section to get the repository for the
+The first thing to do is follow the instruction in the `Obtaining the WFA Code`_ section to get the repository for the
 WFA set up on Neocortex.  If there is no special reason to use a different branch, checkout Master and make sure you
 pull the latest changes.
 
@@ -169,20 +169,6 @@ This should install all the python dependencies and start launching the tests.  
    Finished processing dependencies for WSE-Field-Equations==0.0.1
    test_FDNS_bc_Vz                                   : pass
    test_scalar_array_mul                             : pass
-   test_FDNS_dVxdtau                                 : pass
-   test_FDNS_bc_T                                    : pass
-   test_FDNS_dt_absVx                                : pass
-   test_momentum_formation                           : pass
-   test_rhie_chow_interp_2                           : pass
-   test_mom_with_rhie_chow                           : pass
-   test_FDNS_qTy                                     : pass
-   test_rectangular_diffusion_jacobi                 : pass
-   test_FDNS_Ry                                      : pass
-   test_FDNS_T                                       : pass
-   test_neighbor_mul                                 : pass
-   test_norm                                         : pass
-   test_FDNS_dt_fromVx                               : pass
-   test_FDNS_dt_Advection                            : pass
 
    # lots more tests
 
@@ -341,7 +327,7 @@ NETL is maintaining a custom version of the Spyder IDE which supports syntax
 highlighting for WSE kernel code.  Installation can be done with conda by following the
 instructions below:
 
-1. Follow the instructions in the "Obtaining the Code" section
+1. Follow the instructions in the `Obtaining the WFA Code`_ section
 2. clone the repository from the `gitlab <https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support>`_ repository
 3. check out the v.5.4.2_wse branch
 4. navigate to the folder with the setup.py and env.yml files

@@ -283,7 +283,7 @@ applications for a different copyright and license structure are adopted.</p>
 <h1>Setup Instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this headline">¶</a></h1>
 <p>There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
 Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
-“Obtaining the Code” section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
+<a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
 The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
 have been integrated into version 1.8.0 and above in the SDK container.</p>
 <section id="obtaining-the-wfa-code">
@@ -304,7 +304,7 @@ this work.</p>
 Superdome Flex and two CS-2’s (the system that contains a WSE). PSC runs regular user solicitations
 for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
 Neocortex system.</p>
-<p>The first thing to do is follow the instruction in the <cite>Obtaining the WFA Code</cite> section to get the repository for the
+<p>The first thing to do is follow the instruction in the <a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section to get the repository for the
 WFA set up on Neocortex.  If there is no special reason to use a different branch, checkout Master and make sure you
 pull the latest changes.</p>
 <p>The next thing to do is set up the container that contains the proprietary Cerebras Containers.  The WFA compiles
@@ -357,20 +357,6 @@ terminal with the singularity container running:</p>
 <span class="go">Finished processing dependencies for WSE-Field-Equations==0.0.1</span>
 <span class="go">test_FDNS_bc_Vz                                   : pass</span>
 <span class="go">test_scalar_array_mul                             : pass</span>
-<span class="go">test_FDNS_dVxdtau                                 : pass</span>
-<span class="go">test_FDNS_bc_T                                    : pass</span>
-<span class="go">test_FDNS_dt_absVx                                : pass</span>
-<span class="go">test_momentum_formation                           : pass</span>
-<span class="go">test_rhie_chow_interp_2                           : pass</span>
-<span class="go">test_mom_with_rhie_chow                           : pass</span>
-<span class="go">test_FDNS_qTy                                     : pass</span>
-<span class="go">test_rectangular_diffusion_jacobi                 : pass</span>
-<span class="go">test_FDNS_Ry                                      : pass</span>
-<span class="go">test_FDNS_T                                       : pass</span>
-<span class="go">test_neighbor_mul                                 : pass</span>
-<span class="go">test_norm                                         : pass</span>
-<span class="go">test_FDNS_dt_fromVx                               : pass</span>
-<span class="go">test_FDNS_dt_Advection                            : pass</span>
 
 <span class="gp"># </span>lots more tests
 </pre></div>
@@ -502,7 +488,7 @@ to make this easier.</p>
 highlighting for WSE kernel code.  Installation can be done with conda by following the
 instructions below:</p>
 <ol class="arabic simple">
-<li><p>Follow the instructions in the “Obtaining the Code” section</p></li>
+<li><p>Follow the instructions in the <a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section</p></li>
 <li><p>clone the repository from the <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support">gitlab</a> repository</p></li>
 <li><p>check out the v.5.4.2_wse branch</p></li>
 <li><p>navigate to the folder with the setup.py and env.yml files</p></li>
@@ -1009,7 +995,7 @@ added as command line arguments.</p>
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array">
 <code class="sig-name descname">get_named_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a python reference to an existing WSE_array with <code class="code docutils literal notranslate"><span class="pre">name</span></code>. When instantiating a WSE_Array object,
+<dd><p>Returns a python reference to an existing WSE_Array with <code class="code docutils literal notranslate"><span class="pre">name</span></code>. When instantiating a WSE_Array object,
 an optional name parameter can be supplied.  This tag is stored in a dictionary for later retrieval.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyCFDClass</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_center</span><span class="p">,</span> <span class="n">v_center</span><span class="p">,</span> <span class="n">w_center</span><span class="p">):</span>
