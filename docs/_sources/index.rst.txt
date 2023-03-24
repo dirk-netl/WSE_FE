@@ -79,8 +79,8 @@ Due to export restrictions, the code is maintained on a private gitlab server.  
 The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
 have been integrated into version 1.8.0 and above in the SDK container.
 
-Obtaining the Code
-------------------
+Obtaining the WFA Code
+----------------------
 This github repository contains documentation only.  The full code repository is available `here <https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation>`_.
 To obtain access to the code, register on the `MFiX website <https://mfix.netl.doe.gov/register>`_
 contact Terry Jordan at terry.jordan@netl.doe.gov to be added to the privet
@@ -94,67 +94,240 @@ After being added to the repository, checkout the latest repo:
    git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git
 
 Running on Neocortex
-----------------------
+--------------------
 `Necortex <http://https://www.cmu.edu/psc/aibd/neocortex/>`_ is an NSF funded computer run by the Pittsburgh Supercomputing Center (PSC) and consists of a
 Superdome Flex and two CS-2's (the system that contains a WSE). PSC runs regular user solicitations
 for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
 Neocortex system.
 
-After obtaining access to the WFA and cloning on the Neocortex. Create a directory to store the python site packages:
+The first thing to do is follow the instruction in the `Obtaining the WFA Code` section to get the repository for the
+WFA set up on Neocortex.  If there is no special reason to use a different branch, checkout Master and make sure you
+pull the latest changes.
+
+The next thing to do is set up the container that contains the proprietary Cerebras Containers.  The WFA compiles
+against the Paint and Angler compilers using Make.  The container you use will have to have this capability built in.
+According to Cerebras, the SDK container at 1.8.0 and later will have this built in.  If the container installed on
+the hardware is a lower version number, then one will have to obtain a custom built container from Leighton Wilson at
+cerebras (reach out to him on the Neocotex Slack channel).  As of the writing of this version of the documentation
+(3/24/23), Neocortex has not upgraded to 1.8.0.  Thus, users will have to generate a binary in the custom container and
+then submit the run on hardware using the latest installed container on Neocortex.
+
+Interactive Singularity
+^^^^^^^^^^^^^^^^^^^^^^^
+Throughout the development and run cycle, you will need generate images inside a singularity container.  While it is
+possible to do this in batch mode, it is more convenient to launch an interactive singularity environment as several
+python packages have to be installed and it can waste a lot of time to run in batch mode.
+
+Because singularity is locked down, installing python packages in the normal way is not possible.  To get around this,
+we create a directory which will contain python packages and then set the :code:`.local` path in the home directory to
+this location.
 
 .. code-block:: console
 
     mkdir <path_to>/Cerebras-extra-python-packages
 
-Generate the hardware run using singularity (Note: PSC has not yet updated their system to 1.8.0, so a custom container
-is needed.  Contact Leighton Wilson on the Neocortex slack channel to get access):
+We also link the path to the WFA repository to a root level folder :code:`/cerebras_dev` inside the container.  If
+:code:`<path_to_repo>` is set correctly, then a :code:`cd \cerebras_dev` inside the container should take you to the
+top level directory of the WFA repository where the :code:`README.md` file exists.  :code:`<path_to_sif_file>` is either
+the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
+depending on if the installed container is at/above 1.8.0.
 
 .. code-block:: console
 
-    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <sif_location>/cbcore-31399de2fa.sif
+    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <path_to_sif_file>
 
-Deactivate python (this will be needed if you are using conda to manage python):
+Because we have to use the python installed in the container, if you use a python manager like Conda, you will have
+to deactivate it so that :code:`python` points to the containers python.  For conda this is simple:
 
 .. code-block:: console
 
     conda deactivate
 
-Add portrait to path:
+Once this is set up, leave the terminal open so you can do development and generate simulator/hardware images.
+
+Checking Installation
+^^^^^^^^^^^^^^^^^^^^^
+Now that the container environment is set up, it is good to check that the WFA is working correctly.  Inside the
+terminal with the singularity container running:
 
 .. code-block:: console
 
-    export PATH=/cbcore/technology/sysroot-x86/bin:$PATH
+   cd /cerebras_dev
 
-Generate the hardware run:
-
-.. code-block:: console
-
-    cd <run_folder_name>
-    python <path_to_repo>/build_and_test.py -st 1 && python <run_name>.py -hin <hardware_run_name> -mg bench.img <additional_args>
-
-Copy hardware run to util directory:
+Then launch the tests by:
 
 .. code-block:: console
 
-    cp <hardware_run_name>.tar.gz <path_to_repo>/WSE_Field_Equation/util
+    python build_and_test.py
 
-Submit job to hardware:
+This should install all the python dependencies and start launching the tests.  You should see output similar to this:
 
 .. code-block:: console
 
-    sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable>
+   # lots of install messages
 
-Check out SDF node:
+   Finished processing dependencies for WSE-Field-Equations==0.0.1
+   test_FDNS_bc_Vz                                   : pass
+   test_scalar_array_mul                             : pass
+   test_FDNS_dVxdtau                                 : pass
+   test_FDNS_bc_T                                    : pass
+   test_FDNS_dt_absVx                                : pass
+   test_momentum_formation                           : pass
+   test_rhie_chow_interp_2                           : pass
+   test_mom_with_rhie_chow                           : pass
+   test_FDNS_qTy                                     : pass
+   test_rectangular_diffusion_jacobi                 : pass
+   test_FDNS_Ry                                      : pass
+   test_FDNS_T                                       : pass
+   test_neighbor_mul                                 : pass
+   test_norm                                         : pass
+   test_FDNS_dt_fromVx                               : pass
+   test_FDNS_dt_Advection                            : pass
 
+   # lots more tests
+
+All tests should pass if installed correctly and the branch you are on shows a pass in the gitlab
+runner in the online repository.  It may take 5-10 min to run all the tests depending on how many
+are checked in.
+
+Launching Portrait from Neocortex
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool, Portrait.
+
+Navigate to the input file directory and run the input file with one of the debug level options :code:`-dl <1,2,3>`,
+all of them will launch the Portrait web server for you:
+
+.. code-block:: console
+
+    python <input_file>.py -dl <1,2,3>
+
+The last line in the console after running the debug option will look something like this:
+
+.. code-block:: console
+
+   http://br023.ib.bridges2.psc.edu:8080/paint.html
+
+This is the server to connect to in the format of:
+
+.. code-block:: console
+
+   http://<server>:<port>/paint.html
+
+From your local machine ssh into Neocortex:
+
+.. code-block:: console
+
+   ssh -L <port>:<sever>:<port> <username>@bridges2.psc.edu
+
+Launch web browser (firefox and chrome work the best) and navigate to:
+
+.. code-block:: console
+
+   localhost:<port>/paint.html
+
+Compiling for Hardware Neocortex
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+By default the WFA will compile and run in Simfabric (the Cerebras built hardware simulator).  To to compile
+hardware, specify the hardware input name (:code:`-hin <hardware_run_name>`) and the make goal as bench.img
+(:code:`-mg bench.image`).
+
+.. code-block:: console
+
+    python <run_name>.py -hin <hardware_run_name> -mg bench.img <additional_args>
+
+This will generate a tar file that contains the image (binary) that is ready to run on hardware
+:code:`<hardware_run_name>.tar.gz`.  The next thing to do is move the tar file into the WFA utility directory:
+
+.. code-block:: console
+
+    mv <hardware_run_name>.tar.gz /cerebras_dev/WSE_Field_Equation/util
+
+The job can then be submitted to Neocortex through slurm.  Make sure the :code:`<hardware_run_name>` does not include
+the :code:`.tar.gz` extension is not included in the :code:`-c` option.  The :code:`-o <field_variable>` option
+specifies the name of the :code:`WSE_Array` to save as output from the WSE.
+
+.. code-block:: console
+
+    (cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable>)
+
+Retrieving Data
+^^^^^^^^^^^^^^^
+
+On Neocortex, the fastest way to run is to move data off the network drives and onto the local SSD's.  The
+:code:`neocortex_slurm_script_bash` script will move the :code:`<hardware_run_name>.tar.gz` file to the local drive
+on the super dome flex at :code:`/local1/<project_name>/<hardware_run_name>`.  To access this data, log into the SDF
+node:
 .. code-block:: console
 
     srun --nodelist=sdf-<1 or 2> --pty bash
 
-The results are currently stored on the drives local the specified sdf node:
+and navigate to the local storage
 
 .. code-block:: console
 
     cd /local1/<project_name>/<hardware_run_name>
+
+The results will be in a series :code:`.ckpt` files.  If the program ran successfully and got to the end, the
+:code:`progend.txt` file should have a :code:`1` in it.
+
+Saving time Dependent Data
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Multiple checkpoints can be saved out in series as the calculations are completed.  The WFA can be configured to write
+out files from one loop starting at iteration :code:`<start_iteration>` and writing out every :code:`<mod_iterations>`.
+To do this, the controller puts itself in a pause state and waits for the host
+to check if it is ready to take data off.  If it is, the host will issue a data retrieval command and get the data off
+the WSE.  This is a far from optimal solution for IO and currently uses a very slow debug interface.  It will be
+replaced with a different interface that puts the host in a wait to receive mode and uses the full 1.2Tb/s data link
+to bring down frame save rates to a few milliseconds and not interrupt solution progress.
+
+To enable this, the :code:`conditional_pause` method in the loop context manager must be called.
+
+.. code-block:: python
+
+   with for_loop('time_march', args.time_steps) as time_march:
+      iter_counter[0] = iter_counter + 1
+      T[2:-2,0,0].push_to_host(args.start_iteration_push, args.modulo_iteration_push)
+      if args.add_time_pause > 0:
+          time_march.conditional_pause()
+      ns._fluid_iteration(save_debug_images=False, num_reduction_lim_its=nerr,
+                          max_pseudo_its=max_pseudo_its, fluid_tol=nl_tol)
+
+It is often beneficial to put this in a guard with a command line option set.
+
+.. code-block:: python
+
+   # Head of file
+   wse = WSE_Interface()
+   parser = wse.get_cmd_line_parser()
+
+   # Add Program Specific command line arguments
+   parser.add_argument("-ts", "--time_steps", help="specify number of time steps",
+                       type=int, default=5)
+   parser.add_argument("-atp", "--add_time_pause",
+                       help="adds a time march pause to save data", type=int,
+                       default=-1)
+
+   # Some point after all the arguments are added
+   args = wse.get_available_cmd_args()
+
+   # Rest of problem setup
+
+In this example, the program code would get compiled with a :code:`-atp 1` set on the command line and
+:code:`-ts <max_time_steps>`.
+
+Then to launch the job on Neocortex, additional command line arguments would be set in the submission.
+
+.. code-block:: console
+
+       (cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable> -s <start_iteration> -p <mod_iterations>)
+
+This allows one to set up saving data over a given time period.  For example setting :code:`<start_iteration> = 100`,
+:code:`<mod_iterations> = 10`, and compiling with :code:`<max_time_steps> = 200` will output 11 :code:`.ckpt`, equally
+spaced at time steps between 100 and 200.
+
+Converting Checkpoints to VTR
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Terry write this section
 
 Useful Tools and Methods
 ------------------------
@@ -208,63 +381,7 @@ Neocortex from Windows
 
    \\sshfs <user_name>@neocortex.psc.edu[\<path\to\directory>]
 
-Launching Portrait from Neocortex
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool Portrait.
-To do this, login to Neocortex and open an interactive singularity session:
 
-.. code-block:: console
-
-    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <sif_location>/cbcore-31399de2fa.sif
-
-Deactivate python (this will be needed if you are using conda to manage python):
-
-.. code-block:: console
-
-    conda deactivate
-
-Add portrait to path:
-
-.. code-block:: console
-
-    export PATH=/cbcore/technology/sysroot-x86/bin:$PATH
-
-Navigate to the WFA repository and install the WFA by running:
-
-.. code-block:: console
-
-    python build_and_test.py -st 1
-
-Navigate to the input file directory and run the input file with one of the debug level options `-dl <1,2,3>`, all of them
-will launch Portrait for you:
-
-.. code-block:: console
-
-    python <input_file>.py -dl <1,2,3>
-
-The last line in the console after running the debug option will look something like this:
-
-.. code-block:: console
-
-   http://br023.ib.bridges2.psc.edu:8080/paint.html
-
-This is the server to connect to in the format of:
-
-.. code-block:: console
-
-   http://<server>:<port>/paint.html
-
-From your local machine ssh into Neocortex:
-
-.. code-block:: console
-
-   ssh -L <port>:<sever>:<port> <username>@bridges2.psc.edu
-
-launch web browser (firefox and chrome work the best) and navigate to:
-
-.. code-block:: console
-
-   localhost:<port>/paint.html
 
 Pycharm
 ^^^^^^^
@@ -566,9 +683,9 @@ The `-h` option will produce an output similar to:
       -z Z, --z Z           specify z dimension
 
 Running Scripts for Development
-------------------------------
+-------------------------------
 Running the script without any command line options will cause the API to create the 
-*.ag, *.paint, and Makefile, compile the code into a binary, run the 
+.ag, .paint, and Makefile, compile the code into a binary, run the
 hardware simulator (Simfabric) and compare the output to a NumPy based
 validation code within the API.  The correct result is specified in
 make_wse through the `answer` keyword argument. 
@@ -780,7 +897,7 @@ Classes and Methods
     :special-members: __init__
     
 CFD Formation Module
-=================
+====================
 The CFD Formation Module is designed to handle...
 
 Classes and Methods
@@ -793,7 +910,7 @@ Classes and Methods
     :members:
     :special-members: __init__
     
-.. autoclass:: WSE_FE.CFD_Formation._FD_Nonlinear_Diffusion
+.. autoclass:: WSE_FE.CFD_Formation.FD_Nonlinear_Diffusion
     :members: 
     :special-members: __init__    
     
@@ -809,7 +926,7 @@ Classes and Methods
     :special-members: __init__   
     
 FD Navier Stokes Module
-=================
+=======================
 The FD Navier Stokes Module is designed to handle...
 
 Classes and Methods

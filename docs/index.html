@@ -14,6 +14,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
 
   
   
@@ -31,6 +32,8 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -88,8 +91,17 @@
 <li><a class="reference internal" href="#recent-achievement">Recent Achievement</a></li>
 <li><a class="reference internal" href="#license">License</a></li>
 <li><a class="reference internal" href="#setup-instructions">Setup Instructions</a><ul>
-<li><a class="reference internal" href="#obtaining-the-code">Obtaining the Code</a></li>
-<li><a class="reference internal" href="#running-on-neocortex">Running on Neocortex</a></li>
+<li><a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a></li>
+<li><a class="reference internal" href="#running-on-neocortex">Running on Neocortex</a><ul>
+<li><a class="reference internal" href="#interactive-singularity">Interactive Singularity</a></li>
+<li><a class="reference internal" href="#checking-installation">Checking Installation</a></li>
+<li><a class="reference internal" href="#launching-portrait-from-neocortex">Launching Portrait from Neocortex</a></li>
+<li><a class="reference internal" href="#compiling-for-hardware-neocortex">Compiling for Hardware Neocortex</a></li>
+<li><a class="reference internal" href="#retrieving-data">Retrieving Data</a></li>
+<li><a class="reference internal" href="#saving-time-dependent-data">Saving time Dependent Data</a></li>
+<li><a class="reference internal" href="#converting-checkpoints-to-vtr">Converting Checkpoints to VTR</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#useful-tools-and-methods">Useful Tools and Methods</a><ul>
 <li><a class="reference internal" href="#custom-spyder-ide">Custom Spyder IDE</a></li>
 <li><a class="reference internal" href="#sshfs">sshfs</a><ul>
@@ -97,7 +109,6 @@
 <li><a class="reference internal" href="#neocortex-from-windows">Neocortex from Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#launching-portrait-from-neocortex">Launching Portrait from Neocortex</a></li>
 <li><a class="reference internal" href="#pycharm">Pycharm</a></li>
 </ul>
 </li>
@@ -275,8 +286,8 @@ Due to export restrictions, the code is maintained on a private gitlab server.  
 “Obtaining the Code” section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
 The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
 have been integrated into version 1.8.0 and above in the SDK container.</p>
-<section id="obtaining-the-code">
-<h2>Obtaining the Code<a class="headerlink" href="#obtaining-the-code" title="Permalink to this headline">¶</a></h2>
+<section id="obtaining-the-wfa-code">
+<h2>Obtaining the WFA Code<a class="headerlink" href="#obtaining-the-wfa-code" title="Permalink to this headline">¶</a></h2>
 <p>This github repository contains documentation only.  The full code repository is available <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation">here</a>.
 To obtain access to the code, register on the <a class="reference external" href="https://mfix.netl.doe.gov/register">MFiX website</a>
 contact Terry Jordan at <a class="reference external" href="mailto:terry&#46;jordan&#37;&#52;&#48;netl&#46;doe&#46;gov">terry<span>&#46;</span>jordan<span>&#64;</span>netl<span>&#46;</span>doe<span>&#46;</span>gov</a> to be added to the privet
@@ -293,44 +304,194 @@ this work.</p>
 Superdome Flex and two CS-2’s (the system that contains a WSE). PSC runs regular user solicitations
 for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
 Neocortex system.</p>
-<p>After obtaining access to the WFA and cloning on the Neocortex. Create a directory to store the python site packages:</p>
+<p>The first thing to do is follow the instruction in the <cite>Obtaining the WFA Code</cite> section to get the repository for the
+WFA set up on Neocortex.  If there is no special reason to use a different branch, checkout Master and make sure you
+pull the latest changes.</p>
+<p>The next thing to do is set up the container that contains the proprietary Cerebras Containers.  The WFA compiles
+against the Paint and Angler compilers using Make.  The container you use will have to have this capability built in.
+According to Cerebras, the SDK container at 1.8.0 and later will have this built in.  If the container installed on
+the hardware is a lower version number, then one will have to obtain a custom built container from Leighton Wilson at
+cerebras (reach out to him on the Neocotex Slack channel).  As of the writing of this version of the documentation
+(3/24/23), Neocortex has not upgraded to 1.8.0.  Thus, users will have to generate a binary in the custom container and
+then submit the run on hardware using the latest installed container on Neocortex.</p>
+<section id="interactive-singularity">
+<h3>Interactive Singularity<a class="headerlink" href="#interactive-singularity" title="Permalink to this headline">¶</a></h3>
+<p>Throughout the development and run cycle, you will need generate images inside a singularity container.  While it is
+possible to do this in batch mode, it is more convenient to launch an interactive singularity environment as several
+python packages have to be installed and it can waste a lot of time to run in batch mode.</p>
+<p>Because singularity is locked down, installing python packages in the normal way is not possible.  To get around this,
+we create a directory which will contain python packages and then set the <code class="code docutils literal notranslate"><span class="pre">.local</span></code> path in the home directory to
+this location.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir &lt;path_to&gt;/Cerebras-extra-python-packages</span>
 </pre></div>
 </div>
-<p>Generate the hardware run using singularity (Note: PSC has not yet updated their system to 1.8.0, so a custom container
-is needed.  Contact Leighton Wilson on the Neocortex slack channel to get access):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;sif_location&gt;/cbcore-31399de2fa.sif</span>
+<p>We also link the path to the WFA repository to a root level folder <code class="code docutils literal notranslate"><span class="pre">/cerebras_dev</span></code> inside the container.  If
+<code class="code docutils literal notranslate"><span class="pre">&lt;path_to_repo&gt;</span></code> is set correctly, then a <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">\cerebras_dev</span></code> inside the container should take you to the
+top level directory of the WFA repository where the <code class="code docutils literal notranslate"><span class="pre">README.md</span></code> file exists.  <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_sif_file&gt;</span></code> is either
+the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
+depending on if the installed container is at/above 1.8.0.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;path_to_sif_file&gt;</span>
 </pre></div>
 </div>
-<p>Deactivate python (this will be needed if you are using conda to manage python):</p>
+<p>Because we have to use the python installed in the container, if you use a python manager like Conda, you will have
+to deactivate it so that <code class="code docutils literal notranslate"><span class="pre">python</span></code> points to the containers python.  For conda this is simple:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda deactivate</span>
 </pre></div>
 </div>
-<p>Add portrait to path:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PATH=/cbcore/technology/sysroot-x86/bin:$PATH</span>
+<p>Once this is set up, leave the terminal open so you can do development and generate simulator/hardware images.</p>
+</section>
+<section id="checking-installation">
+<h3>Checking Installation<a class="headerlink" href="#checking-installation" title="Permalink to this headline">¶</a></h3>
+<p>Now that the container environment is set up, it is good to check that the WFA is working correctly.  Inside the
+terminal with the singularity container running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /cerebras_dev</span>
 </pre></div>
 </div>
-<p>Generate the hardware run:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd &lt;run_folder_name&gt;</span>
-<span class="go">python &lt;path_to_repo&gt;/build_and_test.py -st 1 &amp;&amp; python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;</span>
+<p>Then launch the tests by:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python build_and_test.py</span>
 </pre></div>
 </div>
-<p>Copy hardware run to util directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cp &lt;hardware_run_name&gt;.tar.gz &lt;path_to_repo&gt;/WSE_Field_Equation/util</span>
+<p>This should install all the python dependencies and start launching the tests.  You should see output similar to this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>lots of install messages
+
+<span class="go">Finished processing dependencies for WSE-Field-Equations==0.0.1</span>
+<span class="go">test_FDNS_bc_Vz                                   : pass</span>
+<span class="go">test_scalar_array_mul                             : pass</span>
+<span class="go">test_FDNS_dVxdtau                                 : pass</span>
+<span class="go">test_FDNS_bc_T                                    : pass</span>
+<span class="go">test_FDNS_dt_absVx                                : pass</span>
+<span class="go">test_momentum_formation                           : pass</span>
+<span class="go">test_rhie_chow_interp_2                           : pass</span>
+<span class="go">test_mom_with_rhie_chow                           : pass</span>
+<span class="go">test_FDNS_qTy                                     : pass</span>
+<span class="go">test_rectangular_diffusion_jacobi                 : pass</span>
+<span class="go">test_FDNS_Ry                                      : pass</span>
+<span class="go">test_FDNS_T                                       : pass</span>
+<span class="go">test_neighbor_mul                                 : pass</span>
+<span class="go">test_norm                                         : pass</span>
+<span class="go">test_FDNS_dt_fromVx                               : pass</span>
+<span class="go">test_FDNS_dt_Advection                            : pass</span>
+
+<span class="gp"># </span>lots more tests
 </pre></div>
 </div>
-<p>Submit job to hardware:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;</span>
+<p>All tests should pass if installed correctly and the branch you are on shows a pass in the gitlab
+runner in the online repository.  It may take 5-10 min to run all the tests depending on how many
+are checked in.</p>
+</section>
+<section id="launching-portrait-from-neocortex">
+<h3>Launching Portrait from Neocortex<a class="headerlink" href="#launching-portrait-from-neocortex" title="Permalink to this headline">¶</a></h3>
+<p>If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool, Portrait.</p>
+<p>Navigate to the input file directory and run the input file with one of the debug level options <code class="code docutils literal notranslate"><span class="pre">-dl</span> <span class="pre">&lt;1,2,3&gt;</span></code>,
+all of them will launch the Portrait web server for you:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;input_file&gt;.py -dl &lt;1,2,3&gt;</span>
 </pre></div>
 </div>
-<p>Check out SDF node:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun --nodelist=sdf-&lt;1 or 2&gt; --pty bash</span>
+<p>The last line in the console after running the debug option will look something like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://br023.ib.bridges2.psc.edu:8080/paint.html</span>
 </pre></div>
 </div>
-<p>The results are currently stored on the drives local the specified sdf node:</p>
+<p>This is the server to connect to in the format of:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://&lt;server&gt;:&lt;port&gt;/paint.html</span>
+</pre></div>
+</div>
+<p>From your local machine ssh into Neocortex:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh -L &lt;port&gt;:&lt;sever&gt;:&lt;port&gt; &lt;username&gt;@bridges2.psc.edu</span>
+</pre></div>
+</div>
+<p>Launch web browser (firefox and chrome work the best) and navigate to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">localhost:&lt;port&gt;/paint.html</span>
+</pre></div>
+</div>
+</section>
+<section id="compiling-for-hardware-neocortex">
+<h3>Compiling for Hardware Neocortex<a class="headerlink" href="#compiling-for-hardware-neocortex" title="Permalink to this headline">¶</a></h3>
+<p>By default the WFA will compile and run in Simfabric (the Cerebras built hardware simulator).  To to compile
+hardware, specify the hardware input name (<code class="code docutils literal notranslate"><span class="pre">-hin</span> <span class="pre">&lt;hardware_run_name&gt;</span></code>) and the make goal as bench.img
+(<code class="code docutils literal notranslate"><span class="pre">-mg</span> <span class="pre">bench.image</span></code>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;</span>
+</pre></div>
+</div>
+<p>This will generate a tar file that contains the image (binary) that is ready to run on hardware
+<code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code>.  The next thing to do is move the tar file into the WFA utility directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mv &lt;hardware_run_name&gt;.tar.gz /cerebras_dev/WSE_Field_Equation/util</span>
+</pre></div>
+</div>
+<p>The job can then be submitted to Neocortex through slurm.  Make sure the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;</span></code> does not include
+the <code class="code docutils literal notranslate"><span class="pre">.tar.gz</span></code> extension is not included in the <code class="code docutils literal notranslate"><span class="pre">-c</span></code> option.  The <code class="code docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;field_variable&gt;</span></code> option
+specifies the name of the <code class="code docutils literal notranslate"><span class="pre">WSE_Array</span></code> to save as output from the WSE.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;)</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieving-data">
+<h3>Retrieving Data<a class="headerlink" href="#retrieving-data" title="Permalink to this headline">¶</a></h3>
+<p>On Neocortex, the fastest way to run is to move data off the network drives and onto the local SSD’s.  The
+<code class="code docutils literal notranslate"><span class="pre">neocortex_slurm_script_bash</span></code> script will move the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code> file to the local drive
+on the super dome flex at <code class="code docutils literal notranslate"><span class="pre">/local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span></code>.  To access this data, log into the SDF
+node:
+.. code-block:: console</p>
+<blockquote>
+<div><p>srun –nodelist=sdf-&lt;1 or 2&gt; –pty bash</p>
+</div></blockquote>
+<p>and navigate to the local storage</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span>
 </pre></div>
 </div>
+<p>The results will be in a series <code class="code docutils literal notranslate"><span class="pre">.ckpt</span></code> files.  If the program ran successfully and got to the end, the
+<code class="code docutils literal notranslate"><span class="pre">progend.txt</span></code> file should have a <code class="code docutils literal notranslate"><span class="pre">1</span></code> in it.</p>
+</section>
+<section id="saving-time-dependent-data">
+<h3>Saving time Dependent Data<a class="headerlink" href="#saving-time-dependent-data" title="Permalink to this headline">¶</a></h3>
+<p>Multiple checkpoints can be saved out in series as the calculations are completed.  The WFA can be configured to write
+out files from one loop starting at iteration <code class="code docutils literal notranslate"><span class="pre">&lt;start_iteration&gt;</span></code> and writing out every <code class="code docutils literal notranslate"><span class="pre">&lt;mod_iterations&gt;</span></code>.
+To do this, the controller puts itself in a pause state and waits for the host
+to check if it is ready to take data off.  If it is, the host will issue a data retrieval command and get the data off
+the WSE.  This is a far from optimal solution for IO and currently uses a very slow debug interface.  It will be
+replaced with a different interface that puts the host in a wait to receive mode and uses the full 1.2Tb/s data link
+to bring down frame save rates to a few milliseconds and not interrupt solution progress.</p>
+<p>To enable this, the <code class="code docutils literal notranslate"><span class="pre">conditional_pause</span></code> method in the loop context manager must be called.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">time_steps</span><span class="p">)</span> <span class="k">as</span> <span class="n">time_march</span><span class="p">:</span>
+   <span class="n">iter_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">iter_counter</span> <span class="o">+</span> <span class="mi">1</span>
+   <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">push_to_host</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start_iteration_push</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">modulo_iteration_push</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">add_time_pause</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="n">time_march</span><span class="o">.</span><span class="n">conditional_pause</span><span class="p">()</span>
+   <span class="n">ns</span><span class="o">.</span><span class="n">_fluid_iteration</span><span class="p">(</span><span class="n">save_debug_images</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="o">=</span><span class="n">nerr</span><span class="p">,</span>
+                       <span class="n">max_pseudo_its</span><span class="o">=</span><span class="n">max_pseudo_its</span><span class="p">,</span> <span class="n">fluid_tol</span><span class="o">=</span><span class="n">nl_tol</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is often beneficial to put this in a guard with a command line option set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Head of file</span>
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1"># Add Program Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span> <span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-atp&quot;</span><span class="p">,</span> <span class="s2">&quot;--add_time_pause&quot;</span><span class="p">,</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;adds a time march pause to save data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                    <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Some point after all the arguments are added</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1"># Rest of problem setup</span>
+</pre></div>
+</div>
+<p>In this example, the program code would get compiled with a <code class="code docutils literal notranslate"><span class="pre">-atp</span> <span class="pre">1</span></code> set on the command line and
+<code class="code docutils literal notranslate"><span class="pre">-ts</span> <span class="pre">&lt;max_time_steps&gt;</span></code>.</p>
+<p>Then to launch the job on Neocortex, additional command line arguments would be set in the submission.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt; -s &lt;start_iteration&gt; -p &lt;mod_iterations&gt;)</span>
+</pre></div>
+</div>
+<p>This allows one to set up saving data over a given time period.  For example setting <code class="code docutils literal notranslate"><span class="pre">&lt;start_iteration&gt;</span> <span class="pre">=</span> <span class="pre">100</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">&lt;mod_iterations&gt;</span> <span class="pre">=</span> <span class="pre">10</span></code>, and compiling with <code class="code docutils literal notranslate"><span class="pre">&lt;max_time_steps&gt;</span> <span class="pre">=</span> <span class="pre">200</span></code> will output 11 <code class="code docutils literal notranslate"><span class="pre">.ckpt</span></code>, equally
+spaced at time steps between 100 and 200.</p>
+</section>
+<section id="converting-checkpoints-to-vtr">
+<h3>Converting Checkpoints to VTR<a class="headerlink" href="#converting-checkpoints-to-vtr" title="Permalink to this headline">¶</a></h3>
+<p>Terry write this section</p>
+</section>
 </section>
 <section id="useful-tools-and-methods">
 <h2>Useful Tools and Methods<a class="headerlink" href="#useful-tools-and-methods" title="Permalink to this headline">¶</a></h2>
@@ -381,47 +542,6 @@ Neocortex.  This will allow you to edit files remotely in whatever editor you ch
 </pre></div>
 </div>
 </section>
-</section>
-<section id="launching-portrait-from-neocortex">
-<h3>Launching Portrait from Neocortex<a class="headerlink" href="#launching-portrait-from-neocortex" title="Permalink to this headline">¶</a></h3>
-<p>If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool Portrait.
-To do this, login to Neocortex and open an interactive singularity session:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;sif_location&gt;/cbcore-31399de2fa.sif</span>
-</pre></div>
-</div>
-<p>Deactivate python (this will be needed if you are using conda to manage python):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda deactivate</span>
-</pre></div>
-</div>
-<p>Add portrait to path:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PATH=/cbcore/technology/sysroot-x86/bin:$PATH</span>
-</pre></div>
-</div>
-<p>Navigate to the WFA repository and install the WFA by running:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python build_and_test.py -st 1</span>
-</pre></div>
-</div>
-<p>Navigate to the input file directory and run the input file with one of the debug level options <cite>-dl &lt;1,2,3&gt;</cite>, all of them
-will launch Portrait for you:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;input_file&gt;.py -dl &lt;1,2,3&gt;</span>
-</pre></div>
-</div>
-<p>The last line in the console after running the debug option will look something like this:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://br023.ib.bridges2.psc.edu:8080/paint.html</span>
-</pre></div>
-</div>
-<p>This is the server to connect to in the format of:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://&lt;server&gt;:&lt;port&gt;/paint.html</span>
-</pre></div>
-</div>
-<p>From your local machine ssh into Neocortex:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh -L &lt;port&gt;:&lt;sever&gt;:&lt;port&gt; &lt;username&gt;@bridges2.psc.edu</span>
-</pre></div>
-</div>
-<p>launch web browser (firefox and chrome work the best) and navigate to:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">localhost:&lt;port&gt;/paint.html</span>
-</pre></div>
-</div>
 </section>
 <section id="pycharm">
 <h3>Pycharm<a class="headerlink" href="#pycharm" title="Permalink to this headline">¶</a></h3>
@@ -688,7 +808,7 @@ the type keyword argument in the parser.add_argument method for boolean inputs.<
 <section id="running-scripts-for-development">
 <h2>Running Scripts for Development<a class="headerlink" href="#running-scripts-for-development" title="Permalink to this headline">¶</a></h2>
 <p>Running the script without any command line options will cause the API to create the
-<a href="#system-message-1"><span class="problematic" id="problematic-1">*</span></a>.ag, <a href="#system-message-2"><span class="problematic" id="problematic-2">*</span></a>.paint, and Makefile, compile the code into a binary, run the
+.ag, .paint, and Makefile, compile the code into a binary, run the
 hardware simulator (Simfabric) and compare the output to a NumPy based
 validation code within the API.  The correct result is specified in
 make_wse through the <cite>answer</cite> keyword argument.</p>
@@ -778,7 +898,7 @@ Contains all methods available in WSE_Interface</p>
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.debug_message">
 <code class="sig-name descname">debug_message</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em>, <em class="sig-param"><span class="n">active</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.debug_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enables debug message when compliled with the -dl 3 option.  Very useful for determining position in a large
+<dd><p>Enables debug message when compiled with the -dl 3 option.  Very useful for determining position in a large
 program. To use, add into the graph construction wherever needed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_calc_shear_and_P</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
@@ -789,21 +909,21 @@ program. To use, add into the graph construction wherever needed.</p>
 </pre></div>
 </div>
 <p>The message will show up in the validation.txt file</p>
-<div class="highlight-file notranslate"><div class="highlight"><pre><span></span>----------------------------------
-Debug Message: FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P
-Debug Message ID: 0x0
-Debug Task ID: 0xf
-----------------------------------
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">----------------------------------</span>
+<span class="go">Debug Message: FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P</span>
+<span class="go">Debug Message ID: 0x0</span>
+<span class="go">Debug Task ID: 0xf</span>
+<span class="go">----------------------------------</span>
 </pre></div>
 </div>
 <p>Each time <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> gets called, it increments the <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Message</span> <span class="pre">ID</span></code>, ensuring that each
-message has a uniue ID number.  The <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Task</span> <span class="pre">ID</span></code> shows which task to search for in the source window
+message has a unique ID number.  The <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Task</span> <span class="pre">ID</span></code> shows which task to search for in the source window
 in portrait:</p>
-<div class="highlight-file notranslate"><div class="highlight"><pre><span></span>     task debug_task entry(0xf) {
-009c     BLOCK ctrl_color;
-009d     gpr_R6 = gpr_R2;
-009e     arguments_recv.length = gpr_c_6;
-00a0     UNBLOCK ctrl_color;}
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">     task debug_task entry(0xf) {</span>
+<span class="go">009c     BLOCK ctrl_color;</span>
+<span class="go">009d     gpr_R6 = gpr_R2;</span>
+<span class="go">009e     arguments_recv.length = gpr_c_6;</span>
+<span class="go">00a0     UNBLOCK ctrl_color;}</span>
 </pre></div>
 </div>
 <p>The move instruction <code class="code docutils literal notranslate"><span class="pre">gpr_R6</span> <span class="pre">=</span> <span class="pre">gpr_R2</span></code> got tagged with an instruction address of <code class="code docutils literal notranslate"><span class="pre">009d</span></code> by the
@@ -833,7 +953,7 @@ values in the <code class="code docutils literal notranslate"><span class="pre">
 <code class="sig-name descname">get_available_cmd_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args" title="Permalink to this definition">¶</a></dt>
 <dd><p>WSE_Interface creates a default set of command line arguments through
 the argparse library.  This function allows users to retrieve all
-command line arguments.  To add more domain specific arbuments see
+command line arguments.  To add more domain specific arguments see
 get_cmd_line_parser.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
 
@@ -874,7 +994,7 @@ added as command line arguments.</p>
                     <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
 
-<span class="c1">#use args in furhter code</span>
+<span class="c1">#use args in further code</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -900,7 +1020,7 @@ an optional name parameter can be supplied.  This tag is stored in a dictionary 
         <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;press&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">press</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Somewhere else in the code, a python object can be created which references the orignal WSE_Array by the name
+<p>Somewhere else in the code, a python object can be created which references the original WSE_Array by the name
 supplied.  It can even be in a completely different class as long as the WSE_Interface singleton is
 instantiated.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">initialize_face_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -949,7 +1069,7 @@ available options.</p>
                <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
-<span class="c1"># graph construction is now complete so we can call make_wse</span>
+<span class="c1"># graph construction is now complete, so we can call make_wse</span>
 <span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">T_n</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1492,16 +1612,16 @@ operations are conducted on the controller tile.</p>
 write into an existing WSE_Scalar object and not trigger creation of
 a new WSE_Scalar object. This is necessary because there is no python
 magic to override the assign operator.</p>
-<div class="highlight-pthon notranslate"><div class="highlight"><pre><span></span>from WSE_FE.WSE_Scalar import WSE_Scalar
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WSE_FE.WSE_Scalar</span> <span class="kn">import</span> <span class="n">WSE_Scalar</span>
 
-dst = WSE_Scalar(name=&#39;dst&#39;)
-scalar_1 = WSE_Scalar(name=&#39;scalar_1&#39;, value = 1.0)
+<span class="n">dst</span> <span class="o">=</span> <span class="n">WSE_Scalar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;dst&#39;</span><span class="p">)</span>
+<span class="n">scalar_1</span> <span class="o">=</span> <span class="n">WSE_Scalar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;scalar_1&#39;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
 
-#puts the value 2.0 in the memory space for dst
-dst[0]  = scalar_1 + 1.0
+<span class="c1">#puts the value 2.0 in the memory space for dst</span>
+<span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">=</span> <span class="n">scalar_1</span> <span class="o">+</span> <span class="mf">1.0</span>
 
-#overwrites dst with a new WSE_Scalar object (dangerous)
-dst = scalar_1 + 1.0
+<span class="c1">#overwrites dst with a new WSE_Scalar object (dangerous)</span>
+<span class="n">dst</span> <span class="o">=</span> <span class="n">scalar_1</span> <span class="o">+</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1989,6 +2109,17 @@ where value is stored to compare to tolerance</p></li>
 <dd><dl class="py method">
 <dt id="WSE_FE.CFD_Formation._Sliceable_Constant.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation._Sliceable_Constant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="WSE_FE.CFD_Formation.FD_Nonlinear_Diffusion">
+<em class="property">class </em><code class="sig-prename descclassname">WSE_FE.CFD_Formation.</code><code class="sig-name descname">FD_Nonlinear_Diffusion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">Hold</span></em>, <em class="sig-param"><span class="n">dHx</span></em>, <em class="sig-param"><span class="n">dHy</span></em>, <em class="sig-param"><span class="n">dHz</span></em>, <em class="sig-param"><span class="n">max_lxyz</span></em>, <em class="sig-param"><span class="n">Vpdτ</span></em>, <em class="sig-param"><span class="n">Resc</span></em>, <em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">dz</span></em>, <em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">dims</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.FD_Nonlinear_Diffusion" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="WSE_FE.CFD_Formation.FD_Nonlinear_Diffusion.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em>, <em class="sig-param"><span class="n">Hold</span></em>, <em class="sig-param"><span class="n">dHx</span></em>, <em class="sig-param"><span class="n">dHy</span></em>, <em class="sig-param"><span class="n">dHz</span></em>, <em class="sig-param"><span class="n">max_lxyz</span></em>, <em class="sig-param"><span class="n">Vpdτ</span></em>, <em class="sig-param"><span class="n">Resc</span></em>, <em class="sig-param"><span class="n">dx</span></em>, <em class="sig-param"><span class="n">dy</span></em>, <em class="sig-param"><span class="n">dz</span></em>, <em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">dims</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.CFD_Formation.FD_Nonlinear_Diffusion.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
