@@ -796,8 +796,9 @@ Debug Task ID: 0xf
 ----------------------------------
 </pre></div>
 </div>
-<p>Each time debug_message gets called, it increments the Debug Message ID, ensuring that each message has a uniue
-ID number.  The Debug Task ID shows which task to search for in the source window in portrait:</p>
+<p>Each time <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> gets called, it increments the <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Message</span> <span class="pre">ID</span></code>, ensuring that each
+message has a uniue ID number.  The <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Task</span> <span class="pre">ID</span></code> shows which task to search for in the source window
+in portrait:</p>
 <div class="highlight-file notranslate"><div class="highlight"><pre><span></span>     task debug_task entry(0xf) {
 009c     BLOCK ctrl_color;
 009d     gpr_R6 = gpr_R2;
@@ -805,11 +806,12 @@ ID number.  The Debug Task ID shows which task to search for in the source windo
 00a0     UNBLOCK ctrl_color;}
 </pre></div>
 </div>
-<p>The move instruction <code class="code docutils literal notranslate"><span class="pre">gpr_R6</span> <span class="pre">=</span> <span class="pre">gpr_R2</span></code> gets tagged with an address of 009d by the compiler. The 009d
-address is searchable in the pipeline window if the ADDR option is enabled at the top.  Clicking on the line
-with that address will display the details of the instruction in the Instruction window.  The value loaded by
-the move will be displayed in the s1 and dst values in the Instruction window.  When the s1 or dst value matches
-Debug Message ID, the point in the graph where the <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> was inserted has been found.</p>
+<p>The move instruction <code class="code docutils literal notranslate"><span class="pre">gpr_R6</span> <span class="pre">=</span> <span class="pre">gpr_R2</span></code> got tagged with an instruction address of <code class="code docutils literal notranslate"><span class="pre">009d</span></code> by the
+compiler in this case. The <code class="code docutils literal notranslate"><span class="pre">009d</span></code> address is searchable in the pipeline window if the ADDR option is
+enabled at the top.  Clicking on the line with that address will display the details of the instruction in the
+<code class="code docutils literal notranslate"><span class="pre">Instruction</span></code> window.  The value involved in the move will be displayed in the <code class="code docutils literal notranslate"><span class="pre">s1</span></code> and <code class="code docutils literal notranslate"><span class="pre">dst</span></code>
+values in the <code class="code docutils literal notranslate"><span class="pre">Instruction</span></code> window.  When the <code class="code docutils literal notranslate"><span class="pre">s1</span></code> or <code class="code docutils literal notranslate"><span class="pre">dst</span></code> value matches that in the
+<code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Message</span> <span class="pre">ID</span></code>, the point in the graph where the <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> was inserted has been found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -842,14 +844,11 @@ get_cmd_line_parser.</p>
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>None</strong> – </p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The WSE_Interface args member variable.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The command line arguments</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>argparse.arguments</p>
 </dd>
 </dl>
 </dd></dl>
@@ -880,10 +879,10 @@ added as command line arguments.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p>
+<dd class="field-odd"><p>The WSE_Interface parser member variable.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>The command line argument parser</p>
+<dd class="field-even"><p>argparse.parser</p>
 </dd>
 </dl>
 </dd></dl>
@@ -891,28 +890,69 @@ added as command line arguments.</p>
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array">
 <code class="sig-name descname">get_named_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.get_named_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves a named array</p>
+<dd><p>Returns a python reference to an existing WSE_array with <code class="code docutils literal notranslate"><span class="pre">name</span></code>. When instantiating a WSE_Array object,
+an optional name parameter can be supplied.  This tag is stored in a dictionary for later retrieval.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyCFDClass</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_center</span><span class="p">,</span> <span class="n">v_center</span><span class="p">,</span> <span class="n">w_center</span><span class="p">):</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;u_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">u_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;v_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">v_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;w_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">w_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;press&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">press</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Somewhere else in the code, a python object can be created which references the orignal WSE_Array by the name
+supplied.  It can even be in a completely different class as long as the WSE_Interface singleton is
+instantiated.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">initialize_face_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;u_center&#39;</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;v_center&#39;</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;w_center&#39;</span><span class="p">)</span>
+
+    <span class="c1"># use u,v,w in further code</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The string name associated with a WSE_Array object.</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name given to the WSE_Array object to retrieve.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Name does not exist.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The array of the specified name</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The python reference to the WSE_Array with the unique name.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#WSE_FE.WSE_Array.WSE_Array" title="WSE_FE.WSE_Array.WSE_Array">WSE_Array</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE">
-<code class="sig-name descname">make_WSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">answer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">liveCells</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_switch_pos</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">make_WSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">answer</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">liveCells</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compiles the code for the Wafer Scale Engine.  Several command line
 options set compilation behavior.  Any python script calls this script
 will have default command line arguments enabled. Use the <cite>-h</cite> option
 behind the python call to launch the script to get a listing of the
 available options.</p>
+<p>Must be called <strong>once</strong> at the end of a program to compile the graph.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># problem setup</span>
+
+<span class="k">with</span> <span class="n">WSE_For_Loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">benchmark_iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wse</span><span class="o">.</span><span class="n">record_timestamp</span><span class="p">()</span>
+
+    <span class="c1"># Update T from current values</span>
+    <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">center</span> <span class="o">*</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="n">T_n</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+               <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+               <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># graph construction is now complete so we can call make_wse</span>
+<span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">T_n</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -926,7 +966,7 @@ The default is None.</p></li>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dd class="field-odd"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -934,19 +974,28 @@ The default is None.</p></li>
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.print">
 <code class="sig-name descname">print</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.print" title="Permalink to this definition">¶</a></dt>
-<dd><p>Custom print function to enable printing only when debug is enabled</p>
+<dd><p>calls python’s default print with flush=True if <code class="code docutils literal notranslate"><span class="pre">-dl</span> <span class="pre">&lt;1,2,3&gt;</span></code> is set.  Useful for debugging and following
+the python code during graph construction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;WSE_Array.__add__&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;self:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;other:&#39;</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;result:&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> (<em>list</em>) – Positional arguments</p></li>
-<li><p><strong>kwargs</strong> (<em>list</em>) – Keyword arguments</p></li>
+<li><p><strong>*args</strong> (<em>args</em>) – args to print in __builtin__.</p></li>
+<li><p><strong>**kwargs</strong> (<em>kwargs</em>) – kwargs to print in __builtin__.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>DESCRIPTION.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The builtin print function result</p>
+<dd class="field-odd"><p>TYPE</p>
 </dd>
 </dl>
 </dd></dl>
@@ -954,7 +1003,31 @@ The default is None.</p></li>
 <dl class="py method">
 <dt id="WSE_FE.WSE_Interface.WSE_Interface_Singleton.record_timestamp">
 <code class="sig-name descname">record_timestamp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WSE_FE.WSE_Interface.WSE_Interface_Singleton.record_timestamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call to record time stamp for benchmarking</p>
+<dd><p>Records the cycle number in a defined symbol on the worker tiles for benchmarking.  The symbol is set up to
+record 100 values in a circular buffer.  In order to activate the timestamp recording, the <code class="code docutils literal notranslate"><span class="pre">-pcc</span> <span class="pre">1</span></code>
+command line option must be set and one of <code class="code docutils literal notranslate"><span class="pre">-ts16</span> <span class="pre">1</span></code> or <code class="code docutils literal notranslate"><span class="pre">-ts32</span> <span class="pre">1</span></code> must be set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;max_outter_iters&#39;</span><span class="p">,</span> <span class="n">max_outter_iters</span><span class="p">)</span> <span class="k">as</span> <span class="n">max_outer_iters_loop</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;reduction_limited_iters&#39;</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_benchmark_fluid_solver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">record_timestamp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ErrV</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vz</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ErrP</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_shear_and_P</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_dV</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_V</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bc_xyz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vz</span><span class="p">)</span>
+
+        <span class="c1"># more code</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
