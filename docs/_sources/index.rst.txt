@@ -257,6 +257,7 @@ On Neocortex, the fastest way to run is to move data off the network drives and 
 :code:`neocortex_slurm_script_bash` script will move the :code:`<hardware_run_name>.tar.gz` file to the local drive
 on the super dome flex at :code:`/local1/<project_name>/<hardware_run_name>`.  To access this data, log into the SDF
 node:
+
 .. code-block:: console
 
     srun --nodelist=sdf-<1 or 2> --pty bash

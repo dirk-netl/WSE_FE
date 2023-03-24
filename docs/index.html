@@ -429,11 +429,10 @@ specifies the name of the <code class="code docutils literal notranslate"><span 
 <p>On Neocortex, the fastest way to run is to move data off the network drives and onto the local SSD’s.  The
 <code class="code docutils literal notranslate"><span class="pre">neocortex_slurm_script_bash</span></code> script will move the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code> file to the local drive
 on the super dome flex at <code class="code docutils literal notranslate"><span class="pre">/local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span></code>.  To access this data, log into the SDF
-node:
-.. code-block:: console</p>
-<blockquote>
-<div><p>srun –nodelist=sdf-&lt;1 or 2&gt; –pty bash</p>
-</div></blockquote>
+node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun --nodelist=sdf-&lt;1 or 2&gt; --pty bash</span>
+</pre></div>
+</div>
 <p>and navigate to the local storage</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span>
 </pre></div>
