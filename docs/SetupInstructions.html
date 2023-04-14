@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Setup Instructions &mdash; WFA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Diffusion Example" href="DiffusionExample.html" />
+    <link rel="prev" title="Welcome to WFA’s Documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WFA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-on-neocortex">Running on Neocortex</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interactive-singularity">Interactive Singularity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checking-installation">Checking Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#launching-portrait-from-neocortex">Launching Portrait from Neocortex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-for-hardware-neocortex">Compiling for Hardware Neocortex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retrieving-data">Retrieving Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saving-time-dependent-data">Saving time Dependent Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#converting-checkpoints-to-vtr">Converting Checkpoints to VTR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paraview-visualization">ParaView Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#client-server-mode">Client/Server Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-tools-and-methods">Useful Tools and Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custom-spyder-ide">Custom Spyder IDE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sshfs">sshfs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#neocortex-from-linux">Neocortex from Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#neocortex-from-windows">Neocortex from Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pycharm">Pycharm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DiffusionExample.html">Diffusion Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CommandLineArguments.html">Command Line Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Interface.html">WSE Interface Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Array.html">WSE Array Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Loops.html">WSE Loops Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Solver.html">WSE Solver Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodingStyles.html">Coding Style Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WFA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Setup Instructions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/SetupInstructions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="setup-instructions">
+<h1>Setup Instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this heading">¶</a></h1>
+<p>There are two tasks to complete in order to get set up with the WFA.  First, the WFA library must be obtained.
+Due to export restrictions, the code is maintained on a private gitlab server.  Follow the instructions in the
+<a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section.  Second, the compilers necessary to run the code are proprietary to Cerebras Systems, Inc.
+The compilers are usually packaged with the hardware in singularity containers.  The compilers necessary for the WFA
+have been integrated into version 1.8.0 and above in the SDK container.</p>
+<section id="obtaining-the-wfa-code">
+<h2>Obtaining the WFA Code<a class="headerlink" href="#obtaining-the-wfa-code" title="Permalink to this heading">¶</a></h2>
+<p>This github repository contains documentation only.  The full code repository is available <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev/-/tree/master/WSE_Field_Equation">here</a>.
+To obtain access to the code, register on the <a class="reference external" href="https://mfix.netl.doe.gov/register">MFiX website</a>
+contact Terry Jordan at <a class="reference external" href="mailto:terry&#46;jordan&#37;&#52;&#48;netl&#46;doe&#46;gov">terry<span>&#46;</span>jordan<span>&#64;</span>netl<span>&#46;</span>doe<span>&#46;</span>gov</a> to be added to the privet
+gitlab repository.  This process has been adopted until NETL makes a determination about the export control nature of
+this work.</p>
+<p>After being added to the repository, checkout the latest repo:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://mfix.netl.doe.gov/gitlab/tjordan/cerebrasdev.git</span>
+</pre></div>
+</div>
+</section>
+<section id="running-on-neocortex">
+<h2>Running on Neocortex<a class="headerlink" href="#running-on-neocortex" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="http://https://www.cmu.edu/psc/aibd/neocortex/">Necortex</a> is an NSF funded computer run by the Pittsburgh Supercomputing Center (PSC) and consists of a
+Superdome Flex and two CS-2’s (the system that contains a WSE). PSC runs regular user solicitations
+for time on Neocortex.  NETL has been working with Cerebras and PSC to ensure the WFA can run on the
+Neocortex system.</p>
+<p>The first thing to do is follow the instruction in the <a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section to get the repository for the
+WFA set up on Neocortex.  If there is no special reason to use a different branch, checkout Master and make sure you
+pull the latest changes.</p>
+<p>The next thing to do is set up the container that contains the proprietary Cerebras Containers.  The WFA compiles
+against the Paint and Angler compilers using Make.  The container you use will have to have this capability built in.
+According to Cerebras, the SDK container at 1.8.0 and later will have this built in.  If the container installed on
+the hardware is a lower version number, then one will have to obtain a custom built container from Leighton Wilson at
+cerebras (reach out to him on the Neocotex Slack channel).  As of the writing of this version of the documentation
+(3/24/23), Neocortex has not upgraded to 1.8.0.  Thus, users will have to generate a binary in the custom container and
+then submit the run on hardware using the latest installed container on Neocortex.</p>
+<section id="interactive-singularity">
+<h3>Interactive Singularity<a class="headerlink" href="#interactive-singularity" title="Permalink to this heading">¶</a></h3>
+<p>Throughout the development and run cycle, you will need generate images inside a singularity container.  While it is
+possible to do this in batch mode, it is more convenient to launch an interactive singularity environment as several
+python packages have to be installed and it can waste a lot of time to run in batch mode.</p>
+<p>Because singularity is locked down, installing python packages in the normal way is not possible.  To get around this,
+we create a directory which will contain python packages and then set the <code class="code docutils literal notranslate"><span class="pre">.local</span></code> path in the home directory to
+this location.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir &lt;path_to&gt;/Cerebras-extra-python-packages</span>
+</pre></div>
+</div>
+<p>We also link the path to the WFA repository to a root level folder <code class="code docutils literal notranslate"><span class="pre">/cerebras_dev</span></code> inside the container.  If
+<code class="code docutils literal notranslate"><span class="pre">&lt;path_to_repo&gt;</span></code> is set correctly, then a <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cerebras_dev</span></code> inside the container should take you to the
+top level directory of the WFA repository where the <code class="code docutils literal notranslate"><span class="pre">README.md</span></code> file exists.  <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_sif_file&gt;</span></code> is either
+the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
+depending on if the installed container is at/above 1.8.0.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;path_to_sif_file&gt;</span>
+</pre></div>
+</div>
+<p>Because we have to use the python installed in the container, if you use a python manager like Conda, you will have
+to deactivate it so that <code class="code docutils literal notranslate"><span class="pre">python</span></code> points to the containers python.  For conda this is simple:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda deactivate</span>
+</pre></div>
+</div>
+<p>Once this is set up, leave the terminal open so you can do development and generate simulator/hardware images.</p>
+</section>
+<section id="checking-installation">
+<h3>Checking Installation<a class="headerlink" href="#checking-installation" title="Permalink to this heading">¶</a></h3>
+<p>Now that the container environment is set up, it is good to check that the WFA is working correctly.  Inside the
+terminal with the singularity container running:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /cerebras_dev</span>
+</pre></div>
+</div>
+<p>Then launch the tests by:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python build_and_test.py</span>
+</pre></div>
+</div>
+<p>This should install all the python dependencies and start launching the tests.  You should see output similar to this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>lots<span class="w"> </span>of<span class="w"> </span>install<span class="w"> </span>messages
+
+<span class="go">Finished processing dependencies for WSE-Field-Equations==0.0.1</span>
+<span class="go">test_FDNS_bc_Vz                                   : pass</span>
+<span class="go">test_scalar_array_mul                             : pass</span>
+
+<span class="gp"># </span>lots<span class="w"> </span>more<span class="w"> </span>tests
+</pre></div>
+</div>
+<p>All tests should pass if installed correctly and the branch you are on shows a pass in the gitlab
+runner in the online repository.  It may take 5-10 min to run all the tests depending on how many
+are checked in.</p>
+</section>
+<section id="launching-portrait-from-neocortex">
+<h3>Launching Portrait from Neocortex<a class="headerlink" href="#launching-portrait-from-neocortex" title="Permalink to this heading">¶</a></h3>
+<p>If doing development on Neocortex, which is headless, one will want to launch the visual debugging tool, Portrait.</p>
+<p>Navigate to the input file directory and run the input file with one of the debug level options <code class="code docutils literal notranslate"><span class="pre">-dl</span> <span class="pre">&lt;1,2,3&gt;</span></code>,
+all of them will launch the Portrait web server for you:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;input_file&gt;.py -dl &lt;1,2,3&gt;</span>
+</pre></div>
+</div>
+<p>The last line in the console after running the debug option will look something like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://br023.ib.bridges2.psc.edu:8080/paint.html</span>
+</pre></div>
+</div>
+<p>This is the server to connect to in the format of:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">http://&lt;server&gt;:&lt;port&gt;/paint.html</span>
+</pre></div>
+</div>
+<p>From your local machine ssh into Neocortex:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh -L &lt;port&gt;:&lt;sever&gt;:&lt;port&gt; &lt;username&gt;@bridges2.psc.edu</span>
+</pre></div>
+</div>
+<p>Launch web browser (firefox and chrome work the best) and navigate to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">localhost:&lt;port&gt;/paint.html</span>
+</pre></div>
+</div>
+</section>
+<section id="compiling-for-hardware-neocortex">
+<h3>Compiling for Hardware Neocortex<a class="headerlink" href="#compiling-for-hardware-neocortex" title="Permalink to this heading">¶</a></h3>
+<p>By default the WFA will compile and run in Simfabric (the Cerebras built hardware simulator).  To to compile
+hardware, specify the hardware input name (<code class="code docutils literal notranslate"><span class="pre">-hin</span> <span class="pre">&lt;hardware_run_name&gt;</span></code>) and the make goal as bench.img
+(<code class="code docutils literal notranslate"><span class="pre">-mg</span> <span class="pre">bench.image</span></code>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;</span>
+</pre></div>
+</div>
+<p>This will generate a tar file that contains the image (binary) that is ready to run on hardware
+<code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code>.  The next thing to do is move the tar file into the WFA utility directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mv &lt;hardware_run_name&gt;.tar.gz /cerebras_dev/WSE_Field_Equation/util</span>
+</pre></div>
+</div>
+<p>The job can then be submitted to Neocortex through slurm.  Make sure the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;</span></code> does not include
+the <code class="code docutils literal notranslate"><span class="pre">.tar.gz</span></code> extension is not included in the <code class="code docutils literal notranslate"><span class="pre">-c</span></code> option.  The <code class="code docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;field_variable&gt;</span></code> option
+specifies the name of the <code class="code docutils literal notranslate"><span class="pre">WSE_Array</span></code> to save as output from the WSE.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;)</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieving-data">
+<h3>Retrieving Data<a class="headerlink" href="#retrieving-data" title="Permalink to this heading">¶</a></h3>
+<p>On Neocortex, the fastest way to run is to move data off the network drives and onto the local SSD’s.  The
+<code class="code docutils literal notranslate"><span class="pre">neocortex_slurm_script_bash</span></code> script will move the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code> file to the local drive
+on the super dome flex at <code class="code docutils literal notranslate"><span class="pre">/local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span></code>.  To access this data, log into the SDF
+node:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun --nodelist=sdf-&lt;1 or 2&gt; --pty bash</span>
+</pre></div>
+</div>
+<p>and navigate to the local storage</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /local1/&lt;project_name&gt;/&lt;hardware_run_name&gt;</span>
+</pre></div>
+</div>
+<p>The results will be in a series <code class="code docutils literal notranslate"><span class="pre">.ckpt</span></code> files.  If the program ran successfully and got to the end, the
+<code class="code docutils literal notranslate"><span class="pre">progend.txt</span></code> file should have a <code class="code docutils literal notranslate"><span class="pre">1</span></code> in it.</p>
+</section>
+<section id="saving-time-dependent-data">
+<h3>Saving time Dependent Data<a class="headerlink" href="#saving-time-dependent-data" title="Permalink to this heading">¶</a></h3>
+<p>Multiple checkpoints can be saved out in series as the calculations are completed.  The WFA can be configured to write
+out files from one loop starting at iteration <code class="code docutils literal notranslate"><span class="pre">&lt;start_iteration&gt;</span></code> and writing out every <code class="code docutils literal notranslate"><span class="pre">&lt;mod_iterations&gt;</span></code>.
+To do this, the controller puts itself in a pause state and waits for the host
+to check if it is ready to take data off.  If it is, the host will issue a data retrieval command and get the data off
+the WSE.  This is a far from optimal solution for IO and currently uses a very slow debug interface.  It will be
+replaced with a different interface that puts the host in a wait to receive mode and uses the full 1.2Tb/s data link
+to bring down frame save rates to a few milliseconds and not interrupt solution progress.</p>
+<p>To enable this, the <code class="code docutils literal notranslate"><span class="pre">conditional_pause</span></code> method in the loop context manager must be called.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">time_steps</span><span class="p">)</span> <span class="k">as</span> <span class="n">time_march</span><span class="p">:</span>
+   <span class="n">iter_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">iter_counter</span> <span class="o">+</span> <span class="mi">1</span>
+   <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">push_to_host</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start_iteration_push</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">modulo_iteration_push</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">add_time_pause</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="n">time_march</span><span class="o">.</span><span class="n">conditional_pause</span><span class="p">()</span>
+   <span class="n">ns</span><span class="o">.</span><span class="n">_fluid_iteration</span><span class="p">(</span><span class="n">save_debug_images</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="o">=</span><span class="n">nerr</span><span class="p">,</span>
+                       <span class="n">max_pseudo_its</span><span class="o">=</span><span class="n">max_pseudo_its</span><span class="p">,</span> <span class="n">fluid_tol</span><span class="o">=</span><span class="n">nl_tol</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is often beneficial to put this in a guard with a command line option set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Head of file</span>
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1"># Add Program Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span> <span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-atp&quot;</span><span class="p">,</span> <span class="s2">&quot;--add_time_pause&quot;</span><span class="p">,</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;adds a time march pause to save data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                    <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Some point after all the arguments are added</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1"># Rest of problem setup</span>
+</pre></div>
+</div>
+<p>In this example, the program code would get compiled with a <code class="code docutils literal notranslate"><span class="pre">-atp</span> <span class="pre">1</span></code> set on the command line and
+<code class="code docutils literal notranslate"><span class="pre">-ts</span> <span class="pre">&lt;max_time_steps&gt;</span></code>.</p>
+<p>Then to launch the job on Neocortex, additional command line arguments would be set in the submission.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt; -s &lt;start_iteration&gt; -p &lt;mod_iterations&gt;)</span>
+</pre></div>
+</div>
+<p>This allows one to set up saving data over a given time period.  For example setting <code class="code docutils literal notranslate"><span class="pre">&lt;start_iteration&gt;</span> <span class="pre">=</span> <span class="pre">100</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">&lt;mod_iterations&gt;</span> <span class="pre">=</span> <span class="pre">10</span></code>, and compiling with <code class="code docutils literal notranslate"><span class="pre">&lt;max_time_steps&gt;</span> <span class="pre">=</span> <span class="pre">200</span></code> will output 11 <code class="code docutils literal notranslate"><span class="pre">.ckpt</span></code>, equally
+spaced at time steps between 100 and 200.</p>
+</section>
+<section id="converting-checkpoints-to-vtr">
+<h3>Converting Checkpoints to VTR<a class="headerlink" href="#converting-checkpoints-to-vtr" title="Permalink to this heading">¶</a></h3>
+<p>The resulting checkpoint need to be converted to be visualized.  The process uses a post processing script, tovtkfromBin.py,
+to generate a vtkRectilinearGrid (VTR) file.</p>
+<p>Copy the conversion script to you results directoy:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cp<span class="w"> </span>&lt;WFA_Path&gt;/WSE_Field_Equation/util/tovtkfromBin.py<span class="w"> </span>&lt;Checkpoint_Location&gt;
+</pre></div>
+</div>
+<p>Run the script:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>./tovtkfromBin.py<span class="w"> </span>&lt;Checkpoint_filename&gt;<span class="w"> </span>&lt;Attribute_name&gt;
+</pre></div>
+</div>
+</section>
+<section id="paraview-visualization">
+<h3>ParaView Visualization<a class="headerlink" href="#paraview-visualization" title="Permalink to this heading">¶</a></h3>
+<p>Paraview is post-processing visualization tool. It can be run locally or remotely. The local execution uses typical
+point and click operation. Client/Server mode is a more involved process.</p>
+<section id="client-server-mode">
+<h4>Client/Server Mode<a class="headerlink" href="#client-server-mode" title="Permalink to this heading">¶</a></h4>
+<p>Login to Bridges2</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ssh<span class="w"> </span>&lt;username&gt;@bridges2.psc.edu
+</pre></div>
+</div>
+<p>Download the latest version of Paraview</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>wget<span class="w"> </span>https://www.paraview.org/paraview-downloads/download.php?submit<span class="o">=</span>Download<span class="p">&amp;</span><span class="nv">version</span><span class="o">=</span>v5.11<span class="p">&amp;</span><span class="nv">type</span><span class="o">=</span>binary<span class="p">&amp;</span><span class="nv">os</span><span class="o">=</span>Linux<span class="p">&amp;</span><span class="nv">downloadFile</span><span class="o">=</span>ParaView-5.11.0-MPI-Linux-Python3.9-x86_64.tar.gz
+</pre></div>
+</div>
+<p>Extract ParaView</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tar<span class="w"> </span>-zxvf<span class="w"> </span>ParaView-5.11.0-MPI-Linux-Python3.9-x86_64.tar.gz
+</pre></div>
+</div>
+<p>Check out a GPU node</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ssh<span class="w"> </span>interact<span class="w"> </span>-p<span class="w"> </span>GPU-shared<span class="w"> </span>--gres<span class="o">=</span>gpu:v100-32:1
+</pre></div>
+</div>
+<p>Run ParaView server</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>&lt;ParaView_Directory&gt;/bin/pvserver
+</pre></div>
+</div>
+<p>Get the port information from the console which will look something like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Waiting for client...</span>
+<span class="go">Connection URL: cs://v003.ib.bridges2.psc.edu:11111</span>
+<span class="go">Accepting connection(s): v003.ib.bridges2.psc.edu:11111</span>
+<span class="go">Client connected.</span>
+</pre></div>
+</div>
+<p>This is the server to connect to in the format of:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cs://&lt;server&gt;:&lt;port&gt;/</span>
+</pre></div>
+</div>
+<p>From your local machine use ssh to link the Bridges2 port to you local port:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh -L &lt;port&gt;:&lt;sever&gt;:&lt;port&gt; &lt;username&gt;@bridges2.psc.edu</span>
+</pre></div>
+</div>
+<p>On the local system, download and extract ParaView using the same process above.  Run ParaView locally:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>&lt;ParaView_Directory&gt;/bin/paraview
+</pre></div>
+</div>
+<p>Use the ParaView GUI to connect to the server. File-&gt;Connect:</p>
+<a class="reference internal image-reference" href="_images/connect.png"><img alt="_images/connect.png" src="_images/connect.png" style="width: 335px;" /></a>
+<p>Choose Server Configuration/Add a server:</p>
+<a class="reference internal image-reference" href="_images/add_server.png"><img alt="_images/add_server.png" src="_images/add_server.png" style="width: 532px;" /></a>
+<p>Edit Server Configuration:</p>
+<a class="reference internal image-reference" href="_images/edit_server.png"><img alt="_images/edit_server.png" src="_images/edit_server.png" style="width: 537px;" /></a>
+<p>Use File-&gt;Open to open the VTR.</p>
+</section>
+</section>
+</section>
+<section id="useful-tools-and-methods">
+<h2>Useful Tools and Methods<a class="headerlink" href="#useful-tools-and-methods" title="Permalink to this heading">¶</a></h2>
+<p>Several runtime environments are headless which makes doing development work difficult.  Here are a few useful tools
+to make this easier.</p>
+<section id="custom-spyder-ide">
+<h3>Custom Spyder IDE<a class="headerlink" href="#custom-spyder-ide" title="Permalink to this heading">¶</a></h3>
+<p>NETL is maintaining a custom version of the Spyder IDE which supports syntax
+highlighting for WSE kernel code.  Installation can be done with conda by following the
+instructions below:</p>
+<ol class="arabic simple">
+<li><p>Follow the instructions in the <a class="reference internal" href="#obtaining-the-wfa-code">Obtaining the WFA Code</a> section</p></li>
+<li><p>clone the repository from the <a class="reference external" href="https://mfix.netl.doe.gov/gitlab/tjordan/spyder/-/tree/wse_support">gitlab</a> repository</p></li>
+<li><p>check out the v.5.4.2_wse branch</p></li>
+<li><p>navigate to the folder with the setup.py and env.yml files</p></li>
+<li><p>run <code class="code docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">env.yml</span> <span class="pre">--name</span> <span class="pre">spyder</span></code> on linux or <code class="code docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">env_win.yml</span> <span class="pre">--name</span> <span class="pre">spyder</span></code> on windows</p></li>
+<li><p>run <code class="code docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">spyder</span></code></p></li>
+<li><p>run <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p></li>
+<li><p>run <code class="code docutils literal notranslate"><span class="pre">spyder</span></code> on linux or <code class="code docutils literal notranslate"><span class="pre">spyder.bat</span></code> in the <code class="code docutils literal notranslate"><span class="pre">path/to/spyder/repository/scripts</span></code> directory in windows</p></li>
+</ol>
+</section>
+<section id="sshfs">
+<h3>sshfs<a class="headerlink" href="#sshfs" title="Permalink to this heading">¶</a></h3>
+<p>sshfs is very handy for doing remote development as it allows one to mount a remote directory over standard ssh interfaces.
+Follow the instructions <a class="reference external" href="https://phoenixnap.com/kb/sshfs">here</a> to get it set up.  It has been tested and works with
+Neocortex.  This will allow you to edit files remotely in whatever editor you choose. Once installed do the following:</p>
+<section id="neocortex-from-linux">
+<h4>Neocortex from Linux<a class="headerlink" href="#neocortex-from-linux" title="Permalink to this heading">¶</a></h4>
+<p>First, make a directory to mount</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo mkdir /mnt/&lt;mount_name&gt;</span>
+</pre></div>
+</div>
+<p>Next mount whatever directory you wish</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo sshfs &lt;user_name&gt;@neocortex.psc.edu:&lt;path/to/directory&gt; /mnt/&lt;mount_name&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="neocortex-from-windows">
+<h4>Neocortex from Windows<a class="headerlink" href="#neocortex-from-windows" title="Permalink to this heading">¶</a></h4>
+<ol class="arabic simple">
+<li><p>Open the file browser</p></li>
+<li><p>Right click on <cite>This PC</cite></p></li>
+<li><p>Select <cite>Map Network Drive…</cite></p></li>
+<li><p>Select a drive letter</p></li>
+<li><p>Paste the following (with correct substitutions) in the <cite>Folder:</cite> text box</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">\\sshfs &lt;user_name&gt;@neocortex.psc.edu[\&lt;path\to\directory&gt;]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pycharm">
+<h3>Pycharm<a class="headerlink" href="#pycharm" title="Permalink to this heading">¶</a></h3>
+<p>Pycharm is another IDE similar to Spyder.  It has a useful feature in that it will render <code class="code docutils literal notranslate"><span class="pre">.rst</span></code> files and has
+some minimal word processing capabilities.  This makes it very good for editing Sphinx documentation files.</p>
+<p>To install:</p>
+<ol class="arabic simple">
+<li><p>get the latest community edition <a class="reference external" href="https://www.jetbrains.com/pycharm/download/#section=linux">here</a>.</p></li>
+<li><p>untar the file</p></li>
+<li><p>run with <code class="code docutils literal notranslate"><span class="pre">sh</span> <span class="pre">&lt;path_to_pycharm&gt;binpycharm.sh</span></code></p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DiffusionExample.html" class="btn btn-neutral float-right" title="Diffusion Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to WFA’s Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

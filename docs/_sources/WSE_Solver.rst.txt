@@ -1,0 +1,31 @@
+WSE Solver Module
+=================
+This is a convenience class that packages common linear solvers to solve systems
+of linear equations to a defined tolerance.  The Solvers use the same Modules
+in this package to program the WSE once the coefficient matrix and source vector
+are formed.  The implicit solution example for the diffusion equation
+uses one of the `CgConstantOffDiag` variant below.  Be sure to instantiate
+the class at the start of a program to initialize the necessary memory spaces.
+
+The solvers will create `program_scratch` space for arrays and scalars.  These
+memory spaces are available to users outside of the solver, but will be overwritten
+when the solver is called.  This is usually ok as implicitly solving equations
+involves repeated processes of forming and solving and the memory spaces during
+each process is partially isolated (they share A/b and field values).  Reusing
+program scratch is suitable for several intermediate calculations in the formation
+steps.
+
+.. autoclass:: WFA.WSE_Solver.BiCgStab
+    :members:
+
+.. autoclass:: WFA.WSE_Solver.Cg
+    :members:
+
+.. autoclass:: WFA.WSE_Solver.CgConstantOffDiag
+    :members:
+
+.. autoclass:: WFA.WSE_Solver.Jacobi
+    :members:
+
+.. autoclass:: WFA.WSE_Solver.JacobiConstantOffDiag
+    :members:

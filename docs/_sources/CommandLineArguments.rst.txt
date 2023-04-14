@@ -1,0 +1,139 @@
+Command Line Arguments
+======================
+
+The WFA uses the argparse library to automatically add compiler options
+to any script that calls the WFA.WSE_Interface.WSE_Interface.make_WSE method.
+This feature enables rapid development, supports debugging, and compiling larges
+scale executables for hardware runs with just a few keystrokes.
+
+Just add `-h` behind any python script with the make_WSE method called in it to
+get a help menu.  It is possible to add domain specific command line arguments
+to a program with the `get_cmd_line_parser` and `get_available_cmd_args` methods
+as seen in the above examples.  Use the WSE_Interface.str_to_bool method in as the input to
+the type keyword argument in the parser.add_argument method for boolean inputs.
+
+The `-h` option will produce an output similar to:
+
+
+.. code-block:: console
+
+    usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]
+                  [-mg MAKE_GOAL] [-vr VERIFY_RESULT]
+                  [-ptv PRINT_TILE_VERIFICATION]
+                  [-hin HARDWARE_IMAGE_NAME]
+                  [-ast ANALYZE_SIMULATOR_TIMESTAMPS]
+                  [-hon HARDWARE_OUTPUT_NAME] [-to TIMEOUT]
+                  [-att ADD_TASK_TAGS] [-ts32 TIME_STAMPS_32BIT]
+                  [-ts16 TIME_STAMPS_16BIT] [-tsm TIME_STAMP_MODULO]
+                  [-ppc POWER_PERFORMANCE_COUNTER]
+                  [-dml DISPLAY_MAKE_LOG] [-x X] [-y Y] [-z Z]
+
+    Command Line Parser for WSE Interface
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -dl DEBUG_LEVEL, --debug_level DEBUG_LEVEL
+                            Sets the level of debug. 0:off 1:create portrait files
+                            2:JOB=-
+      -lp LAUNCH_PORTRAIT, --launch_portrait LAUNCH_PORTRAIT
+                            launches portrait
+      -mg MAKE_GOAL, --make_goal MAKE_GOAL
+                            specify make goal
+      -vr VERIFY_RESULT, --verify_result VERIFY_RESULT
+                            toggle verification of results through NumPy
+      -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION
+                            enables printing the memory space from the host during
+                            validation. Specify Tx.y where x and y are the tile
+                            coordinates from passing
+      -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME
+                            specifying a name creates files for a hardware run
+      -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS
+                            turns on analysis of time stamps from Simfabric
+      -hon HARDWARE_OUTPUT_NAME, --hardware_output_name HARDWARE_OUTPUT_NAME
+                            specifying on output image name turns on hardware
+                            analysis
+      -to TIMEOUT, --timeout TIMEOUT
+                            specifies the allowable time for a Simfabric run
+      -att ADD_TASK_TAGS, --add_task_tags ADD_TASK_TAGS
+                            compiles task tags into ag files for debugging
+      -ts32 TIME_STAMPS_32BIT, --time_stamps_32bit TIME_STAMPS_32BIT
+                            set time stamps to 32 bit recording
+      -ts16 TIME_STAMPS_16BIT, --time_stamps_16bit TIME_STAMPS_16BIT
+                            set time stamps to 16 bit recording
+      -tsm TIME_STAMP_MODULO, --time_stamp_modulo TIME_STAMP_MODULO
+                            specify the frequency of recording time stamps
+      -ppc POWER_PERFORMANCE_COUNTER, --power_performance_counter POWER_PERFORMANCE_COUNTER
+                            turns on power performance counter recording
+      -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG
+                            displays make log from wse make
+      -x X, --x X           specify x dimension
+      -y Y, --y Y           specify y dimension
+      -z Z, --z Z           specify z dimension
+
+Running Scripts for Development
+-------------------------------
+Running the script without any command line options will cause the API to create the
+.ag, .paint, and Makefile, compile the code into a binary, run the
+hardware simulator (Simfabric) and compare the output to a NumPy based
+validation code within the API.  The correct result is specified in
+make_wse through the `answer` keyword argument.
+
+This configuration is a great way to debug the code during development.
+It is not recommended that the problem size be very large if run in this mode.
+Simfabric is very useful, but it is not very fast and can consume considerable
+memory if the problem size is set to a large size.
+
+If the code ran successfully and produced the same answer as the validation code it will produce an output
+similar to:
+
+.. code-block:: console
+
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  6
+        Total Data to Write (MB):  0.024
+        Total T_bin to Write (MB):  0.01536
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************
+
+The PASS indicates that Simfabric ran and the validation/Simfabric output provided in `answer` were identical.
+
+Debugging
+---------
+
+The following command line set is quite useful.  The `-ptv T4.5` option causes the validation
+code to print out the source and destination memory space for the tile at coordinates of  (4,5)
+in validation.txt for every operation.  This can then be compared to the Cerebras
+debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
+the portrait sever which can be connected to in a browser at `http://localhost:8080/paint.html`
+
+.. code-block:: console
+
+    $ python test_add.py -ptv T4.5 -dl 1
+
+Setting debug_level to 2 is equivalent to setting `GOAL=debug JOB=-` flags in the Cerebras make process.
+This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
+also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
+detected in the Simfabric run.  This is useful when debugging failing microcode.
+
+Setting debug_level to 1 or 2 will also turn on more printing to screen for the API
+
+Compiling for Hardware
+----------------------
+It is not recommended to run the validation or Simfabric for large scale runs.  Running either the NumPy
+validation and/or Simfabric at the maximum scales that the WSE can run can take many days to
+complete on a single node.  It is thus recommended that development be done on the smallest size problem
+that is still meaningful and that it then be scaled up for a hardware run and all validation be turned off.
+
+This can be easily done through the command line as follows
+
+.. code-block:: console
+
+    $ python rectangular_diffusion.py -x 800 -y 1000 -z 2000 -vr 0 -mg bench.img -hin full_scale_implicit_diffusion
+
+If the code contains any timers, they can be turned on with the `-ts16` or `-ts32` arguments

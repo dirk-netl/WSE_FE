@@ -1,0 +1,47 @@
+WSE Array Module
+================
+The WSE_Array class is designed to allow users to work with 3D arrays in a
+similar way to NumPy.  In fact, user defined WSE_Arrays are initialized from
+3D NumPy arrays through the `initData` keyword on instantiation.  The first two
+axes in the NumPy arrays map to tile coordinates and axis 2 maps to the memory
+axis on each tile.
+
+Each WSE_Array is designed to represent field data within a cell/voxel in a 3D
+structured finite element/volume simulation. Thus, the shape of each WSE_Array
+is set to the number of cells in the cardinal axes (including boundary cells).
+
+Each tile holds a column of cells in the third axis of the NumPy data.  Arithmetic
+is written from the perspective of a single tile in the array.
+
+Slicing a WSE_Array object is similar to NumPy but is in relative coordinates.
+The first axis is usually a slice range which specifies the elements of each
+local vector on each tile.  It is equivalent to the slicing in the third axis
+of a 3d NumPy array.  The second two axes specify the tile position relative
+to the local tile coordinate.  The second axis specifies the relative position
+east and west, and the third axis specifies the relative position north and
+south.
+
+Arithmetic operations are done in the worker field.  When neighbor operations
+are involved, moats send their data into the worker field.  Moats are designed
+to hold NSEW boundary conditions and are usually only updated at the tail end
+of a time step.  Boundary conditions can be updated through a copy operation
+which will move neighboring values from the worker field into the moat.
+
+
+WSE_Array format:
+
+.. code-block:: python
+
+    dst[1:-1, 0, 0] = s0[2:,0,0] + s1[:-2,0,0]
+    dst[1:-1, 0, 0] = s0[1:-1,1,0] + s1[1:-1,0,0]
+
+NumPy format:
+
+.. code-block:: python
+
+    dst[1:-1,1:-1,1:-1] = s0[1:-1,1:-1,2:] + s1[1:-1,1:-1,:-2]
+    dst[1:-1,1:-1,1:-1] = s0[1:-1,2:,1:-1] + s1[1:-1,1:-1,1:-1]
+
+
+.. autoclass:: WFA.WSE_Array.WSE_Array
+    :members:

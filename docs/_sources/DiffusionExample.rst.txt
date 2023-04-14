@@ -1,0 +1,213 @@
+Diffusion Example
+=================
+This package is designed to allow practitioners to easily program the Wafer Scale Engine to
+solve Field Equations at an exceptionally rapid pace with high energy efficiency.  This equation
+can be solved both explicitly and implicitly with linear discretization to second order accuracy. The
+WFA package is capable of solving both explicit and implicit formulations.
+
+The governing equation for diffusion without convection takes a simple Laplacian form and is one of the
+most common field equations that relates the time rate of change of a scalar field to its spatial distribution,
+known as Fick's second law.  Here, :math:`\alpha` is the conductivity.
+
+.. math::
+
+    \frac{\partial T}{\partial t} =  \alpha \nabla^2 T = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2}\right)
+
+Solving Explicitly
+------------------
+
+With explicit linear discretization on a cartesian, uniform grid, the diffusion equation simplifies to:
+
+.. math::
+
+    T_i^{n+1} = c\left(T_E^n + T_W^n + T_N^n + T_S^n + T_T^n + T_B^n \right) + \left( 1 - 6c\right) T_i^n
+
+.. math::
+
+    c = \frac{\alpha \left(\Delta t \right)}{\left(\Delta l \right)^2}
+
+The equations will remain stable when:
+
+.. math::
+
+    3c < 0.5
+
+From the stability criteria, it is clear that the allowable time step is proportional
+to the square of the voxel length scale and inversely proportional to the conductivity.
+Explicit solutions are very useful for large voxel size problems and/or those with
+low conductivity.  Common applications for explicit solutions are weather and reservoir
+modeling where voxel sizes are large and conductivity is low.
+
+The following code shows how to solve a generic diffusion equation explicitly in the
+WFA.
+
+file name: rectangular_diffusion_explicit.py
+
+.. code-block:: python
+
+    from WFA.WSE_Interface import WSE_Interface
+    from WFA.WSE_Array import WSE_Array
+    from WFA.WSE_Loops import WSE_For_loop
+    import NumPy as np
+
+    wse = WSE_Interface()
+    parser = wse.get_cmd_line_parser()
+
+    # Define constansts
+    c = 0.1
+    center = 1.0 - 6.0 * c
+
+    # Add CFD specific command line arguments
+    parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="specify y dimension", type=int, default=10)
+    parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
+    parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
+    args = wse.get_available_cmd_args()
+
+
+    # Create the initial Temperature field
+    T_init = np.ones((args.x,args.y,args.z))
+
+    #Set Boundary Conditions
+    T_init[1:-1,0,1:-1] = 1.0
+    T_init[1:-1,-1,1:-1] = 1.0
+    T_init[0,1:-1,1:-1] = 1.0
+    T_init[-1,1:-1,1:-1] = 1.0
+    T_init[1:-1,1:-1,0] = 0.0
+    T_init[1:-1,1:-1,-1] = 0.0
+
+    # Instantiate the WSE Array objects needed
+    T_n = WSE_Array(name='T_n', initData=T_init)
+
+    # Start looping over time
+    with WSE_For_loop('time_loop', args.time_steps):
+        # Update T from current values
+        T_n[1:-1,0,0] = center * T_n[1:-1,0,0]\
+                        + c*(T_n[2:,0,0] + T_n[:-2,0,0] \
+                           + T_n[1:-1,1,0] + T_n[1:-1,0,-1] \
+                           + T_n[1:-1,-1,0] + T_n[1:-1,0,1])
+
+    # Compile, run, and validate
+    wse.make_WSE(answer=T_n)
+
+From the command line run:
+
+.. code-block:: console
+
+    $ python rectangular_diffusion_explicit.py
+
+And it will produce an output similar to:
+
+.. code-block:: console
+
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  3
+        Total Data to Write (MB):  0.012
+        Total T_bin to Write (MB):  0.00768
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************
+
+
+Solving Implicitly
+------------------
+Implicit methods can allow for larger time steps.  The fully implicit formulation with linear discretization
+and a uniform grid simplified to:
+
+.. math::
+
+    T_i^{n+1} - \frac{c}{1+6c} \left(T_E^{n+1} + T_W^{n+1} + T_N^{n+1} + T_S^{n+1} + T_T^{n+1} + T_B^{n+1} \right) = \frac{1.0}{\left( 1 - 6c\right)} T_i^n
+
+The convergence criteria for an implicit method is diagonal dominance.  In this case: :math:`1 \geq \frac{6c}{1+6c}`
+which is always met.  This equation will converge, even if slowly, regardless of the conductivity or cell length scale.
+
+The following code shows how to solve a generic diffusion equation implicitly in the
+WFA.
+
+file name: rectangular_diffusion.py
+
+.. code-block:: python
+
+    from WFA.WSE_Interface import WSE_Interface
+    from WFA.WSE_Array import WSE_Array
+    from WFA.WSE_Loops import WSE_For_loop
+
+    from WFA.WSE_Solver import CgConstantOffDiag, JacobiConstantOffDiag
+    import NumPy as np
+
+    wse = WSE_Interface()
+    parser = wse.get_cmd_line_parser()
+
+    c = 0.1
+    off_diag_coeff = -c/(1.0+6.0*c)
+    source_center_coeff = 1.0/(1.0+6.0*c)
+
+    #Add CFD Specific command line arguments
+    parser.add_argument("-x","--x", help="specify x dimension", type=int, default=10)
+    parser.add_argument("-y","--y", help="specify y dimension", type=int, default=10)
+    parser.add_argument("-z", "--z", help="specify z dimension", type=int, default=10)
+    parser.add_argument("-ts","--time_steps", help="specify number of time steps", type=int, default=5)
+    parser.add_argument("-s","--solver", help="the solver to use (Cg or Jacobi with constant off diagonal)", type=str, default='Cg')
+    args = wse.get_available_cmd_args()
+
+    if args.solver == 'Cg':
+        solver = CgConstantOffDiag(args.x, args.y, args.z)
+    elif args.solver == 'Jacobi':
+        solver = JacobiConstantOffDiag(args.x, args.y, args.z)
+
+    #Create the initial Temperature field
+    T_init = np.ones((args.x,args.y,args.z))
+
+    T_init[1:-1,0,1:-1] = 1.0
+    T_init[1:-1,-1,1:-1] = 1.0
+    T_init[0,1:-1,1:-1] = 1.0
+    T_init[-1,1:-1,1:-1] = 1.0
+    T_init[1:-1,1:-1,0] = 0.0
+    T_init[1:-1,1:-1,-1] = 0.0
+
+    #Instantiate the WSE Array objects needed
+    T_n = WSE_Array(name='T_n', initData=T_init)
+
+    if args.solver == 'Cg':
+        b = wse.get_named_array('program_scratch_2')
+    else:
+        b = WSE_Array(name='b', initData=np.zeros((args.x,args.y,args.z)))
+
+
+    with WSE_For_loop('time_loop', args.time_steps):
+        # calculate the source terms
+        b[1:-1,0,0] = source_center_coeff*T_n[1:-1,0,0]
+
+        # run the generalized CG solver
+        T_n = solver.solve(T_n, off_diag_coeff, b, 0.001)
+
+    wse.make_WSE(answer=T_n)
+
+
+From the command line run:
+
+.. code-block:: console
+
+    $ python rectangular_diffusion.py
+
+And it will produce an output similar to:
+
+.. code-block:: console
+
+    ********************* Starting Make ***********************
+    ********************* Writing binary input files ***********************
+        Total vectors to write:  6
+        Total Data to Write (MB):  0.024
+        Total T_bin to Write (MB):  0.01536
+    **************** Done writing binary input files ***********************
+    ********************* Started Host Validation ***********************
+    ********************* Done Host Validation ***********************
+    ********************* Running Cerebras Tools ***********************
+    examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]
+    ********************* Finished Running Cerebras Tools ***********************
+    ********************* Done Make ***********************

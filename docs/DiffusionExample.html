@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Diffusion Example &mdash; WFA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command Line Arguments" href="CommandLineArguments.html" />
+    <link rel="prev" title="Setup Instructions" href="SetupInstructions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WFA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="SetupInstructions.html">Setup Instructions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Diffusion Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#solving-explicitly">Solving Explicitly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solving-implicitly">Solving Implicitly</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CommandLineArguments.html">Command Line Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Interface.html">WSE Interface Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Array.html">WSE Array Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Loops.html">WSE Loops Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Solver.html">WSE Solver Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodingStyles.html">Coding Style Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WFA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Diffusion Example</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/DiffusionExample.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="diffusion-example">
+<h1>Diffusion Example<a class="headerlink" href="#diffusion-example" title="Permalink to this heading">¶</a></h1>
+<p>This package is designed to allow practitioners to easily program the Wafer Scale Engine to
+solve Field Equations at an exceptionally rapid pace with high energy efficiency.  This equation
+can be solved both explicitly and implicitly with linear discretization to second order accuracy. The
+WFA package is capable of solving both explicit and implicit formulations.</p>
+<p>The governing equation for diffusion without convection takes a simple Laplacian form and is one of the
+most common field equations that relates the time rate of change of a scalar field to its spatial distribution,
+known as Fick’s second law.  Here, <span class="math notranslate nohighlight">\(\alpha\)</span> is the conductivity.</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial T}{\partial t} =  \alpha \nabla^2 T = \alpha \left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2} + \frac{\partial^2 T}{\partial z^2}\right)\]</div>
+<section id="solving-explicitly">
+<h2>Solving Explicitly<a class="headerlink" href="#solving-explicitly" title="Permalink to this heading">¶</a></h2>
+<p>With explicit linear discretization on a cartesian, uniform grid, the diffusion equation simplifies to:</p>
+<div class="math notranslate nohighlight">
+\[T_i^{n+1} = c\left(T_E^n + T_W^n + T_N^n + T_S^n + T_T^n + T_B^n \right) + \left( 1 - 6c\right) T_i^n\]</div>
+<div class="math notranslate nohighlight">
+\[c = \frac{\alpha \left(\Delta t \right)}{\left(\Delta l \right)^2}\]</div>
+<p>The equations will remain stable when:</p>
+<div class="math notranslate nohighlight">
+\[3c &lt; 0.5\]</div>
+<p>From the stability criteria, it is clear that the allowable time step is proportional
+to the square of the voxel length scale and inversely proportional to the conductivity.
+Explicit solutions are very useful for large voxel size problems and/or those with
+low conductivity.  Common applications for explicit solutions are weather and reservoir
+modeling where voxel sizes are large and conductivity is low.</p>
+<p>The following code shows how to solve a generic diffusion equation explicitly in the
+WFA.</p>
+<p>file name: rectangular_diffusion_explicit.py</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WFA.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+<span class="kn">from</span> <span class="nn">WFA.WSE_Array</span> <span class="kn">import</span> <span class="n">WSE_Array</span>
+<span class="kn">from</span> <span class="nn">WFA.WSE_Loops</span> <span class="kn">import</span> <span class="n">WSE_For_loop</span>
+<span class="kn">import</span> <span class="nn">NumPy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1"># Define constansts</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">center</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">6.0</span> <span class="o">*</span> <span class="n">c</span>
+
+<span class="c1"># Add CFD specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span><span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+
+<span class="c1"># Create the initial Temperature field</span>
+<span class="n">T_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+
+<span class="c1">#Set Boundary Conditions</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="c1"># Instantiate the WSE Array objects needed</span>
+<span class="n">T_n</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;T_n&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">T_init</span><span class="p">)</span>
+
+<span class="c1"># Start looping over time</span>
+<span class="k">with</span> <span class="n">WSE_For_loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">time_steps</span><span class="p">):</span>
+    <span class="c1"># Update T from current values</span>
+    <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">center</span> <span class="o">*</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>\
+                    <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="p">(</span><span class="n">T_n</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> \
+                       <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> \
+                       <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Compile, run, and validate</span>
+<span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">T_n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the command line run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>rectangular_diffusion_explicit.py
+</pre></div>
+</div>
+<p>And it will produce an output similar to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  3</span>
+<span class="go">    Total Data to Write (MB):  0.012</span>
+<span class="go">    Total T_bin to Write (MB):  0.00768</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:01.42 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
+</pre></div>
+</div>
+</section>
+<section id="solving-implicitly">
+<h2>Solving Implicitly<a class="headerlink" href="#solving-implicitly" title="Permalink to this heading">¶</a></h2>
+<p>Implicit methods can allow for larger time steps.  The fully implicit formulation with linear discretization
+and a uniform grid simplified to:</p>
+<div class="math notranslate nohighlight">
+\[T_i^{n+1} - \frac{c}{1+6c} \left(T_E^{n+1} + T_W^{n+1} + T_N^{n+1} + T_S^{n+1} + T_T^{n+1} + T_B^{n+1} \right) = \frac{1.0}{\left( 1 - 6c\right)} T_i^n\]</div>
+<p>The convergence criteria for an implicit method is diagonal dominance.  In this case: <span class="math notranslate nohighlight">\(1 \geq \frac{6c}{1+6c}\)</span>
+which is always met.  This equation will converge, even if slowly, regardless of the conductivity or cell length scale.</p>
+<p>The following code shows how to solve a generic diffusion equation implicitly in the
+WFA.</p>
+<p>file name: rectangular_diffusion.py</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WFA.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+<span class="kn">from</span> <span class="nn">WFA.WSE_Array</span> <span class="kn">import</span> <span class="n">WSE_Array</span>
+<span class="kn">from</span> <span class="nn">WFA.WSE_Loops</span> <span class="kn">import</span> <span class="n">WSE_For_loop</span>
+
+<span class="kn">from</span> <span class="nn">WFA.WSE_Solver</span> <span class="kn">import</span> <span class="n">CgConstantOffDiag</span><span class="p">,</span> <span class="n">JacobiConstantOffDiag</span>
+<span class="kn">import</span> <span class="nn">NumPy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">off_diag_coeff</span> <span class="o">=</span> <span class="o">-</span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="mf">6.0</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
+<span class="n">source_center_coeff</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="mf">6.0</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
+
+<span class="c1">#Add CFD Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-ts&quot;</span><span class="p">,</span><span class="s2">&quot;--time_steps&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify number of time steps&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span><span class="s2">&quot;--solver&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the solver to use (Cg or Jacobi with constant off diagonal)&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Cg&#39;</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;Cg&#39;</span><span class="p">:</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">CgConstantOffDiag</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;Jacobi&#39;</span><span class="p">:</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">JacobiConstantOffDiag</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="c1">#Create the initial Temperature field</span>
+<span class="n">T_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">T_init</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="c1">#Instantiate the WSE Array objects needed</span>
+<span class="n">T_n</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;T_n&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">T_init</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;Cg&#39;</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;program_scratch_2&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)))</span>
+
+
+<span class="k">with</span> <span class="n">WSE_For_loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">time_steps</span><span class="p">):</span>
+    <span class="c1"># calculate the source terms</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_center_coeff</span><span class="o">*</span><span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># run the generalized CG solver</span>
+    <span class="n">T_n</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">T_n</span><span class="p">,</span> <span class="n">off_diag_coeff</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">T_n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the command line run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>rectangular_diffusion.py
+</pre></div>
+</div>
+<p>And it will produce an output similar to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  6</span>
+<span class="go">    Total Data to Write (MB):  0.024</span>
+<span class="go">    Total T_bin to Write (MB):  0.01536</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CommandLineArguments.html" class="btn btn-neutral float-right" title="Command Line Arguments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="SetupInstructions.html" class="btn btn-neutral float-left" title="Setup Instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

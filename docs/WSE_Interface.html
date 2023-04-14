@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>WSE Interface Module &mdash; WFA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="WSE Array Module" href="WSE_Array.html" />
+    <link rel="prev" title="Command Line Arguments" href="CommandLineArguments.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WFA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="SetupInstructions.html">Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DiffusionExample.html">Diffusion Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CommandLineArguments.html">Command Line Arguments</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">WSE Interface Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface"><code class="docutils literal notranslate"><span class="pre">WSE_Interface</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.debug_message"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.debug_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_available_cmd_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_cmd_line_parser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_named_array"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_named_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.make_WSE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.print"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.record_timestamp"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.record_timestamp()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Array.html">WSE Array Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Loops.html">WSE Loops Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Solver.html">WSE Solver Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodingStyles.html">Coding Style Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WFA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>WSE Interface Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/WSE_Interface.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="wse-interface-module">
+<h1>WSE Interface Module<a class="headerlink" href="#wse-interface-module" title="Permalink to this heading">¶</a></h1>
+<p>The WSE Inference Module is a singleton class which is instantiated in every
+other class within the WSE_Package.  It was created this way to provide flexibility
+to users and to maintain key program sequences and memory wherever it is used.
+The WSE provides several key features to the API:</p>
+<ol class="arabic simple">
+<li><p>Maintains program sequences</p></li>
+<li><p>Handles memory spaces with no need for user input</p></li>
+<li><p>Handles controller specific operations as well as global operations (Looping, conditionals, global reductions, controller arithmetic)</p></li>
+<li><p>Handles code optimization</p></li>
+<li><p>Enables compiler directives</p></li>
+<li><p>Compiles into WSE images and maps</p></li>
+<li><p>Handles validation in NumPy</p></li>
+</ol>
+<p>Almost all of this functionality is handled automatically and is not a necessary
+concern for end users.</p>
+<span class="target" id="module-WFA.WSE_Interface"></span><dl class="py class">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Singleton class that keeps track of program sequence for the WFA package
+See WSE_Interface_Singleton for available methods</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.WSE_Interface.</span></span><span class="sig-name descname"><span class="pre">WSE_Interface_Singleton</span></span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>DO NOT INSTANTIATE DIRECTLY
+This class is the singleton base of WSE_Interface
+Contains all methods available in WSE_Interface</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.debug_message">
+<span class="sig-name descname"><span class="pre">debug_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.debug_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables debug message when compiled with the -dl 3 option.  Very useful for determining position in a large
+program. To use, add into the graph construction wherever needed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_calc_shear_and_P</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">ASM</span><span class="p">()</span> <span class="k">as</span> <span class="n">cs_asm</span><span class="p">:</span>
+        <span class="n">eta_two</span> <span class="o">=</span> <span class="n">cs_asm</span><span class="o">.</span><span class="n">get_free_array_scratch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: calc eta_two&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
+        <span class="n">eta_two</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta0</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">deta_dT</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deltaT</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The message will show up in the validation.txt file</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">----------------------------------</span>
+<span class="go">Debug Message: FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P</span>
+<span class="go">Debug Message ID: 0x0</span>
+<span class="go">Debug Task ID: 0xf</span>
+<span class="go">----------------------------------</span>
+</pre></div>
+</div>
+<p>Each time <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> gets called, it increments the <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Message</span> <span class="pre">ID</span></code>, ensuring that each
+message has a unique ID number.  The <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Task</span> <span class="pre">ID</span></code> shows which task to search for in the source window
+in portrait:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">     task debug_task entry(0xf) {</span>
+<span class="go">009c     BLOCK ctrl_color;</span>
+<span class="go">009d     gpr_R6 = gpr_R2;</span>
+<span class="go">009e     arguments_recv.length = gpr_c_6;</span>
+<span class="go">00a0     UNBLOCK ctrl_color;}</span>
+</pre></div>
+</div>
+<p>The move instruction <code class="code docutils literal notranslate"><span class="pre">gpr_R6</span> <span class="pre">=</span> <span class="pre">gpr_R2</span></code> got tagged with an instruction address of <code class="code docutils literal notranslate"><span class="pre">009d</span></code> by the
+compiler in this case. The <code class="code docutils literal notranslate"><span class="pre">009d</span></code> address is searchable in the pipeline window if the ADDR option is
+enabled at the top.  Clicking on the line with that address will display the details of the instruction in the
+<code class="code docutils literal notranslate"><span class="pre">Instruction</span></code> window.  The value involved in the move will be displayed in the <code class="code docutils literal notranslate"><span class="pre">s1</span></code> and <code class="code docutils literal notranslate"><span class="pre">dst</span></code>
+values in the <code class="code docutils literal notranslate"><span class="pre">Instruction</span></code> window.  When the <code class="code docutils literal notranslate"><span class="pre">s1</span></code> or <code class="code docutils literal notranslate"><span class="pre">dst</span></code> value matches that in the
+<code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Message</span> <span class="pre">ID</span></code>, the point in the graph where the <code class="code docutils literal notranslate"><span class="pre">debug_message</span></code> was inserted has been found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – descriptive string.</p></li>
+<li><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Enable debug mesage. The default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args">
+<span class="sig-name descname"><span class="pre">get_available_cmd_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>WSE_Interface creates a default set of command line arguments through
+the argparse library.  This function allows users to retrieve all
+command line arguments.  To add more domain specific arguments see
+get_cmd_line_parser.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WFA.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1">#use args in furhter code</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The WSE_Interface args member variable.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>argparse.arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser">
+<span class="sig-name descname"><span class="pre">get_cmd_line_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>WSE_Interface creates a default set of command line arguments through
+the argparse library.  This function allows users to get the parser
+created in the WSE_Interface so that domain specific arguments can be
+added as command line arguments.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">WFA.WSE_Interface</span> <span class="kn">import</span> <span class="n">WSE_Interface</span>
+
+<span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_cmd_line_parser</span><span class="p">()</span>
+
+<span class="c1">#Add CFD Specific command line arguments</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span><span class="s2">&quot;--x&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify x dimension&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="s2">&quot;--y&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify y dimension&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--z&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;specify z dimension&quot;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
+
+<span class="c1">#use args in further code</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The WSE_Interface parser member variable.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>argparse.parser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.get_named_array">
+<span class="sig-name descname"><span class="pre">get_named_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_named_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a python reference to an existing WSE_Array with <code class="code docutils literal notranslate"><span class="pre">name</span></code>. When instantiating a WSE_Array object,
+an optional name parameter can be supplied.  This tag is stored in a dictionary for later retrieval.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyCFDClass</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_center</span><span class="p">,</span> <span class="n">v_center</span><span class="p">,</span> <span class="n">w_center</span><span class="p">):</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;u_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">u_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;v_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">v_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;w_center&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">w_center</span><span class="p">)</span>
+        <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;press&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">press</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Somewhere else in the code, a python object can be created which references the original WSE_Array by the name
+supplied.  It can even be in a completely different class as long as the WSE_Interface singleton is
+instantiated.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">initialize_face_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;u_center&#39;</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;v_center&#39;</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">get_named_array</span><span class="p">(</span><span class="s1">&#39;w_center&#39;</span><span class="p">)</span>
+
+    <span class="c1"># use u,v,w in further code</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name given to the WSE_Array object to retrieve.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Name does not exist.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The python reference to the WSE_Array with the unique name.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE">
+<span class="sig-name descname"><span class="pre">make_WSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liveCells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles the code for the Wafer Scale Engine.  Several command line
+options set compilation behavior.  Any python script calls this script
+will have default command line arguments enabled. Use the <cite>-h</cite> option
+behind the python call to launch the script to get a listing of the
+available options.</p>
+<p>Must be called <strong>once</strong> at the end of a program to compile the graph.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># problem setup</span>
+
+<span class="k">with</span> <span class="n">WSE_For_Loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">benchmark_iterations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wse</span><span class="o">.</span><span class="n">record_timestamp</span><span class="p">()</span>
+
+    <span class="c1"># Update T from current values</span>
+    <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">center</span> <span class="o">*</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="n">T_n</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+               <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+               <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">T_n</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># graph construction is now complete, so we can call make_wse</span>
+<span class="n">wse</span><span class="o">.</span><span class="n">make_WSE</span><span class="p">(</span><span class="n">answer</span><span class="o">=</span><span class="n">T_n</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>answer</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a><em>, </em><a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>optional</em>) – A WSE_array or WSE_Global_Scalar that holds the answer for validation.
+The default is None.</p></li>
+<li><p><strong>liveCells</strong> (<em>np.array</em><em>, </em><em>optional</em>) – A map of live cells used to construct an image of validation data.
+The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>calls python’s default print with flush=True if <code class="code docutils literal notranslate"><span class="pre">-dl</span> <span class="pre">&lt;1,2,3&gt;</span></code> is set.  Useful for debugging and following
+the python code during graph construction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;WSE_Array.__add__&#39;</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;self:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;other:&#39;</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;result:&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;------------------&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>args</em>) – args to print in __builtin__.</p></li>
+<li><p><strong>**kwargs</strong> (<em>kwargs</em>) – kwargs to print in __builtin__.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DESCRIPTION.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.record_timestamp">
+<span class="sig-name descname"><span class="pre">record_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.record_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Records the cycle number in a defined symbol on the worker tiles for benchmarking.  The symbol is set up to
+record 100 values in a circular buffer.  In order to activate the timestamp recording, the <code class="code docutils literal notranslate"><span class="pre">-pcc</span> <span class="pre">1</span></code>
+command line option must be set and one of <code class="code docutils literal notranslate"><span class="pre">-ts16</span> <span class="pre">1</span></code> or <code class="code docutils literal notranslate"><span class="pre">-ts32</span> <span class="pre">1</span></code> must be set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;max_outter_iters&#39;</span><span class="p">,</span> <span class="n">max_outter_iters</span><span class="p">)</span> <span class="k">as</span> <span class="n">max_outer_iters_loop</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;reduction_limited_iters&#39;</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_benchmark_fluid_solver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">record_timestamp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ErrV</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vz</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ErrP</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_shear_and_P</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_dV</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_V</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bc_xyz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vz</span><span class="p">)</span>
+
+        <span class="c1"># more code</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="WSE_Array.html" class="btn btn-neutral float-right" title="WSE Array Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CommandLineArguments.html" class="btn btn-neutral float-left" title="Command Line Arguments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

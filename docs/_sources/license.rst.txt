@@ -1,0 +1,6 @@
+License
+=======
+
+This work is a product of the Federal Government.  As of now, it is covered
+under a `CC0 License <https://creativecommons.org/share-your-work/public-domain/cc0/>`_ until
+applications for a different copyright and license structure are adopted.

@@ -1,0 +1,13 @@
+Recent Achievement
+==================
+
+NETL, Cerebras, and the Pittsburgh Supercomputing Center recently completed the first ever CFD simulation on a WSE at the
+Neocortex facility.  The simulation is of Rayleigh-Benard convection using a new solution method called
+`The Accellerated Pseudo Transient Method <https://gmd.copernicus.org/articles/15/5757/2022/>`_.  The CFD solver uses the
+WFA to compile and run.  Work is currently under way to characterize the exact speed gains and energy consumption relative
+to the fastest conventional hardware available.  Our early benchmarks and results are available in an arXiv
+`paper <https://arxiv.org/abs/2209.13768/>`_. and will be updated as new data comes in.
+
+.. raw:: html
+
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/7NWe0kwaqrE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CFD Formation Module &mdash; WFA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WFA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="SetupInstructions.html">Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DiffusionExample.html">Diffusion Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CommandLineArguments.html">Command Line Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Interface.html">WSE Interface Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Array.html">WSE Array Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Loops.html">WSE Loops Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Solver.html">WSE Solver Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodingStyles.html">Coding Style Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WFA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>CFD Formation Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/CFD_Formation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="cfd-formation-module">
+<h1>CFD Formation Module<a class="headerlink" href="#cfd-formation-module" title="Permalink to this heading">¶</a></h1>
+<p>The CFD Formation Module is designed to handle…</p>
+<section id="classes-and-methods">
+<h2>Classes and Methods<a class="headerlink" href="#classes-and-methods" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation._Formation_Base">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">_Formation_Base</span></span><a class="headerlink" href="#WFA.Apps.CFD_Formation._Formation_Base" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation._Sliceable_Constant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">_Sliceable_Constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation._Sliceable_Constant" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation._Sliceable_Constant.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation._Sliceable_Constant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.FD_Nonlinear_Diffusion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">FD_Nonlinear_Diffusion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Hold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lxyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vpdτ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Resc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.FD_Nonlinear_Diffusion" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.FD_Nonlinear_Diffusion.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Hold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dHz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lxyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vpdτ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Resc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.FD_Nonlinear_Diffusion.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Scalar_Transport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">Scalar_Transport</span></span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Scalar_Transport" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Scalar_Transport.form">
+<span class="sig-name descname"><span class="pre">form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ody</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conductivity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convection_discretization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upwinding'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Scalar_Transport.form" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Scalar_Transport.form_A">
+<span class="sig-name descname"><span class="pre">form_A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ody</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conductivity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convection_discretization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'upwinding'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Scalar_Transport.form_A" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Scalar_Transport.form_b">
+<span class="sig-name descname"><span class="pre">form_b</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">odt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Scalar_Transport.form_b" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>v</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>w</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>scalar</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odx</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>ody</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odz</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>odt</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>conductivity</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_C</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_E</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_W</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_S</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_N</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_T</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>A_B</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>b</strong> (<em>type</em>) – comment</p></li>
+<li><p><strong>convection_discretization</strong> – (Default value = ‘upwinding’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>b</strong> – comment</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Momentum_Colocated">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">Momentum_Colocated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Momentum_Colocated" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Momentum_Colocated.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Momentum_Colocated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Momentum_Colocated.form_Ab">
+<span class="sig-name descname"><span class="pre">form_Ab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cell_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UDS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invert_A_C</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagonal_precondition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Momentum_Colocated.form_Ab" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Coordiante Directions:</dt><dd><p>East is in x+1   (index 1)
+West is in x-1   (index 1)
+North is in y+1  (index 2)
+South is in y-1  (index 2)
+Top is in z+1    (index 0, memory slicing)
+Bottom is in z-1 (index 0, memory slicing)</p>
+</dd>
+<dt>Face Value Conventions:</dt><dd><p>cells centers contain the East, North, and Top values of faces</p>
+</dd>
+</dl>
+<p>dx, dz, and dy are distances between cell centers</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Press_Colocated">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.Apps.CFD_Formation.</span></span><span class="sig-name descname"><span class="pre">Press_Colocated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Press_Colocated" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="WFA.Apps.CFD_Formation.Press_Colocated.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">press</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.Apps.CFD_Formation.Press_Colocated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

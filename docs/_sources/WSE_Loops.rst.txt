@@ -1,0 +1,12 @@
+WSE Loops Module
+=================
+WSE Loops are implemented as context managers.  Portions of the computation graph that exist within
+the context manager are tracked so that the RPC seqeunce can be managed to enact a loop.  It is
+important to remember that this is not a python loop but a computational graph element that is executed
+on the WSE at runtime, not at script execution time.
+
+.. autoclass:: WFA.WSE_Loops.WSE_For_Loop
+    :members:
+
+.. autoclass:: WFA.WSE_Loops.WSE_While_Loop
+    :members:

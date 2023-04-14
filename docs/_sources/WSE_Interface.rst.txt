@@ -1,0 +1,20 @@
+WSE Interface Module
+====================
+The WSE Inference Module is a singleton class which is instantiated in every
+other class within the WSE_Package.  It was created this way to provide flexibility
+to users and to maintain key program sequences and memory wherever it is used.
+The WSE provides several key features to the API:
+
+1) Maintains program sequences
+2) Handles memory spaces with no need for user input
+3) Handles controller specific operations as well as global operations (Looping, conditionals, global reductions, controller arithmetic)
+4) Handles code optimization
+5) Enables compiler directives
+6) Compiles into WSE images and maps
+7) Handles validation in NumPy
+
+Almost all of this functionality is handled automatically and is not a necessary
+concern for end users.
+
+.. automodule:: WFA.WSE_Interface
+    :members:

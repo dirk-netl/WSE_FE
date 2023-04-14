@@ -1,0 +1,12 @@
+WSE Global Scalar Module
+=================
+The WSE Global Scalar Module is designed to handle global, mutable scalars in the
+WFA.  Global scalars live in the memory space of the controller and
+are broadcast with the arguments when an operation is evoked.  This approach
+conserves memory on the system and incurs minimal latencies.  It is most
+commonly used in calculating dot products in linear solvers.  The Module
+supports a limited but growing number of scalar-scalar operations.  These
+operations are conducted on the controller tile.
+
+.. autoclass:: WFA.WSE_Global_Scalar.WSE_Global_Scalar
+    :members:

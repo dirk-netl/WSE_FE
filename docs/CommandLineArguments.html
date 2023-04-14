@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Command Line Arguments &mdash; WFA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="WSE Interface Module" href="WSE_Interface.html" />
+    <link rel="prev" title="Diffusion Example" href="DiffusionExample.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> WFA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="SetupInstructions.html">Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DiffusionExample.html">Diffusion Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line Arguments</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-scripts-for-development">Running Scripts for Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-for-hardware">Compiling for Hardware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Interface.html">WSE Interface Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Array.html">WSE Array Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Loops.html">WSE Loops Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSE_Solver.html">WSE Solver Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CodingStyles.html">Coding Style Guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">WFA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Command Line Arguments</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/CommandLineArguments.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="command-line-arguments">
+<h1>Command Line Arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this heading">¶</a></h1>
+<p>The WFA uses the argparse library to automatically add compiler options
+to any script that calls the WFA.WSE_Interface.WSE_Interface.make_WSE method.
+This feature enables rapid development, supports debugging, and compiling larges
+scale executables for hardware runs with just a few keystrokes.</p>
+<p>Just add <cite>-h</cite> behind any python script with the make_WSE method called in it to
+get a help menu.  It is possible to add domain specific command line arguments
+to a program with the <cite>get_cmd_line_parser</cite> and <cite>get_available_cmd_args</cite> methods
+as seen in the above examples.  Use the WSE_Interface.str_to_bool method in as the input to
+the type keyword argument in the parser.add_argument method for boolean inputs.</p>
+<p>The <cite>-h</cite> option will produce an output similar to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">usage: test_center_add.py [-h] [-dl DEBUG_LEVEL] [-lp LAUNCH_PORTRAIT]</span>
+<span class="go">              [-mg MAKE_GOAL] [-vr VERIFY_RESULT]</span>
+<span class="go">              [-ptv PRINT_TILE_VERIFICATION]</span>
+<span class="go">              [-hin HARDWARE_IMAGE_NAME]</span>
+<span class="go">              [-ast ANALYZE_SIMULATOR_TIMESTAMPS]</span>
+<span class="go">              [-hon HARDWARE_OUTPUT_NAME] [-to TIMEOUT]</span>
+<span class="go">              [-att ADD_TASK_TAGS] [-ts32 TIME_STAMPS_32BIT]</span>
+<span class="go">              [-ts16 TIME_STAMPS_16BIT] [-tsm TIME_STAMP_MODULO]</span>
+<span class="go">              [-ppc POWER_PERFORMANCE_COUNTER]</span>
+<span class="go">              [-dml DISPLAY_MAKE_LOG] [-x X] [-y Y] [-z Z]</span>
+
+<span class="go">Command Line Parser for WSE Interface</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -dl DEBUG_LEVEL, --debug_level DEBUG_LEVEL</span>
+<span class="go">                        Sets the level of debug. 0:off 1:create portrait files</span>
+<span class="go">                        2:JOB=-</span>
+<span class="go">  -lp LAUNCH_PORTRAIT, --launch_portrait LAUNCH_PORTRAIT</span>
+<span class="go">                        launches portrait</span>
+<span class="go">  -mg MAKE_GOAL, --make_goal MAKE_GOAL</span>
+<span class="go">                        specify make goal</span>
+<span class="go">  -vr VERIFY_RESULT, --verify_result VERIFY_RESULT</span>
+<span class="go">                        toggle verification of results through NumPy</span>
+<span class="go">  -ptv PRINT_TILE_VERIFICATION, --print_tile_verification PRINT_TILE_VERIFICATION</span>
+<span class="go">                        enables printing the memory space from the host during</span>
+<span class="go">                        validation. Specify Tx.y where x and y are the tile</span>
+<span class="go">                        coordinates from passing</span>
+<span class="go">  -hin HARDWARE_IMAGE_NAME, --hardware_image_name HARDWARE_IMAGE_NAME</span>
+<span class="go">                        specifying a name creates files for a hardware run</span>
+<span class="go">  -ast ANALYZE_SIMULATOR_TIMESTAMPS, --analyze_simulator_timestamps ANALYZE_SIMULATOR_TIMESTAMPS</span>
+<span class="go">                        turns on analysis of time stamps from Simfabric</span>
+<span class="go">  -hon HARDWARE_OUTPUT_NAME, --hardware_output_name HARDWARE_OUTPUT_NAME</span>
+<span class="go">                        specifying on output image name turns on hardware</span>
+<span class="go">                        analysis</span>
+<span class="go">  -to TIMEOUT, --timeout TIMEOUT</span>
+<span class="go">                        specifies the allowable time for a Simfabric run</span>
+<span class="go">  -att ADD_TASK_TAGS, --add_task_tags ADD_TASK_TAGS</span>
+<span class="go">                        compiles task tags into ag files for debugging</span>
+<span class="go">  -ts32 TIME_STAMPS_32BIT, --time_stamps_32bit TIME_STAMPS_32BIT</span>
+<span class="go">                        set time stamps to 32 bit recording</span>
+<span class="go">  -ts16 TIME_STAMPS_16BIT, --time_stamps_16bit TIME_STAMPS_16BIT</span>
+<span class="go">                        set time stamps to 16 bit recording</span>
+<span class="go">  -tsm TIME_STAMP_MODULO, --time_stamp_modulo TIME_STAMP_MODULO</span>
+<span class="go">                        specify the frequency of recording time stamps</span>
+<span class="go">  -ppc POWER_PERFORMANCE_COUNTER, --power_performance_counter POWER_PERFORMANCE_COUNTER</span>
+<span class="go">                        turns on power performance counter recording</span>
+<span class="go">  -dml DISPLAY_MAKE_LOG, --display_make_log DISPLAY_MAKE_LOG</span>
+<span class="go">                        displays make log from wse make</span>
+<span class="go">  -x X, --x X           specify x dimension</span>
+<span class="go">  -y Y, --y Y           specify y dimension</span>
+<span class="go">  -z Z, --z Z           specify z dimension</span>
+</pre></div>
+</div>
+<section id="running-scripts-for-development">
+<h2>Running Scripts for Development<a class="headerlink" href="#running-scripts-for-development" title="Permalink to this heading">¶</a></h2>
+<p>Running the script without any command line options will cause the API to create the
+.ag, .paint, and Makefile, compile the code into a binary, run the
+hardware simulator (Simfabric) and compare the output to a NumPy based
+validation code within the API.  The correct result is specified in
+make_wse through the <cite>answer</cite> keyword argument.</p>
+<p>This configuration is a great way to debug the code during development.
+It is not recommended that the problem size be very large if run in this mode.
+Simfabric is very useful, but it is not very fast and can consume considerable
+memory if the problem size is set to a large size.</p>
+<p>If the code ran successfully and produced the same answer as the validation code it will produce an output
+similar to:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">********************* Starting Make ***********************</span>
+<span class="go">********************* Writing binary input files ***********************</span>
+<span class="go">    Total vectors to write:  6</span>
+<span class="go">    Total Data to Write (MB):  0.024</span>
+<span class="go">    Total T_bin to Write (MB):  0.01536</span>
+<span class="go">**************** Done writing binary input files ***********************</span>
+<span class="go">********************* Started Host Validation ***********************</span>
+<span class="go">********************* Done Host Validation ***********************</span>
+<span class="go">********************* Running Cerebras Tools ***********************</span>
+<span class="go">examples                :  0:03.71 PASS smoke [ H=4 W=4 D=100 NC=8 NArgs=6 COMPILER=angler ]</span>
+<span class="go">********************* Finished Running Cerebras Tools ***********************</span>
+<span class="go">********************* Done Make ***********************</span>
+</pre></div>
+</div>
+<p>The PASS indicates that Simfabric ran and the validation/Simfabric output provided in <cite>answer</cite> were identical.</p>
+</section>
+<section id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">¶</a></h2>
+<p>The following command line set is quite useful.  The <cite>-ptv T4.5</cite> option causes the validation
+code to print out the source and destination memory space for the tile at coordinates of  (4,5)
+in validation.txt for every operation.  This can then be compared to the Cerebras
+debug tool, Portrait, for each operation to debug the code.  The -dl 1 option launches
+the portrait sever which can be connected to in a browser at <cite>http://localhost:8080/paint.html</cite></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>test_add.py<span class="w"> </span>-ptv<span class="w"> </span>T4.5<span class="w"> </span>-dl<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>Setting debug_level to 2 is equivalent to setting <cite>GOAL=debug JOB=-</cite> flags in the Cerebras make process.
+This will cause Simfabric to dump out detailed log files and launch the Portrait server.  It will
+also ignore any tests and force a pass to allow portrait to launch even if a fatal condition was
+detected in the Simfabric run.  This is useful when debugging failing microcode.</p>
+<p>Setting debug_level to 1 or 2 will also turn on more printing to screen for the API</p>
+</section>
+<section id="compiling-for-hardware">
+<h2>Compiling for Hardware<a class="headerlink" href="#compiling-for-hardware" title="Permalink to this heading">¶</a></h2>
+<p>It is not recommended to run the validation or Simfabric for large scale runs.  Running either the NumPy
+validation and/or Simfabric at the maximum scales that the WSE can run can take many days to
+complete on a single node.  It is thus recommended that development be done on the smallest size problem
+that is still meaningful and that it then be scaled up for a hardware run and all validation be turned off.</p>
+<p>This can be easily done through the command line as follows</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>rectangular_diffusion.py<span class="w"> </span>-x<span class="w"> </span><span class="m">800</span><span class="w"> </span>-y<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-z<span class="w"> </span><span class="m">2000</span><span class="w"> </span>-vr<span class="w"> </span><span class="m">0</span><span class="w"> </span>-mg<span class="w"> </span>bench.img<span class="w"> </span>-hin<span class="w"> </span>full_scale_implicit_diffusion
+</pre></div>
+</div>
+<p>If the code contains any timers, they can be turned on with the <cite>-ts16</cite> or <cite>-ts32</cite> arguments</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="WSE_Interface.html" class="btn btn-neutral float-right" title="WSE Interface Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DiffusionExample.html" class="btn btn-neutral float-left" title="Diffusion Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
