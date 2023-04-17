@@ -77,7 +77,7 @@ Here, the final expression :code:`spatial_grad[1:-1,0,0] = spatial_grad[1:-1,0,0
 an addition (or as equally could be a subtraction).  To maximize performance, the data in :code:`spatial_grad[1:-1,0,0]`
 must be separated from the data in :code:`temp[1:-1,0,0]` by four banks.  To force this to happen, the
 :code:`temp._next_offset = temp[1:-1,0,0]._find_offset_for_add(spatial_grad[1:-1,0,0])` statement forces
-the bank for temp to align with :code:`spatial_grad[1:-1,0,0]` at the next write into :code:'temp[1:-1,0,0]'.
+the bank for temp to align with :code:`spatial_grad[1:-1,0,0]` at the next write into :code:`temp[1:-1,0,0]`.
 The write into temp happens in :code:`temp[1:-1,0,0] = self.dHx[1:-1,0,0] - self.dHx[1:-1,1,0]`
 
 .. code-block:: python

@@ -524,7 +524,7 @@ and user data will be lost if manually set.</p>
 an addition (or as equally could be a subtraction).  To maximize performance, the data in <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span></code>
 must be separated from the data in <code class="code docutils literal notranslate"><span class="pre">temp[1:-1,0,0]</span></code> by four banks.  To force this to happen, the
 <code class="code docutils literal notranslate"><span class="pre">temp._next_offset</span> <span class="pre">=</span> <span class="pre">temp[1:-1,0,0]._find_offset_for_add(spatial_grad[1:-1,0,0])</span></code> statement forces
-the bank for temp to align with <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span></code> at the next write into :code:’temp[1:-1,0,0]’.
+the bank for temp to align with <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span></code> at the next write into <code class="code docutils literal notranslate"><span class="pre">temp[1:-1,0,0]</span></code>.
 The write into temp happens in <code class="code docutils literal notranslate"><span class="pre">temp[1:-1,0,0]</span> <span class="pre">=</span> <span class="pre">self.dHx[1:-1,0,0]</span> <span class="pre">-</span> <span class="pre">self.dHx[1:-1,1,0]</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the bank alignment of temp[1:-1,0,0] to be compatible with spatial_grad[1:-1,0,0]</span>
 <span class="c1"># at the next write into temp[1:-1,0,0] for an addition operation</span>
