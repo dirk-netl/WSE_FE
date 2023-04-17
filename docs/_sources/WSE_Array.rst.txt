@@ -45,3 +45,71 @@ NumPy format:
 
 .. autoclass:: WFA.WSE_Array.WSE_Array
     :members:
+
+
+WSE Array: Advanced Performance Optimization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For clarity, the discussion in this section is not related to solution accuracy, but is related
+to maximizing performance when possible.
+
+The memory system of the WSE is set up with multiple banks as is common in many architectures.
+The WSE allows up to 128 bytes of read and 64 bytes of writes per cycle through a 7 stage pipeline.
+If the processing pathway will allow it, an instruction can be conducted in Simultaneous Instruction
+Multiple Data (SIMD).  The WSE allows for SIMD 2 in single precision and SIMD 4 in half.  However,
+obtaining the performance of SIMD 2/4 requires that data be accessed on correct banks.  In short, a
+memory bank can only be accessed once per cycle which places restrictions on the placement of data
+within the memory space.  For example, addition operations can be done in SIMD 2 in single precision.
+The nature of the high-performance operation necessitates that S0 and S1 be separated by 4 banks.
+
+To address this, the WFA maintains eight words (4 SP values) at the head of each local contiguous
+memory space so that banks can be properly managed.  The precompiler in the WFA is designed to identify
+and eliminate bank conflicts in the graph when dealing with temporaries in mathematical expressions,
+but does not (yet) have the freedom to adjust the banking for user defined arrays.  Thus, the WFA
+provides a few methods to ensure banking correctness that will maximize performance.
+
+In the example below, :code:`temp` and :code:`spatial_grad` are user defined arrays.  That is, they are
+instantiated without the :code:`_isWorkingVector` keyword option set to :code:`True`. Do not manually set
+this option, only discussed for illustration and understanding.  Working vectors are recycled in expressions
+and user data will be lost if manually set.
+
+Here, the final expression :code:`spatial_grad[1:-1,0,0] = spatial_grad[1:-1,0,0] + temp[1:-1,0,0]` is
+an addition (or as equally could be a subtraction).  To maximize performance, the data in :code:`spatial_grad[1:-1,0,0]`
+must be separated from the data in :code:`temp[1:-1,0,0]` by four banks.  To force this to happen, the
+:code:`temp._next_offset = temp[1:-1,0,0]._find_offset_for_add(spatial_grad[1:-1,0,0])` statement forces
+the bank for temp to align with :code:`spatial_grad[1:-1,0,0]` at the next write into :code:'temp[1:-1,0,0]'.
+The write into temp happens in :code:`temp[1:-1,0,0] = self.dHx[1:-1,0,0] - self.dHx[1:-1,1,0]`
+
+.. code-block:: python
+
+    # Set the bank alignment of temp[1:-1,0,0] to be compatible with spatial_grad[1:-1,0,0]
+    # at the next write into temp[1:-1,0,0] for an addition operation
+    temp._next_offset = temp[1:-1,0,0]._find_offset_for_add(spatial_grad[1:-1,0,0])
+
+    # do an operation that writes into temp
+    temp[1:-1,0,0] = self.dHx[1:-1,0,0] - self.dHx[1:-1,1,0]
+
+    # temp is not properly aligned with spatial_grid to maximize performance
+    spatial_grad[1:-1,0,0] = spatial_grad[1:-1,0,0] + temp[1:-1,0,0]
+
+Similarly, a multiply will not execute at maximum SIMD 1 performance unless SO and S1 are on different
+banks.  The WFA provides a :code:`_find_offset_for_mul` that will ensure that operands for a multiply
+operation are on different banks.
+
+Performance Limitations
+_______________________
+It is not always possible to ensure correct banking.  This often happens with additions with offset memory references.
+For example, it is common to add top and bottom cells together from the same array.
+
+.. code-block:: python
+
+    sum[1:-1,0,0] = x[:2,0,0] + x[2:,0,0]
+
+This configuration will always run in SIMD1 because the banking does not allow for SIMD2, thus this will run at 1 add
+per cycle.
+
+Future WFA Precompiler Improvements
+___________________________________
+
+It is certainly possible to develop a better compiler that will manage banks more transparently.  This is one of the
+goals for a new version of the WFA.

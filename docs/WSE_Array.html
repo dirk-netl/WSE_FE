@@ -109,6 +109,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.sqrt"><code class="docutils literal notranslate"><span class="pre">WSE_Array.sqrt()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#wse-array-advanced-performance-optimization">WSE Array: Advanced Performance Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#performance-limitations">Performance Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#future-wfa-precompiler-improvements">Future WFA Precompiler Improvements</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="WSE_Global_Scalar.html">WSE Global Scalar Module</a></li>
@@ -494,6 +499,63 @@ result.</p>
 
 </dd></dl>
 
+<section id="wse-array-advanced-performance-optimization">
+<h2>WSE Array: Advanced Performance Optimization<a class="headerlink" href="#wse-array-advanced-performance-optimization" title="Permalink to this heading">¶</a></h2>
+<p>For clarity, the discussion in this section is not related to solution accuracy, but is related
+to maximizing performance when possible.</p>
+<p>The memory system of the WSE is set up with multiple banks as is common in many architectures.
+The WSE allows up to 128 bytes of read and 64 bytes of writes per cycle through a 7 stage pipeline.
+If the processing pathway will allow it, an instruction can be conducted in Simultaneous Instruction
+Multiple Data (SIMD).  The WSE allows for SIMD 2 in single precision and SIMD 4 in half.  However,
+obtaining the performance of SIMD 2/4 requires that data be accessed on correct banks.  In short, a
+memory bank can only be accessed once per cycle which places restrictions on the placement of data
+within the memory space.  For example, addition operations can be done in SIMD 2 in single precision.
+The nature of the high-performance operation necessitates that S0 and S1 be separated by 4 banks.</p>
+<p>To address this, the WFA maintains eight words (4 SP values) at the head of each local contiguous
+memory space so that banks can be properly managed.  The precompiler in the WFA is designed to identify
+and eliminate bank conflicts in the graph when dealing with temporaries in mathematical expressions,
+but does not (yet) have the freedom to adjust the banking for user defined arrays.  Thus, the WFA
+provides a few methods to ensure banking correctness that will maximize performance.</p>
+<p>In the example below, <code class="code docutils literal notranslate"><span class="pre">temp</span></code> and <code class="code docutils literal notranslate"><span class="pre">spatial_grad</span></code> are user defined arrays.  That is, they are
+instantiated without the <code class="code docutils literal notranslate"><span class="pre">_isWorkingVector</span></code> keyword option set to <code class="code docutils literal notranslate"><span class="pre">True</span></code>. Do not manually set
+this option, only discussed for illustration and understanding.  Working vectors are recycled in expressions
+and user data will be lost if manually set.</p>
+<p>Here, the final expression <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span> <span class="pre">=</span> <span class="pre">spatial_grad[1:-1,0,0]</span> <span class="pre">+</span> <span class="pre">temp[1:-1,0,0]</span></code> is
+an addition (or as equally could be a subtraction).  To maximize performance, the data in <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span></code>
+must be separated from the data in <code class="code docutils literal notranslate"><span class="pre">temp[1:-1,0,0]</span></code> by four banks.  To force this to happen, the
+<code class="code docutils literal notranslate"><span class="pre">temp._next_offset</span> <span class="pre">=</span> <span class="pre">temp[1:-1,0,0]._find_offset_for_add(spatial_grad[1:-1,0,0])</span></code> statement forces
+the bank for temp to align with <code class="code docutils literal notranslate"><span class="pre">spatial_grad[1:-1,0,0]</span></code> at the next write into :code:’temp[1:-1,0,0]’.
+The write into temp happens in <code class="code docutils literal notranslate"><span class="pre">temp[1:-1,0,0]</span> <span class="pre">=</span> <span class="pre">self.dHx[1:-1,0,0]</span> <span class="pre">-</span> <span class="pre">self.dHx[1:-1,1,0]</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the bank alignment of temp[1:-1,0,0] to be compatible with spatial_grad[1:-1,0,0]</span>
+<span class="c1"># at the next write into temp[1:-1,0,0] for an addition operation</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">_next_offset</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_find_offset_for_add</span><span class="p">(</span><span class="n">spatial_grad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># do an operation that writes into temp</span>
+<span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dHx</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dHx</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># temp is not properly aligned with spatial_grid to maximize performance</span>
+<span class="n">spatial_grad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">spatial_grad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Similarly, a multiply will not execute at maximum SIMD 1 performance unless SO and S1 are on different
+banks.  The WFA provides a <code class="code docutils literal notranslate"><span class="pre">_find_offset_for_mul</span></code> that will ensure that operands for a multiply
+operation are on different banks.</p>
+<section id="performance-limitations">
+<h3>Performance Limitations<a class="headerlink" href="#performance-limitations" title="Permalink to this heading">¶</a></h3>
+<p>It is not always possible to ensure correct banking.  This often happens with additions with offset memory references.
+For example, it is common to add top and bottom cells together from the same array.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">sum</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This configuration will always run in SIMD1 because the banking does not allow for SIMD2, thus this will run at 1 add
+per cycle.</p>
+</section>
+<section id="future-wfa-precompiler-improvements">
+<h3>Future WFA Precompiler Improvements<a class="headerlink" href="#future-wfa-precompiler-improvements" title="Permalink to this heading">¶</a></h3>
+<p>It is certainly possible to develop a better compiler that will manage banks more transparently.  This is one of the
+goals for a new version of the WFA.</p>
+</section>
+</section>
 </section>
 
 
