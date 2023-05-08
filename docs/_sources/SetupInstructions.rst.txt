@@ -342,7 +342,152 @@ Edit Server Configuration:
 
 Use File->Open to open the VTR.
 
+Running on Colab
+----------------
+Colab is a facility in California which hosts Cerebras' WSE farm.  NETL has purchased time on this facility.  The
+follwing are instruction to run on the Colab facilities.  These instructions are largely specific to the NETL team and
+those working with the core WFA development team.
 
+Connecting to Colab
+^^^^^^^^^^^^^^^^^^^
+
+Connection is done over ssh with private/public keys.  It is not possible to connect to Colab without contacting NETL
+and Cerebras to arrange for ssh connection privileges.  Connections are managed over a VPN system called global protect.
+The software can be found `here <https://access01.vpn.cerebras.net>`_.  You will need a user name and password from
+Cerebras to log in and download.
+
+Once global protect is installed, add the server `access01.vpn.cerebras.net` to the global protect client by navigating
+to `hamburger > Settings > General > add`.  Put the above portal address in the dialog box and click ok.  Now log into
+global connect using your provided user name and password.
+
+NETL has been provided access to servers: `sc-r11r13-s10` and `sc-r11r13-s11`.  s10 is our development node and s11 is
+connected to the WSE.  both can be logged into with the following:
+
+.. code-block:: console
+
+    ssh -L 8080:<server>:865 <user_name>@<server> -i C:\<path\to\private\key>
+
+This grants terminal access to either server with port forwarding so that portrait can be accessed from your local
+machine the code:`-L 8080:<server>:865` can be omitted if there is no need to run portrait and only has to be done
+once in an active terminal to support the connection.
+
+Running the WFA in Docker
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Once the WFA is checked out and a docker container is copied to the home directory, log into s10.  s10 is equipped with
+docker and the image can be run with the following:
+
+.. code-block:: console
+
+    docker run -it --rm -p 865:8080 -v $HOME:/home -v /netl:/netl -v /usr:/host_usr <image_name>
+
+Once docker is loaded and running in a terminal, navigate to the root directory for the WFA and run
+code:`python build_and_test.py`.  If the branch is passing on gitlab, it should pass all the tests locally.
+
+Running on hardware
+^^^^^^^^^^^^^^^^^^^
+
+s11 is connected to the WSE and has access to the same directories as s10.  It does not have docker for obvious
+reasons.  Once logged in via ssh, set up two environment variables:
+
+.. code-block:: console
+
+    export PFAB=$HOME/pfabric.bin
+    export FABRIC=$HOME/vfabric.bin
+    export NODE=10.254.27.224
+
+The above could be added to your code:`.bashrc` file
+
+Next, expand the stack space available to linux:
+
+.. code-block:: console
+
+    ulimit -s unlimited
+
+Now check the current health of the WSE to ensure that it is not in a bad configuration:
+
+.. code-block:: console
+
+    cssurvey node=$NODE fabric=$PFAB
+
+Check for one way links and that it found over 800K cores.  A healthy output should look like:
+
+.. code-block:: console
+
+    Node at 10.254.27.224, 132 links over 12 ports
+    P0 = 10.254.27.225
+    P1 = 10.254.27.226
+    P2 = 10.254.27.227
+    P3 = 10.254.27.228
+    P4 = 10.254.27.229
+    P5 = 10.254.27.230
+    P6 = 10.254.27.231
+    P7 = 10.254.27.232
+    P8 = 10.254.27.233
+    P9 = 10.254.27.234
+    PA = 10.254.27.235
+    PB = 10.254.27.236
+    Use socket 3 for control messages
+    tilecount 818958
+    tilecount 818958
+    corecount=801864
+    corecount=801864
+    Detected 801864 cores
+    gcount: 0 in raw scan
+    0 one way links
+    translating fabric offset -746,-496 -> 0,0
+    801864 nodes; 1 components; 0 x-error; 0 y-error; 0 linkerror 0 taberror 0 inverror
+    fabric size: 774 x 1036
+    ghost sightings: 0
+    [  0]  499R [  1]  491R [  2]  475R [  3]  459R [  4]  443R [  5]  430R [  6]  414R [  7]  408R [  8]  395R [  9]  382R [ 10]  359R
+    [ 11]  351R [ 12]  337R [ 13]  321R [ 14]  305R [ 15]  289R [ 16]  273R [ 17]  265R [ 18]  249R [ 19]  233R [ 20]  209R [ 21]  201R
+    [ 22]  186R [ 23]  170R [ 24]  155R [ 25]  141R [ 26]  125R [ 27]  117R [ 28]  101R [ 29]   85R [ 30]   61R [ 31]   53R [ 32]   37R
+    [ 33] 1004R [ 34]  988R [ 35]  972R [ 36]  948R [ 37]  940R [ 38]  924R [ 39]  908R [ 40]  892R [ 41]  876R [ 42]  860R [ 43]  852R
+    [ 44]  836R [ 45]  820R [ 46]  796R [ 47]  788R [ 48]  773R [ 49]  757R [ 50]  741R [ 51]  727R [ 52]  711R [ 53]  703R [ 54]  687R
+    [ 55]  671R [ 56]  647R [ 57]  639R [ 58]  623R [ 59]  607R [ 60]  591R [ 61]  579R [ 62]  563R [ 63]  555R [ 64]  539R [ 65]  523R
+    [ 66]  521L [ 67]  536L [ 68]  552L [ 69]  559L [ 70]  575L [ 71]  591L [ 72]  607L [ 73]  623L [ 74]  638L [ 75]  646L [ 76]  670L
+    [ 77]  685L [ 78]  701L [ 79]  709L [ 80]  725L [ 81]  741L [ 82]  757L [ 83]  773L [ 84]  789L [ 85]  797L [ 86]  820L [ 87]  836L
+    [ 88]  852L [ 89]  860L [ 90]  876L [ 91]  892L [ 92]  908L [ 93]  924L [ 94]  939L [ 95]  947L [ 96]  971L [ 97]  987L [ 98] 1003L
+    [ 99]   38L [100]   53L [101]   61L [102]   84L [103]  100L [104]  115L [105]  123L [106]  139L [107]  155L [108]  171L [109]  187L
+    [110]  202L [111]  210L [112]  234L [113]  249L [114]  265L [115]  273L [116]  289L [117]  302L [118]  313L [119]  329L [120]  345L
+    [121]  353L [122]  377L [123]  393L [124]  408L [125]  416L [126]  432L [127]  444L [128]  460L [129]  475L [130]  490L [131]  498L
+
+If the output does not look like this, the WSE needs to be restarted.  Contact Cerebras through slack for help.
+
+If the output looks healthy then proceed to create a virtual fabric big enough to run your program.
+
+.. code-block:: console
+
+    csvfabric pfabric=$PFAB vfabric=$FABRIC x0=<x_origin> y0=<y_origin> w=<width> h=<height>
+
+Now pause all the tiles in that fabric section:
+
+.. code-block:: console
+
+    cscontrol fabric=$FABRIC pause
+
+Now initialize the memory space on that fabric section:
+
+.. code-block:: console
+
+    cswipe fabric=$FABRIC
+
+Now load your program:
+
+.. code-block:: console
+
+    csprog image=<path/to/my/image/file> fabric=$FABRIC
+
+Now unpause the tiles:
+
+.. code-block:: console
+
+    cscontrol fabric=$FABRIC run
+
+The tiles can be paused at any point and the memory state can be inspected:
+
+.. code-block:: console
+
+    csget fabric=$FABRIC map=<path/to/my/map/file> symbol=<symbol_in_map_file> data=<optional_binary_out_file>
 
 Useful Tools and Methods
 ------------------------

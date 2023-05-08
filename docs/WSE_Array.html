@@ -66,7 +66,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_dot_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_dot_2_control()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_max_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_max_2_control()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_norm_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_norm_2_control()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.set_slice_image_properties"><code class="docutils literal notranslate"><span class="pre">WSE_Array.set_slice_image_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.running_m_s_2d"><code class="docutils literal notranslate"><span class="pre">WSE_Array.running_m_s_2d()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.sqrt"><code class="docutils literal notranslate"><span class="pre">WSE_Array.sqrt()</span></code></a></li>
 </ul>
 </li>
@@ -433,11 +433,39 @@ result.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.set_slice_image_properties">
-<span class="sig-name descname"><span class="pre">set_slice_image_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.set_slice_image_properties" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.running_m_s_2d">
+<span class="sig-name descname"><span class="pre">running_m_s_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">store_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.running_m_s_2d" title="Permalink to this definition"></a></dt>
+<dd><p>This function calculates a running mean and standard deviation using Welford’s Algorithm for two-dimensional
+problems set up to run many simulations at the same time.  This is useful in statistical dynamics problems such
+as the Ising model.</p>
+<p>To correctly use this function, many 2D simulations should be set up in a 3d tensor such that each simulation
+has its 2d axes along the vertical, N-S axis in the WFA (axis 1 in numpy initialization) and the other in the
+memory  direction (axis 2 in numpy initializtion).  The horizontal, E-W axis in the WFA (axis 0 in numpy
+initialization) is used to fill many simultaneous 2D simulations.</p>
+<p>This function will do a reduce mean along the 2d simulation axes and then calculate the running mean and
+standard deviation.  The function is set up to overlp communication/computation of the reduction along the
+N-S tile direction and Wolford’s Algorithm calculation such that with sufficiant work between successive calls
+to this function, the workers can be kept busy and not wait for the the tile reduction and statistics update
+calculations.  The only impact on solution progress with sufficient workload is the reduction along the memory
+axis which must be done by each worker.</p>
+<p>Data ends up in the lower reduction row stored in the symbols <code class="code docutils literal notranslate"><span class="pre">running_means</span></code> and <code class="code docutils literal notranslate"><span class="pre">running_stds</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;statistical_iteration&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+
+    <span class="c1"># put statistical calculations here and ensure the result</span>
+    <span class="c1"># ends up in stats.  The mean and std will be stored in</span>
+    <span class="c1"># the first position in the storage arrays</span>
+
+    <span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">running_m_s_2d</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>property_dict</strong> (<em>TYPE</em>) – DESCRIPTION.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store_index</strong> (<em>int</em>) – The position within the storage arrays to place the statistics.</p></li>
+<li><p><strong>n_height</strong> (<em>int</em><em>, </em><em>optional</em>) – The size of the dimension in the N-S direction to be reduced.  If not supplied, the dimension of the
+N-S worker field is used.  This allows partial worker reductions to be enabled with masking. The default is
+None.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>

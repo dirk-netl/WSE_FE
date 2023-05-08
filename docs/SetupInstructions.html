@@ -66,6 +66,12 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#running-on-colab">Running on Colab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-colab">Connecting to Colab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-wfa-in-docker">Running the WFA in Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-on-hardware">Running on hardware</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#useful-tools-and-methods">Useful Tools and Methods</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#custom-spyder-ide">Custom Spyder IDE</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sshfs">sshfs</a><ul>
@@ -373,6 +379,124 @@ point and click operation. Client/Server mode is a more involved process.</p>
 <a class="reference internal image-reference" href="_images/edit_server.png"><img alt="_images/edit_server.png" src="_images/edit_server.png" style="width: 537px;" /></a>
 <p>Use File-&gt;Open to open the VTR.</p>
 </section>
+</section>
+</section>
+<section id="running-on-colab">
+<h2>Running on Colab<a class="headerlink" href="#running-on-colab" title="Permalink to this heading"></a></h2>
+<p>Colab is a facility in California which hosts Cerebras’ WSE farm.  NETL has purchased time on this facility.  The
+follwing are instruction to run on the Colab facilities.  These instructions are largely specific to the NETL team and
+those working with the core WFA development team.</p>
+<section id="connecting-to-colab">
+<h3>Connecting to Colab<a class="headerlink" href="#connecting-to-colab" title="Permalink to this heading"></a></h3>
+<p>Connection is done over ssh with private/public keys.  It is not possible to connect to Colab without contacting NETL
+and Cerebras to arrange for ssh connection privileges.  Connections are managed over a VPN system called global protect.
+The software can be found <a class="reference external" href="https://access01.vpn.cerebras.net">here</a>.  You will need a user name and password from
+Cerebras to log in and download.</p>
+<p>Once global protect is installed, add the server <cite>access01.vpn.cerebras.net</cite> to the global protect client by navigating
+to <cite>hamburger &gt; Settings &gt; General &gt; add</cite>.  Put the above portal address in the dialog box and click ok.  Now log into
+global connect using your provided user name and password.</p>
+<p>NETL has been provided access to servers: <cite>sc-r11r13-s10</cite> and <cite>sc-r11r13-s11</cite>.  s10 is our development node and s11 is
+connected to the WSE.  both can be logged into with the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ssh -L 8080:&lt;server&gt;:865 &lt;user_name&gt;@&lt;server&gt; -i C:\&lt;path\to\private\key&gt;</span>
+</pre></div>
+</div>
+<p>This grants terminal access to either server with port forwarding so that portrait can be accessed from your local
+machine the code:<cite>-L 8080:&lt;server&gt;:865</cite> can be omitted if there is no need to run portrait and only has to be done
+once in an active terminal to support the connection.</p>
+</section>
+<section id="running-the-wfa-in-docker">
+<h3>Running the WFA in Docker<a class="headerlink" href="#running-the-wfa-in-docker" title="Permalink to this heading"></a></h3>
+<p>Once the WFA is checked out and a docker container is copied to the home directory, log into s10.  s10 is equipped with
+docker and the image can be run with the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -it --rm -p 865:8080 -v $HOME:/home -v /netl:/netl -v /usr:/host_usr &lt;image_name&gt;</span>
+</pre></div>
+</div>
+<p>Once docker is loaded and running in a terminal, navigate to the root directory for the WFA and run
+code:<cite>python build_and_test.py</cite>.  If the branch is passing on gitlab, it should pass all the tests locally.</p>
+</section>
+<section id="running-on-hardware">
+<h3>Running on hardware<a class="headerlink" href="#running-on-hardware" title="Permalink to this heading"></a></h3>
+<p>s11 is connected to the WSE and has access to the same directories as s10.  It does not have docker for obvious
+reasons.  Once logged in via ssh, set up two environment variables:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PFAB=$HOME/pfabric.bin</span>
+<span class="go">export FABRIC=$HOME/vfabric.bin</span>
+<span class="go">export NODE=10.254.27.224</span>
+</pre></div>
+</div>
+<p>The above could be added to your code:<cite>.bashrc</cite> file</p>
+<p>Next, expand the stack space available to linux:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ulimit -s unlimited</span>
+</pre></div>
+</div>
+<p>Now check the current health of the WSE to ensure that it is not in a bad configuration:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cssurvey node=$NODE fabric=$PFAB</span>
+</pre></div>
+</div>
+<p>Check for one way links and that it found over 800K cores.  A healthy output should look like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Node at 10.254.27.224, 132 links over 12 ports</span>
+<span class="go">P0 = 10.254.27.225</span>
+<span class="go">P1 = 10.254.27.226</span>
+<span class="go">P2 = 10.254.27.227</span>
+<span class="go">P3 = 10.254.27.228</span>
+<span class="go">P4 = 10.254.27.229</span>
+<span class="go">P5 = 10.254.27.230</span>
+<span class="go">P6 = 10.254.27.231</span>
+<span class="go">P7 = 10.254.27.232</span>
+<span class="go">P8 = 10.254.27.233</span>
+<span class="go">P9 = 10.254.27.234</span>
+<span class="go">PA = 10.254.27.235</span>
+<span class="go">PB = 10.254.27.236</span>
+<span class="go">Use socket 3 for control messages</span>
+<span class="go">tilecount 818958</span>
+<span class="go">tilecount 818958</span>
+<span class="go">corecount=801864</span>
+<span class="go">corecount=801864</span>
+<span class="go">Detected 801864 cores</span>
+<span class="go">gcount: 0 in raw scan</span>
+<span class="go">0 one way links</span>
+<span class="go">translating fabric offset -746,-496 -&gt; 0,0</span>
+<span class="go">801864 nodes; 1 components; 0 x-error; 0 y-error; 0 linkerror 0 taberror 0 inverror</span>
+<span class="go">fabric size: 774 x 1036</span>
+<span class="go">ghost sightings: 0</span>
+<span class="go">[  0]  499R [  1]  491R [  2]  475R [  3]  459R [  4]  443R [  5]  430R [  6]  414R [  7]  408R [  8]  395R [  9]  382R [ 10]  359R</span>
+<span class="go">[ 11]  351R [ 12]  337R [ 13]  321R [ 14]  305R [ 15]  289R [ 16]  273R [ 17]  265R [ 18]  249R [ 19]  233R [ 20]  209R [ 21]  201R</span>
+<span class="go">[ 22]  186R [ 23]  170R [ 24]  155R [ 25]  141R [ 26]  125R [ 27]  117R [ 28]  101R [ 29]   85R [ 30]   61R [ 31]   53R [ 32]   37R</span>
+<span class="go">[ 33] 1004R [ 34]  988R [ 35]  972R [ 36]  948R [ 37]  940R [ 38]  924R [ 39]  908R [ 40]  892R [ 41]  876R [ 42]  860R [ 43]  852R</span>
+<span class="go">[ 44]  836R [ 45]  820R [ 46]  796R [ 47]  788R [ 48]  773R [ 49]  757R [ 50]  741R [ 51]  727R [ 52]  711R [ 53]  703R [ 54]  687R</span>
+<span class="go">[ 55]  671R [ 56]  647R [ 57]  639R [ 58]  623R [ 59]  607R [ 60]  591R [ 61]  579R [ 62]  563R [ 63]  555R [ 64]  539R [ 65]  523R</span>
+<span class="go">[ 66]  521L [ 67]  536L [ 68]  552L [ 69]  559L [ 70]  575L [ 71]  591L [ 72]  607L [ 73]  623L [ 74]  638L [ 75]  646L [ 76]  670L</span>
+<span class="go">[ 77]  685L [ 78]  701L [ 79]  709L [ 80]  725L [ 81]  741L [ 82]  757L [ 83]  773L [ 84]  789L [ 85]  797L [ 86]  820L [ 87]  836L</span>
+<span class="go">[ 88]  852L [ 89]  860L [ 90]  876L [ 91]  892L [ 92]  908L [ 93]  924L [ 94]  939L [ 95]  947L [ 96]  971L [ 97]  987L [ 98] 1003L</span>
+<span class="go">[ 99]   38L [100]   53L [101]   61L [102]   84L [103]  100L [104]  115L [105]  123L [106]  139L [107]  155L [108]  171L [109]  187L</span>
+<span class="go">[110]  202L [111]  210L [112]  234L [113]  249L [114]  265L [115]  273L [116]  289L [117]  302L [118]  313L [119]  329L [120]  345L</span>
+<span class="go">[121]  353L [122]  377L [123]  393L [124]  408L [125]  416L [126]  432L [127]  444L [128]  460L [129]  475L [130]  490L [131]  498L</span>
+</pre></div>
+</div>
+<p>If the output does not look like this, the WSE needs to be restarted.  Contact Cerebras through slack for help.</p>
+<p>If the output looks healthy then proceed to create a virtual fabric big enough to run your program.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">csvfabric pfabric=$PFAB vfabric=$FABRIC x0=&lt;x_origin&gt; y0=&lt;y_origin&gt; w=&lt;width&gt; h=&lt;height&gt;</span>
+</pre></div>
+</div>
+<p>Now pause all the tiles in that fabric section:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cscontrol fabric=$FABRIC pause</span>
+</pre></div>
+</div>
+<p>Now initialize the memory space on that fabric section:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cswipe fabric=$FABRIC</span>
+</pre></div>
+</div>
+<p>Now load your program:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">csprog image=&lt;path/to/my/image/file&gt; fabric=$FABRIC</span>
+</pre></div>
+</div>
+<p>Now unpause the tiles:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cscontrol fabric=$FABRIC run</span>
+</pre></div>
+</div>
+<p>The tiles can be paused at any point and the memory state can be inspected:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">csget fabric=$FABRIC map=&lt;path/to/my/map/file&gt; symbol=&lt;symbol_in_map_file&gt; data=&lt;optional_binary_out_file&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="useful-tools-and-methods">
