@@ -154,7 +154,7 @@ program. To use, add into the graph construction wherever needed.</p>
 message has a unique ID number.  The <code class="code docutils literal notranslate"><span class="pre">Debug</span> <span class="pre">Task</span> <span class="pre">ID</span></code> shows which task to search for in the source window
 in portrait:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">     task debug_task entry(0xf) {</span>
-<span class="go">009c     BLOCK ctrl_color;</span>
+<span class="go">009c     block ctrl_color;</span>
 <span class="go">009d     gpr_R6 = gpr_R2;</span>
 <span class="go">009e     arguments_recv.length = gpr_c_6;</span>
 <span class="go">00a0     UNBLOCK ctrl_color;}</span>
@@ -170,7 +170,7 @@ values in the <code class="code docutils literal notranslate"><span class="pre">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>message</strong> (<em>str</em>) – descriptive string.</p></li>
-<li><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Enable debug mesage. The default is True.</p></li>
+<li><p><strong>active</strong> (<em>bool</em><em>, </em><em>optional</em>) – Enable debug message. The default is True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -191,7 +191,7 @@ get_cmd_line_parser.</p>
 <span class="n">wse</span> <span class="o">=</span> <span class="n">WSE_Interface</span><span class="p">()</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">wse</span><span class="o">.</span><span class="n">get_available_cmd_args</span><span class="p">()</span>
 
-<span class="c1">#use args in furhter code</span>
+<span class="c1">#use args in further code</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -281,7 +281,7 @@ instantiated.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE">
-<span class="sig-name descname"><span class="pre">make_WSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">liveCells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">make_WSE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE" title="Permalink to this definition"></a></dt>
 <dd><p>Compiles the code for the Wafer Scale Engine.  Several command line
 options set compilation behavior.  Any python script calls this script
 will have default command line arguments enabled. Use the <cite>-h</cite> option
@@ -306,12 +306,8 @@ available options.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>answer</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a><em>, </em><a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>optional</em>) – A WSE_array or WSE_Global_Scalar that holds the answer for validation.
-The default is None.</p></li>
-<li><p><strong>liveCells</strong> (<em>np.array</em><em>, </em><em>optional</em>) – A map of live cells used to construct an image of validation data.
-The default is None.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>answer</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a><em>, </em><a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>optional</em>) – A WSE_array or WSE_Global_Scalar that holds the answer for validation.
+The default is None.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
@@ -354,7 +350,7 @@ the python code during graph construction.</p>
 <dd><p>Records the cycle number in a defined symbol on the worker tiles for benchmarking.  The symbol is set up to
 record 100 values in a circular buffer.  In order to activate the timestamp recording, the <code class="code docutils literal notranslate"><span class="pre">-pcc</span> <span class="pre">1</span></code>
 command line option must be set and one of <code class="code docutils literal notranslate"><span class="pre">-ts16</span> <span class="pre">1</span></code> or <code class="code docutils literal notranslate"><span class="pre">-ts32</span> <span class="pre">1</span></code> must be set.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;max_outter_iters&#39;</span><span class="p">,</span> <span class="n">max_outter_iters</span><span class="p">)</span> <span class="k">as</span> <span class="n">max_outer_iters_loop</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;max_outer_iters&#39;</span><span class="p">,</span> <span class="n">max_outer_iters</span><span class="p">)</span> <span class="k">as</span> <span class="n">max_outer_iters_loop</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;reduction_limited_iters&#39;</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_benchmark_fluid_solver</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">record_timestamp</span><span class="p">()</span>

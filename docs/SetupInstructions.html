@@ -165,12 +165,16 @@ this location.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir &lt;path_to&gt;/Cerebras-extra-python-packages</span>
 </pre></div>
 </div>
+<p>We may need to add this location to PYTHONPATH.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export PYTHONPATH=&lt;path_to&gt;/Cerebras-extra-python-packages:$PYTHONPATH</span>
+</pre></div>
+</div>
 <p>We also link the path to the WFA repository to a root level folder <code class="code docutils literal notranslate"><span class="pre">/cerebras_dev</span></code> inside the container.  If
 <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_repo&gt;</span></code> is set correctly, then a <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cerebras_dev</span></code> inside the container should take you to the
 top level directory of the WFA repository where the <code class="code docutils literal notranslate"><span class="pre">README.md</span></code> file exists.  <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_sif_file&gt;</span></code> is either
 the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
 depending on if the installed container is at/above 1.8.0.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev &lt;path_to_sif_file&gt;</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev --env PYTHONPATH=\$HOME/.local:\$PYTHONPATH &lt;path_to_sif_file&gt;</span>
 </pre></div>
 </div>
 <p>Because we have to use the python installed in the container, if you use a python manager like Conda, you will have
@@ -281,7 +285,7 @@ to bring down frame save rates to a few milliseconds and not interrupt solution 
    <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">push_to_host</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start_iteration_push</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">modulo_iteration_push</span><span class="p">)</span>
    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">add_time_pause</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
        <span class="n">time_march</span><span class="o">.</span><span class="n">conditional_pause</span><span class="p">()</span>
-   <span class="n">ns</span><span class="o">.</span><span class="n">_fluid_iteration</span><span class="p">(</span><span class="n">save_debug_images</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="o">=</span><span class="n">nerr</span><span class="p">,</span>
+   <span class="n">ns</span><span class="o">.</span><span class="n">fluid_iteration</span><span class="p">(</span><span class="n">save_debug_images</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_reduction_lim_its</span><span class="o">=</span><span class="n">nerr</span><span class="p">,</span>
                        <span class="n">max_pseudo_its</span><span class="o">=</span><span class="n">max_pseudo_its</span><span class="p">,</span> <span class="n">fluid_tol</span><span class="o">=</span><span class="n">nl_tol</span><span class="p">)</span>
 </pre></div>
 </div>

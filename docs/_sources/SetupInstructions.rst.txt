@@ -54,6 +54,12 @@ this location.
 
     mkdir <path_to>/Cerebras-extra-python-packages
 
+We may need to add this location to PYTHONPATH.
+
+.. code-block:: console
+
+   export PYTHONPATH=<path_to>/Cerebras-extra-python-packages:$PYTHONPATH
+
 We also link the path to the WFA repository to a root level folder :code:`/cerebras_dev` inside the container.  If
 :code:`<path_to_repo>` is set correctly, then a :code:`cd \cerebras_dev` inside the container should take you to the
 top level directory of the WFA repository where the :code:`README.md` file exists.  :code:`<path_to_sif_file>` is either
@@ -62,7 +68,7 @@ depending on if the installed container is at/above 1.8.0.
 
 .. code-block:: console
 
-    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev <path_to_sif_file>
+    singularity run -B <path_to>/Cerebras-extra-python-packages:$HOME/.local -B <path_to_repo>/:/cerebras_dev --env PYTHONPATH=\$HOME/.local:\$PYTHONPATH <path_to_sif_file>
 
 Because we have to use the python installed in the container, if you use a python manager like Conda, you will have
 to deactivate it so that :code:`python` points to the containers python.  For conda this is simple:
@@ -204,7 +210,7 @@ To enable this, the :code:`conditional_pause` method in the loop context manager
       T[2:-2,0,0].push_to_host(args.start_iteration_push, args.modulo_iteration_push)
       if args.add_time_pause > 0:
           time_march.conditional_pause()
-      ns._fluid_iteration(save_debug_images=False, num_reduction_lim_its=nerr,
+      ns.fluid_iteration(save_debug_images=False, num_reduction_lim_its=nerr,
                           max_pseudo_its=max_pseudo_its, fluid_tol=nl_tol)
 
 It is often beneficial to put this in a guard with a command line option set.

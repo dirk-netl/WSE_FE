@@ -131,9 +131,9 @@ on the WSE at runtime, not at script execution time.</p>
 <span class="sig-name descname"><span class="pre">conditional_exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Loops.WSE_For_Loop.conditional_exit" title="Permalink to this definition"></a></dt>
 <dd><p>Allows for the conditional exit from a for loop based on a tolerance and scalar based on a defined
 tolerance and scalar.</p>
-<p>In the example below, a WSE_Global_Scalar is populated from a reduce max.  The reduced value is then compared to 10.
-If the value is less than ten, the loop will exit and not do anthing after the graph within the WSE_for_Loop
-context manager.</p>
+<p>In the example below, a WSE_Global_Scalar is populated from a reduce max.  The reduced value is then compared
+to 10. If the value is less than ten, the loop will exit and not do anything after the graph within the
+WSE_for_Loop context manager.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">exit_criteria</span> <span class="o">=</span> <span class="n">WSE_Global_Scalar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">WSE_For_Loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>
@@ -165,7 +165,7 @@ where value is stored to compare to tolerance.</p></li>
 <dt class="sig sig-object py" id="WFA.WSE_Loops.WSE_For_Loop.conditional_pause">
 <span class="sig-name descname"><span class="pre">conditional_pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Loops.WSE_For_Loop.conditional_pause" title="Permalink to this definition"></a></dt>
 <dd><p>Sets a pause point in the program so that the host can interact with data.  On the WSE, a reduction is enacted
-to ensure all workers are at the same programe state.  A control bit is flipped into “pause” on the controller.
+to ensure all workers are at the same program state.  A control bit is flipped into “pause” on the controller.
 Program execution stopps until the host unflipps the pause bit.  Currently, the program pause parameters are
 controlled from the launch script so that data can be extracted from the WSE and saved.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WSE_For_Loop</span><span class="p">(</span><span class="s1">&#39;time_loop&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">as</span> <span class="n">fl</span><span class="p">:</span>

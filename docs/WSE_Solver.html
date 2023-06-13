@@ -60,6 +60,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">WSE Solver Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Solver.BiCgStab"><code class="docutils literal notranslate"><span class="pre">BiCgStab</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Solver.BiCgStab.solve"><code class="docutils literal notranslate"><span class="pre">BiCgStab.solve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Solver.BiCgStab.solve_list"><code class="docutils literal notranslate"><span class="pre">BiCgStab.solve_list()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Solver.Cg"><code class="docutils literal notranslate"><span class="pre">Cg</span></code></a><ul>
@@ -73,6 +74,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Solver.Jacobi"><code class="docutils literal notranslate"><span class="pre">Jacobi</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Solver.Jacobi.solve"><code class="docutils literal notranslate"><span class="pre">Jacobi.solve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Solver.Jacobi.solve_list"><code class="docutils literal notranslate"><span class="pre">Jacobi.solve_list()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Solver.JacobiConstantOffDiag"><code class="docutils literal notranslate"><span class="pre">JacobiConstantOffDiag</span></code></a><ul>
@@ -127,14 +129,14 @@ steps.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="WFA.WSE_Solver.BiCgStab">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WFA.WSE_Solver.</span></span><span class="sig-name descname"><span class="pre">BiCgStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">makeXCopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Solver.BiCgStab" title="Permalink to this definition"></a></dt>
-<dd><p>Biconjugate Gradient Solver</p>
+<dd><p>Bi-conjugate Gradient Solver</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Solver.BiCgStab.solve">
 <span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_W</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_C</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Solver.BiCgStab.solve" title="Permalink to this definition"></a></dt>
-<dd><p>Solves the linear equation Ax=b using the biconjugate gradient
-stablized method. A and b terms are assumed to be normalized by the
+<dd><p>Solves the linear equation Ax=b using the bi-conjugate gradient
+stabilized method. A and b terms are assumed to be normalized by the
 diagonal so that the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 7 non zero components correspondign to
+<p>The matrix is assumed to have 7 non-zero components corresponding to
 center, east, west, north, top, and bottom</p>
 <p>The matrix should be diagonally dominant, symmetric with a positive
 diagonal of one and negative off diagonals</p>
@@ -153,7 +155,42 @@ diagonal of one and negative off diagonals</p>
 <li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – Sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
 if a positive integer is provided and inserts a record_timestamp
 method call. The default is None.</p></li>
-<li><p><strong>A_C</strong> – (Default value = None)</p></li>
+<li><p><strong>A_C</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – (Default value = None)</p></li>
+<li><p><strong>max_iterations</strong> (<em>int</em>) – The maximum number of iterations to complete</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x</strong> – The resulting array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Solver.BiCgStab.solve_list">
+<span class="sig-name descname"><span class="pre">solve_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Alist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Solver.BiCgStab.solve_list" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the biconjugate gradient
+stablized method. A and b terms can be normalized by the
+diagonal so that the diagonal is 1 at every row in which case the center component is omitted</p>
+<p>The matrix is assumed to have 27, 26, 7, or 6 non zero components corresponding to
+center, east, west, north, top, and bottom</p>
+<p>The matrix should be diagonally dominant, symmetric with a positive
+diagonal and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess</p></li>
+<li><p><strong>Alist</strong> (<em>list</em>) – list of WSE_Array objects in A_T, A_B, A_E, A_S, A_W, A_N, A_C order
+or
+A_NET, A_NEB, A_NE, A_NWT, A_NWB, A_NW, A_NT, A_NB, A_N, A_SET, A_SEB, A_SE, A_SWT, A_SWB, A_SW, A_ST, A_SB, A_S, A_ET, A_EB, A_E, A_WT, A_WB, A_W, A_T, A_B, A_C order
+Together these constitute A but A_C should be omitted if preconditioned</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – Sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -177,7 +214,7 @@ method call. The default is None.</p></li>
 <dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 7 non zero components correspondign to
+<p>The matrix is assumed to have 7 non-zero components corresponding to
 center, east, west, north, top, and bottom</p>
 <p>The matrix should be diagonally dominant, symmetric with a positive
 diagonal of one and negative off diagonals</p>
@@ -211,19 +248,19 @@ method call. The default is None.</p></li>
 <dt class="sig sig-object py" id="WFA.WSE_Solver.Cg.solve_list">
 <span class="sig-name descname"><span class="pre">solve_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Alist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Solver.Cg.solve_list" title="Permalink to this definition"></a></dt>
 <dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
-A and b terms are assumed to be normalized by the diagonal so that
-the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 27 non zero components</p>
+A and b terms can be normalized by the diagonal so that the diagonal is 1 at every row in which case the center component is omitted</p>
+<p>The matrix is assumed to have 27, 26, 7, or 6 non zero components corresponding to
+center, east, west, north, top, and bottom</p>
 <p>The matrix should be diagonally dominant, symmetric with a positive
-diagonal of one and negative off diagonals</p>
+diagonal and negative off diagonals</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess.</p></li>
-<li><p><strong>Alist</strong> (<em>list</em>) – list of WSE_Array objects in A_C, A_T, A_B, A_EB, A_WT, A_E, A_W, A_ET, A_WB,
-A_NB, A_N, A_NT, A_NWT, A_NW, A_NWB, A_NEB, A_NE, A_NET,
-A_ST, A_S, A_SB, A_SEB, A_SE, A_SET, A_SWT, A_SW, A_SWB order
-Together these constitute A</p></li>
+<li><p><strong>Alist</strong> (<em>list</em>) – list of WSE_Array objects in A_T, A_B, A_E, A_S, A_W, A_N, A_C order
+or
+A_NET, A_NEB, A_NE, A_NWT, A_NWB, A_NW, A_NT, A_NB, A_N, A_SET, A_SEB, A_SE, A_SWT, A_SWB, A_SW, A_ST, A_SB, A_S, A_ET, A_EB, A_E, A_WT, A_WB, A_W, A_T, A_B, A_C order
+Together these constitute A but A_C should be omitted if preconditioned</p></li>
 <li><p><strong>b</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array.</p></li>
 <li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to.</p></li>
 <li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
@@ -246,7 +283,7 @@ method call. The default is None.</p></li>
 <dd><p>Solves the linear equation Ax=b using the conjugate gradient method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 7 non zero components that all share the
+<p>The matrix is assumed to have 7 non-zero components that all share the
 value of offdiag (typical of diffusion equations)</p>
 <p>The matrix should be diagonally dominant, symmetric with a positive
 diagonal of one and negative off diagonals</p>
@@ -283,7 +320,7 @@ method call. The default is None.</p></li>
 <dd><p>Solves the linear equation Ax=b using the Jacobi method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 7 non zero components correspondign to
+<p>The matrix is assumed to have 7 non-zero components corresponding to
 center, east, west, north, top, and bottom</p>
 <p>The matrix should be diagonally dominant with a positive
 diagonal of one and negative off diagonals</p>
@@ -313,6 +350,40 @@ method call. The default is None.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Solver.Jacobi.solve_list">
+<span class="sig-name descname"><span class="pre">solve_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Alist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_negative</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Solver.Jacobi.solve_list" title="Permalink to this definition"></a></dt>
+<dd><p>Solves the linear equation Ax=b using the Jacobi method.
+A and b terms can be normalized by the diagonal so that
+the diagonal is 1 at every row</p>
+<p>The matrix is assumed to have 27, 26, 7, or 6 non zero components correspondign to
+center, east, west, north, top, and bottom</p>
+<p>The matrix should be diagonally dominant with a positive
+diagonal of and negative off diagonals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The initial guess</p></li>
+<li><p><strong>Alist</strong> (<em>list</em>) – list of WSE_Array objects in A_T, A_B, A_E, A_S, A_W, A_N, A_C order
+or
+A_NET, A_NEB, A_NE, A_NWT, A_NWB, A_NW, A_NT, A_NB, A_N, A_SET, A_SEB, A_SE, A_SWT, A_SWB, A_SW, A_ST, A_SB, A_S, A_ET, A_EB, A_E, A_WT, A_WB, A_W, A_T, A_B, A_C order
+Together these constitute A but A_C should be omitted if preconditioned</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The source array</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – The tolerance to solve the equation set to</p></li>
+<li><p><strong>benchmark_iterations</strong> (<em>int</em><em>, </em><em>optional</em>) – Sets the loop to a for loop with <cite>benchmark_iterations</cite> iterations
+if a positive integer is provided and inserts a record_timestamp
+method call. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x</strong> – The resulting array</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="WSE_Array.html#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -325,7 +396,7 @@ method call. The default is None.</p></li>
 <dd><p>Solves the linear equation Ax=b using the Jacobi method.
 A and b terms are assumed to be normalized by the diagonal so that
 the diagonal is 1 at every row</p>
-<p>The matrix is assumed to have 7 non zero components that all share the
+<p>The matrix is assumed to have 7 non-zero components that all share the
 value of offdiag (typical of diffusion equations)</p>
 <p>The matrix should be diagonally dominant with a positive
 diagonal of one and negative off diagonals</p>

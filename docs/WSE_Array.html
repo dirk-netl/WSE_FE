@@ -59,6 +59,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.abs"><code class="docutils literal notranslate"><span class="pre">WSE_Array.abs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.copy"><code class="docutils literal notranslate"><span class="pre">WSE_Array.copy()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.exp"><code class="docutils literal notranslate"><span class="pre">WSE_Array.exp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.gather"><code class="docutils literal notranslate"><span class="pre">WSE_Array.gather()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.max_with"><code class="docutils literal notranslate"><span class="pre">WSE_Array.max_with()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.min_with"><code class="docutils literal notranslate"><span class="pre">WSE_Array.min_with()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.push_to_host"><code class="docutils literal notranslate"><span class="pre">WSE_Array.push_to_host()</span></code></a></li>
@@ -67,7 +68,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_max_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_max_2_control()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_norm_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_norm_2_control()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.running_m_s_2d"><code class="docutils literal notranslate"><span class="pre">WSE_Array.running_m_s_2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.scatter"><code class="docutils literal notranslate"><span class="pre">WSE_Array.scatter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.sqrt"><code class="docutils literal notranslate"><span class="pre">WSE_Array.sqrt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.where_true"><code class="docutils literal notranslate"><span class="pre">WSE_Array.where_true()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#wse-array-advanced-performance-optimization">WSE Array: Advanced Performance Optimization</a><ul>
@@ -176,7 +179,7 @@ The absolute value of x is calculated and reassigned it to x.</p>
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moatArray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.copy" title="Permalink to this definition"></a></dt>
 <dd><p>Copies other into self.  If moatArray is specified, copies other into
-moatArray memory space on the moat invoved rather than self.</p>
+moatArray memory space on the moat involved rather than self.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the initial data</span>
 <span class="n">T_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
@@ -228,7 +231,7 @@ None.</p></li>
 <dd class="field-odd"><p><strong>ValueError</strong> – Only valid on center.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>result</strong> – The nature exponent of the WSE_Array.</p>
+<dd class="field-even"><p><strong>result</strong> – The natural exponent of the WSE_Array.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
@@ -237,13 +240,55 @@ None.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.gather">
+<span class="sig-name descname"><span class="pre">gather</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.gather" title="Permalink to this definition"></a></dt>
+<dd><p>Gathers data from self according to an index array with lengths specified in length scalar. The
+resulting data gets compressed in the memory axis to be a dense representation on each tile
+with dense data filling the first length_scalar elements on the resulting array</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="n">init_ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the WSE Array objects needed</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_np</span><span class="p">)</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data2&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">data3</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data3&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_ls</span><span class="p">)</span>
+
+<span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">where_true</span><span class="p">()</span>
+<span class="n">data3</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_array</strong> (<a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – A WSE_Array containing the values of indices to gather</p></li>
+<li><p><strong>length_scalar</strong> (<em>WSE_Local_Scalar</em>) – A WSE_Local_Scalar containing the number of elements to gather</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Only valid on center.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> – The result of the gather with values copied from self at the indices specified in
+index_array</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.max_with">
 <span class="sig-name descname"><span class="pre">max_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.max_with" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the element wise maximum of self with other.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._compute_dT_dt: calculate first order upwind convection in x&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
-<span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max_with</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_dx</span>
-<span class="n">Vd_p</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Vd_p</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min_with</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_dx</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._compute_dT_dt: calculate first order upwind convection in x&#39;</span><span class="p">,</span>
+<span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max_with</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+<span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_dx</span> <span class="n">Vd_p</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vx</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dT_dt</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+<span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Vd_p</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min_with</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_dx</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -291,11 +336,13 @@ None.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.push_to_host">
-<span class="sig-name descname"><span class="pre">push_to_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.push_to_host" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">push_to_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.push_to_host" title="Permalink to this definition"></a></dt>
 <dd><p>Push the wafer data to the host.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">while_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">inf_loop_scalar</span><span class="p">)</span> <span class="k">if</span> <span class="n">infinite_loop</span> <span class="k">else</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span> <span class="k">as</span> <span class="n">time_march</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">while_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">inf_loop_scalar</span><span class="p">)</span> <span class="k">if</span> <span class="n">infinite_loop</span> <span class="k">else</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span>
+<span class="n">nt</span><span class="p">)</span> <span class="k">as</span> <span class="n">time_march</span><span class="p">:</span>
+
     <span class="n">iter_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">iter_counter</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">push_to_host</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start_iteration_push</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">modulo_iteration_push</span><span class="p">)</span>
+    <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">push_to_host</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start_iteration_push</span><span class="p">,</span><span class="n">args</span><span class="o">.</span><span class="n">modulo_iteration_push</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -314,7 +361,7 @@ None.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.random">
 <span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.random" title="Permalink to this definition"></a></dt>
-<dd><p>fills a WSE_array with random numbers.</p>
+<dd><p>fills a WSE_array with random numbers between 0 and 1.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the initial Temperature field</span>
 <span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
@@ -329,7 +376,7 @@ None.</p></li>
 <dd class="field-odd"><p><strong>ValueError</strong> – Only valid on center.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>result</strong> – The nature exponent of the WSE_Array.</p>
+<dd class="field-even"><p><strong>result</strong> – A WSE_array filled with random float values between 0 and 1.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
@@ -361,7 +408,7 @@ in a WSE_Global_Scalar on the control tile.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>other</strong> (<a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – The other Array object to do the dot product with.</p></li>
-<li><p><strong>result_scalar</strong> (<a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Global_Scalar objecto or scalar index to where to store the
+<li><p><strong>result_scalar</strong> (<a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Global_Scalar object to or scalar index to where to store the
 result.</p></li>
 </ul>
 </dd>
@@ -394,7 +441,7 @@ WSE_Global_Scalar on the control tile.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>result_scalar</strong> (<a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Global_Scalar objecto or scalar index to where to store the
+<dd class="field-odd"><p><strong>result_scalar</strong> (<a class="reference internal" href="WSE_Global_Scalar.html#WFA.WSE_Global_Scalar.WSE_Global_Scalar" title="WFA.WSE_Global_Scalar.WSE_Global_Scalar"><em>WSE_Global_Scalar</em></a><em>, </em><em>int</em>) – The WSE_Global_Scalar object to or scalar index to where to store the
 result.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -440,12 +487,12 @@ problems set up to run many simulations at the same time.  This is useful in sta
 as the Ising model.</p>
 <p>To correctly use this function, many 2D simulations should be set up in a 3d tensor such that each simulation
 has its 2d axes along the vertical, N-S axis in the WFA (axis 1 in numpy initialization) and the other in the
-memory  direction (axis 2 in numpy initializtion).  The horizontal, E-W axis in the WFA (axis 0 in numpy
+memory  direction (axis 2 in numpy initialization).  The horizontal, E-W axis in the WFA (axis 0 in numpy
 initialization) is used to fill many simultaneous 2D simulations.</p>
 <p>This function will do a reduce mean along the 2d simulation axes and then calculate the running mean and
-standard deviation.  The function is set up to overlp communication/computation of the reduction along the
-N-S tile direction and Wolford’s Algorithm calculation such that with sufficiant work between successive calls
-to this function, the workers can be kept busy and not wait for the the tile reduction and statistics update
+standard deviation.  The function is set up to overlap communication/computation of the reduction along the
+N-S tile direction and Wolford’s Algorithm calculation such that with sufficient work between successive calls
+to this function, the workers can be kept busy and not wait for the tile reduction and statistics update
 calculations.  The only impact on solution progress with sufficient workload is the reduction along the memory
 axis which must be done by each worker.</p>
 <p>Data ends up in the lower reduction row stored in the symbols <code class="code docutils literal notranslate"><span class="pre">running_means</span></code> and <code class="code docutils literal notranslate"><span class="pre">running_stds</span></code>.</p>
@@ -474,6 +521,49 @@ None.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.scatter">
+<span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.scatter" title="Permalink to this definition"></a></dt>
+<dd><p>Scatters data from self into destination according to an index array with lengths specified in
+length scalar.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="n">init_ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the WSE Array objects needed</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_np</span><span class="p">)</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data2&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">data3</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data3&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">data4</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data4&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_ls</span><span class="p">)</span>
+
+<span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">where_true</span><span class="p">()</span>
+<span class="n">data3</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">data4</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data3</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index_array</strong> (<a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array"><em>WSE_Array</em></a>) – A WSE_Array containing the values of indices to scatter</p></li>
+<li><p><strong>length_scalar</strong> (<em>WSE_Local_Scalar</em>) – A WSE_Local_Scalar containing the number of elements to scatter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Only valid on center.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> – The result of the scatter with values copied from self at the indices specified in
+index_array</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.sqrt">
 <span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.sqrt" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the element wise square root of a tensor.</p>
@@ -495,6 +585,39 @@ None.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.where_true">
+<span class="sig-name descname"><span class="pre">where_true</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.where_true" title="Permalink to this definition"></a></dt>
+<dd><p>Fills a WSE_Array with coded index information where self is not zero and fills a WSE_Local_Scalar
+with coded information about the length of valid index values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="n">init_ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the WSE Array objects needed</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_np</span><span class="p">)</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data2&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_ls</span><span class="p">)</span>
+
+<span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">where_true</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Only valid on center.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>result_array</strong> (<em>WSE_Array</em>) – The nature exponent of the WSE_Array.</p></li>
+<li><p><strong>result_scalar</strong> (<em>WSE_Local_Scalar</em>) – The nature exponent of the WSE_Array.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
