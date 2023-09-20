@@ -59,7 +59,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.abs"><code class="docutils literal notranslate"><span class="pre">WSE_Array.abs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.copy"><code class="docutils literal notranslate"><span class="pre">WSE_Array.copy()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.exp"><code class="docutils literal notranslate"><span class="pre">WSE_Array.exp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.float32_to_int16"><code class="docutils literal notranslate"><span class="pre">WSE_Array.float32_to_int16()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.gather"><code class="docutils literal notranslate"><span class="pre">WSE_Array.gather()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.get_value_at_index"><code class="docutils literal notranslate"><span class="pre">WSE_Array.get_value_at_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.local_reduce_sum"><code class="docutils literal notranslate"><span class="pre">WSE_Array.local_reduce_sum()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.max_with"><code class="docutils literal notranslate"><span class="pre">WSE_Array.max_with()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.min_with"><code class="docutils literal notranslate"><span class="pre">WSE_Array.min_with()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.push_to_host"><code class="docutils literal notranslate"><span class="pre">WSE_Array.push_to_host()</span></code></a></li>
@@ -69,6 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.reduce_norm_2_control"><code class="docutils literal notranslate"><span class="pre">WSE_Array.reduce_norm_2_control()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.running_m_s_2d"><code class="docutils literal notranslate"><span class="pre">WSE_Array.running_m_s_2d()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.scatter"><code class="docutils literal notranslate"><span class="pre">WSE_Array.scatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.set_value_at_index"><code class="docutils literal notranslate"><span class="pre">WSE_Array.set_value_at_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.sqrt"><code class="docutils literal notranslate"><span class="pre">WSE_Array.sqrt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Array.WSE_Array.where_true"><code class="docutils literal notranslate"><span class="pre">WSE_Array.where_true()</span></code></a></li>
 </ul>
@@ -157,7 +161,7 @@ which will move neighboring values from the worker field into the moat.</p>
 The absolute value of x is calculated and reassigned it to x.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_calc_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detlaV</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">error_num</span><span class="p">,</span> <span class="n">error_denom</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">ASM</span><span class="p">()</span> <span class="k">as</span> <span class="n">calc_errors_asm</span><span class="p">:</span>
-        <span class="n">abs_numerator</span> <span class="o">=</span> <span class="n">calc_errors_asm</span><span class="o">.</span><span class="n">get_free_array_scratch</span><span class="p">()</span>
+        <span class="n">abs_numerator</span> <span class="o">=</span> <span class="n">calc_errors_asm</span><span class="o">.</span><span class="n">malloc_array</span><span class="p">()</span>
         <span class="n">abs_numerator</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">detlaV</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
         <span class="n">abs_numerator</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_reduce_max_2_control</span><span class="p">(</span><span class="n">error_num</span><span class="p">)</span>
 </pre></div>
@@ -240,6 +244,36 @@ None.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.float32_to_int16">
+<span class="sig-name descname"><span class="pre">float32_to_int16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.float32_to_int16" title="Permalink to this definition"></a></dt>
+<dd><p>converts a float32 to an int 16 representation.  The inherent data structure is based on 32 bit representation,
+with an upper and lower word of 16 bit width.  This function will take a float value and round to the nearest
+integer and put it in either the upper or lower word based on the word parameter.  A 0 will put it in the lower
+word and a 1 will put it in the upper word.  It is possible to store two int16 values in a standard WSE_Array</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">init_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+<span class="n">init_np</span> <span class="o">=</span> <span class="n">init_np</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the WSE Array objects needed</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">init_np</span><span class="p">)</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data2&#39;</span><span class="p">,</span> <span class="n">initData</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">init_np</span><span class="p">))</span>
+
+<span class="n">data2</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_int16</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> (<em>integer</em>) – optional parameter to set the word position of the int16 data, default 0</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>result</strong> – the WSE_Array containing the integer representation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.gather">
 <span class="sig-name descname"><span class="pre">gather</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.gather" title="Permalink to this definition"></a></dt>
 <dd><p>Gathers data from self according to an index array with lengths specified in length scalar. The
@@ -277,6 +311,43 @@ index_array</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.get_value_at_index">
+<span class="sig-name descname"><span class="pre">get_value_at_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_scalar_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.get_value_at_index" title="Permalink to this definition"></a></dt>
+<dd><p>populates a local scalar with the value from self defined at the index specified</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array1</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">()</span>
+<span class="n">ls1</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">()</span>
+
+<span class="n">array1</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em>, </em><em>WSE_Local_Scalar</em>) – An integer or local scalar that defines the index into the array to get data from</p></li>
+<li><p><strong>local_scalar_value</strong> – The local scalar to store the value in</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.local_reduce_sum">
+<span class="sig-name descname"><span class="pre">local_reduce_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.local_reduce_sum" title="Permalink to this definition"></a></dt>
+<dd><p>Does a reduction along the memory axis into a local scalar</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array1</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">()</span>
+<span class="n">ls1</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">()</span>
+
+<span class="n">array1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">local_reduce_sum</span><span class="p">(</span><span class="n">ls1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>local_scalar</strong> (<em>WSE_Local_Scalar</em>) – the local scalar to store the result in</p>
 </dd>
 </dl>
 </dd></dl>
@@ -336,7 +407,7 @@ index_array</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.push_to_host">
-<span class="sig-name descname"><span class="pre">push_to_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.push_to_host" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">push_to_host</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_iteration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.push_to_host" title="Permalink to this definition"></a></dt>
 <dd><p>Push the wafer data to the host.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">while_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">inf_loop_scalar</span><span class="p">)</span> <span class="k">if</span> <span class="n">infinite_loop</span> <span class="k">else</span> <span class="n">for_loop</span><span class="p">(</span><span class="s1">&#39;time_march&#39;</span><span class="p">,</span>
 <span class="n">nt</span><span class="p">)</span> <span class="k">as</span> <span class="n">time_march</span><span class="p">:</span>
@@ -559,6 +630,26 @@ index_array</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#WFA.WSE_Array.WSE_Array" title="WFA.WSE_Array.WSE_Array">WSE_Array</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Array.WSE_Array.set_value_at_index">
+<span class="sig-name descname"><span class="pre">set_value_at_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_scalar_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Array.WSE_Array.set_value_at_index" title="Permalink to this definition"></a></dt>
+<dd><p>sets the value of an array at an index</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array1</span> <span class="o">=</span> <span class="n">WSE_Array</span><span class="p">()</span>
+<span class="n">ls1</span> <span class="o">=</span> <span class="n">WSE_Local_Scalar</span><span class="p">()</span>
+
+<span class="n">array1</span><span class="o">.</span><span class="n">get_value_at_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em><em>, </em><em>WSE_Local_Scalar</em>) – An integer or local scalar that defines the index into the array to get data from</p></li>
+<li><p><strong>local_scalar_value</strong> – The local scalar to store the value in</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

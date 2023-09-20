@@ -56,12 +56,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">WSE Interface Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface"><code class="docutils literal notranslate"><span class="pre">WSE_Interface</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.create_coded_position_array"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.create_coded_position_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.debug_message"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.debug_message()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_available_cmd_args"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_available_cmd_args()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_cmd_line_parser"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_cmd_line_parser()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.get_named_array"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.get_named_array()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.make_WSE"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.make_WSE()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.print"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.push_coded_index"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.push_coded_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#WFA.WSE_Interface.WSE_Interface_Singleton.record_timestamp"><code class="docutils literal notranslate"><span class="pre">WSE_Interface_Singleton.record_timestamp()</span></code></a></li>
 </ul>
 </li>
@@ -130,6 +132,29 @@ See WSE_Interface_Singleton for available methods</p>
 This class is the singleton base of WSE_Interface
 Contains all methods available in WSE_Interface</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.create_coded_position_array">
+<span class="sig-name descname"><span class="pre">create_coded_position_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_dim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.create_coded_position_array" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a single precision coded array that contains a 10 bit representation of x and y position.  This allows
+one to represent x and y position up to 1024 cells and leave 12 bits to represent up to 4096 cells in z.  This
+is intended to be used with the WSE_Local_Scalar class and the push_coded_index method to push a 3d tensor
+off the wafer for reconstructing data that streams off the wafer on the high speed interfaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_dim</strong> (<em>int</em>) – The number of cells in the x direction</p></li>
+<li><p><strong>y_dim</strong> (<em>int</em>) – The number of cells in the y direction</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>coded_xy_data</strong> – A Float32 array that contains the coded bits of x and y position</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.debug_message">
 <span class="sig-name descname"><span class="pre">debug_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.debug_message" title="Permalink to this definition"></a></dt>
 <dd><p>Enables debug message when compiled with the -dl 3 option.  Very useful for determining position in a large
@@ -137,7 +162,7 @@ program. To use, add into the graph construction wherever needed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_calc_shear_and_P</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug_active</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: Start of _calc_shear_and_P&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">ASM</span><span class="p">()</span> <span class="k">as</span> <span class="n">cs_asm</span><span class="p">:</span>
-        <span class="n">eta_two</span> <span class="o">=</span> <span class="n">cs_asm</span><span class="o">.</span><span class="n">get_free_array_scratch</span><span class="p">()</span>
+        <span class="n">eta_two</span> <span class="o">=</span> <span class="n">cs_asm</span><span class="o">.</span><span class="n">malloc_array</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_wse</span><span class="o">.</span><span class="n">debug_message</span><span class="p">(</span><span class="s1">&#39;FD_Stokes._calc_shear_and_P: calc eta_two&#39;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">debug_active</span><span class="p">)</span>
         <span class="n">eta_two</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta0</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mf">2.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">deta_dT</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">deltaT</span><span class="o">/</span><span class="mf">2.0</span><span class="p">))</span>
 </pre></div>
@@ -340,6 +365,24 @@ the python code during graph construction.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WFA.WSE_Interface.WSE_Interface_Singleton.push_coded_index">
+<span class="sig-name descname"><span class="pre">push_coded_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coded_xy_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#WFA.WSE_Interface.WSE_Interface_Singleton.push_coded_index" title="Permalink to this definition"></a></dt>
+<dd><p>Commands the WSE to push a x-y-z position coded in an SP with 10 bit representation of x and y position and 12
+bit representation of z position.</p>
+<p>This is useful as the position data should come off the wafer in the same order as any SP data.  It is useful
+for debugging and decoding the data.  This function can be called once at the head of the simulation and the
+position data will be saved for the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coded_xy_array</strong> (<em>WSE_Local_scalar</em>) – A WSE_Local_Scalar that</p></li>
+<li><p><strong>length</strong> (<em>int</em><em>, </em><em>optional</em>) – override for specifying z to code into the data.  If not specified, z is set to the default array size.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

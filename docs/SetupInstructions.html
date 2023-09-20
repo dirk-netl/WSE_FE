@@ -173,7 +173,10 @@ this location.</p>
 <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_repo&gt;</span></code> is set correctly, then a <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">cerebras_dev</span></code> inside the container should take you to the
 top level directory of the WFA repository where the <code class="code docutils literal notranslate"><span class="pre">README.md</span></code> file exists.  <code class="code docutils literal notranslate"><span class="pre">&lt;path_to_sif_file&gt;</span></code> is either
 the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
-depending on if the installed container is at/above 1.8.0.</p>
+depending on if the installed container is at/above 1.8.0. Run on local SSD storage to reduce the time needed to generate
+and transfer hardware images. First checkout an SDF node</p>
+<p>The cd to local storage and create a project directory</p>
+<p>Launch the singularity container on SDF node</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run -B &lt;path_to&gt;/Cerebras-extra-python-packages:$HOME/.local -B &lt;path_to_repo&gt;/:/cerebras_dev --env PYTHONPATH=\$HOME/.local:\$PYTHONPATH &lt;path_to_sif_file&gt;</span>
 </pre></div>
 </div>
@@ -192,7 +195,7 @@ terminal with the singularity container running:</p>
 </pre></div>
 </div>
 <p>Then launch the tests by:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python build_and_test.py</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python build_and_test.py -neo 1</span>
 </pre></div>
 </div>
 <p>This should install all the python dependencies and start launching the tests.  You should see output similar to this:</p>
@@ -238,19 +241,21 @@ all of them will launch the Portrait web server for you:</p>
 <h3>Compiling for Hardware Neocortex<a class="headerlink" href="#compiling-for-hardware-neocortex" title="Permalink to this heading"></a></h3>
 <p>By default the WFA will compile and run in Simfabric (the Cerebras built hardware simulator).  To to compile
 hardware, specify the hardware input name (<code class="code docutils literal notranslate"><span class="pre">-hin</span> <span class="pre">&lt;hardware_run_name&gt;</span></code>) and the make goal as bench.img
-(<code class="code docutils literal notranslate"><span class="pre">-mg</span> <span class="pre">bench.image</span></code>).</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python &lt;run_name&gt;.py -hin &lt;hardware_run_name&gt; -mg bench.img &lt;additional_args&gt;</span>
+(<code class="code docutils literal notranslate"><span class="pre">-mg</span> <span class="pre">bench.image</span></code>). A module or local script can be used. For a module use the following command</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m WFA.&lt;module&gt;.&lt;project_script&gt; -mg bench.img -vr 0 &lt;additional_args&gt;</span>
 </pre></div>
 </div>
-<p>This will generate a tar file that contains the image (binary) that is ready to run on hardware
-<code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;.tar.gz</span></code>.  The next thing to do is move the tar file into the WFA utility directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mv &lt;hardware_run_name&gt;.tar.gz /cerebras_dev/WSE_Field_Equation/util</span>
-</pre></div>
-</div>
+<p>For a local scipt use the following command
+.. code-block:: console</p>
+<blockquote>
+<div><p>python &lt;run_name&gt;.py -mg bench.img -vr 0 &lt;additional_args&gt;</p>
+</div></blockquote>
+<p>This a hardware image (binary) that is ready to run on hardware.</p>
 <p>The job can then be submitted to Neocortex through slurm.  Make sure the <code class="code docutils literal notranslate"><span class="pre">&lt;hardware_run_name&gt;</span></code> does not include
 the <code class="code docutils literal notranslate"><span class="pre">.tar.gz</span></code> extension is not included in the <code class="code docutils literal notranslate"><span class="pre">-c</span></code> option.  The <code class="code docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;field_variable&gt;</span></code> option
-specifies the name of the <code class="code docutils literal notranslate"><span class="pre">WSE_Array</span></code> to save as output from the WSE.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_bash -c &lt;hardware_run_name&gt; -o &lt;field_variable&gt;)</span>
+specifies the name of the <code class="code docutils literal notranslate"><span class="pre">WSE_Array</span></code> to save as output from the WSE. Use the same node on which you generated
+the hardware image.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-&lt;1 or 2&gt; neocortex_slurm_script_local -c &lt;full path to the local project_dir&gt; -o &lt;field_variable&gt;)</span>
 </pre></div>
 </div>
 </section>

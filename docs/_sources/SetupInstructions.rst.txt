@@ -64,7 +64,20 @@ We also link the path to the WFA repository to a root level folder :code:`/cereb
 :code:`<path_to_repo>` is set correctly, then a :code:`cd \cerebras_dev` inside the container should take you to the
 top level directory of the WFA repository where the :code:`README.md` file exists.  :code:`<path_to_sif_file>` is either
 the path to a custom sif container or the default environment variable to the installed SDK container on Neocortex
-depending on if the installed container is at/above 1.8.0.
+depending on if the installed container is at/above 1.8.0. Run on local SSD storage to reduce the time needed to generate
+and transfer hardware images. First checkout an SDF node
+
+.. code-block:: console
+    srun --nodelist=sdf-<1 or 2> --mem 200000 --pty bash
+
+The cd to local storage and create a project directory
+
+.. code-block:: console
+    cd /local1/<Charge ID>
+    mkdir <project_dir>
+    cd <project_dir>
+
+Launch the singularity container on SDF node
 
 .. code-block:: console
 
@@ -92,7 +105,7 @@ Then launch the tests by:
 
 .. code-block:: console
 
-    python build_and_test.py
+    python build_and_test.py -neo 1
 
 This should install all the python dependencies and start launching the tests.  You should see output similar to this:
 
@@ -149,26 +162,27 @@ Compiling for Hardware Neocortex
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 By default the WFA will compile and run in Simfabric (the Cerebras built hardware simulator).  To to compile
 hardware, specify the hardware input name (:code:`-hin <hardware_run_name>`) and the make goal as bench.img
-(:code:`-mg bench.image`).
+(:code:`-mg bench.image`). A module or local script can be used. For a module use the following command
 
 .. code-block:: console
 
-    python <run_name>.py -hin <hardware_run_name> -mg bench.img <additional_args>
+    python -m WFA.<module>.<project_script> -mg bench.img -vr 0 <additional_args>
 
-This will generate a tar file that contains the image (binary) that is ready to run on hardware
-:code:`<hardware_run_name>.tar.gz`.  The next thing to do is move the tar file into the WFA utility directory:
-
+For a local scipt use the following command
 .. code-block:: console
 
-    mv <hardware_run_name>.tar.gz /cerebras_dev/WSE_Field_Equation/util
+    python <run_name>.py -mg bench.img -vr 0 <additional_args>
+
+This a hardware image (binary) that is ready to run on hardware.
 
 The job can then be submitted to Neocortex through slurm.  Make sure the :code:`<hardware_run_name>` does not include
 the :code:`.tar.gz` extension is not included in the :code:`-c` option.  The :code:`-o <field_variable>` option
-specifies the name of the :code:`WSE_Array` to save as output from the WSE.
+specifies the name of the :code:`WSE_Array` to save as output from the WSE. Use the same node on which you generated
+the hardware image.
 
 .. code-block:: console
 
-    (cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_bash -c <hardware_run_name> -o <field_variable>)
+    (cd /cerebras_dev/WSE_Field_Equation/util; sbatch --nodelist=sdf-<1 or 2> neocortex_slurm_script_local -c <full path to the local project_dir> -o <field_variable>)
 
 Retrieving Data
 ^^^^^^^^^^^^^^^
